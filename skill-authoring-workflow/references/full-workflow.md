@@ -209,14 +209,29 @@ git clone --depth 1 https://github.com/ComposioHQ/awesome-claude-skills.git ~/te
 
 ### 3.1 Discipline-enforcing
 
+Discipline-enforcing 有两种已验证的子模式：
+
+| 子模式 | 核心逻辑 | Iron Law 句式 | 典型示例 |
+|--------|---------|---------------|---------|
+| **操作阻断型** | 在执行危险操作前拦截 | `"操作前没通过X → 不执行Y"` | agent-security-guard |
+| **检测阻断型** | 检测到 X 条件出现就阻断 Y 流程 | `"X 出现在暂存区 → 阻断 commit"` | env-file-security, context-read-first |
+
+两种子模式都使用 Iron Law 的"条件 → 结果"句式，只是条件的来源不同（"即将做某事" vs "检测到某状态"）。
+
 **Iron Law 写法（必须用 "不X就不Y" 句式）：**
 
 ```
 ❌ BAD: "安全扫描很重要，建议每次 commit 前都执行"
    → 建议语气，不具强制力
 
+❌ BAD: ".env 文件不应该被提交到 git"
+   → 陈述事实，不是阻断规则
+
 ✅ GOOD: "commit 前没通过安全扫描 → 不执行"
-   → 不X就不Y 句式，无条件阻断
+   → 操作阻断型：不X就不Y 句式，无条件阻断
+
+✅ GOOD: ".env 文件在 git diff 中 → 阻断 commit"
+   → 检测阻断型：X 条件出现 → 阻断 Y 操作
 ```
 
 **Iron Law 结构：**
@@ -428,7 +443,7 @@ python3 scripts/validate-skill.py <path>  # 必须 8/8
 | **Trigger Precision** (×2) | 触发词缺失或错误 | 只覆盖 2-3 个场景 | 覆盖主要场景但有遗漏 | 覆盖所有预期场景 | 覆盖所有预期 + 反场景全覆盖 |
 | **Actionability** (×3) | 步骤模糊，无法执行 | 部分命令可执行 | 大部分命令可执行 | 所有命令可执行，缺 Expected | 所有命令精确 + 每步有 Expected |
 | **Completeness** (×2) | 缺核心章节 | 缺 1-2 个关键 section | 结构完整但内容有缺 | 内容完整，少量细项缺 | 内容完整，无遗漏 |
-| **Conciseness** (×1) | > 15k chars / 冗余严重 | 10k-15k / 多处重复 | 5k-10k / 可接受 | 3k-5k / 简洁 | < 3k / 极简无冗余 |
+| **Conciseness** (×1) | 类型相关：超过上限且冗余严重 | 超过上限+多处重复 | 类型相关：超过目标但在上限内 | 类型相关：在目标范围内 | 类型相关：接近下限且无冗余 |
 | **Verifiability** (×2) | 无验证方式 | 只有模糊的"应该" | 有 Checklist 但缺 Expected | Checklist 完整，Expected 清晰 | 每步 Expected 精确 + Checklist 可操作 |
 
 **总分 = (Trigger ×2) + (Actionability ×3) + (Completeness ×2) + (Conciseness ×1) + (Verifiability ×2)**

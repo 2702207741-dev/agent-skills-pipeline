@@ -142,9 +142,9 @@ metadata:
 
 | 类型 | 目标 | 上限 |
 |------|------|------|
-| Discipline | 3-6k | 8k |
+| Discipline | 5-10k | 12k |
 | Technique | 5-12k | 15k |
-| Pattern | 3-8k | 10k |
+| Pattern | 8-14k | 16k |
 | Reference | 2-10k | 12k |
 
 缩短口诀：砍 Expected 输出 → 首句传核心 → 补或删无修复的 Pitfall → 合并重复信息。
