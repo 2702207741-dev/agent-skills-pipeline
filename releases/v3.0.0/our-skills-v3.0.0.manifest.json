@@ -4,7 +4,7 @@
   "version": "3.0.0",
   "created_at": "2026-07-09",
   "artifact": "our-skills-v3.0.0.zip",
-  "sha256": "b7dac613b187987a0145ed3ba0d362a81aeb332c7f30e9c2c45eaf88e2e484ff",
+  "sha256": "a12ee7fbcbfbb0272ebff67b043980d82859139b07d46b429b30dac562e41701",
   "skills": [
     {
       "name": "skill-authoring-workflow",

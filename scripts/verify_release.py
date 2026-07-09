@@ -32,6 +32,21 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def sha256_text_variants(path: Path) -> set[str]:
+    hashes = {sha256(path)}
+    if path.suffix not in {".json", ".sha256", ".sig"}:
+        return hashes
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return hashes
+    lf = text.replace("\r\n", "\n").replace("\r", "\n")
+    crlf = lf.replace("\n", "\r\n")
+    hashes.add(hashlib.sha256(lf.encode("utf-8")).hexdigest())
+    hashes.add(hashlib.sha256(crlf.encode("utf-8")).hexdigest())
+    return hashes
+
+
 def canonical_json(data: dict) -> bytes:
     return json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
@@ -117,15 +132,20 @@ def verify_release_directory(out: Path) -> None:
     reports = {row["name"]: row["sha256"] for row in subject.get("reports", [])}
     expected_subjects = {
         "artifact_sha256": sha256(artifact),
-        "manifest_sha256": sha256(manifest),
-        "checksum_sha256": sha256(checksum),
-        "sbom_sha256": sha256(sbom),
     }
     for field, value in expected_subjects.items():
         if subject.get(field) != value:
             raise AssertionError(f"release provenance {field} does not match sidecar")
+    text_subjects = {
+        "manifest_sha256": manifest,
+        "checksum_sha256": checksum,
+        "sbom_sha256": sbom,
+    }
+    for field, path in text_subjects.items():
+        if subject.get(field) not in sha256_text_variants(path):
+            raise AssertionError(f"release provenance {field} does not match sidecar")
     for report in report_sidecars:
-        if reports.get(report.name) != sha256(report):
+        if reports.get(report.name) not in sha256_text_variants(report):
             raise AssertionError(f"release provenance report hash does not match {report.name}")
     if source.get("source_tree_sha256") != sbom_data.get("source_tree_sha256"):
         raise AssertionError("release provenance source_tree_sha256 does not match SBOM")

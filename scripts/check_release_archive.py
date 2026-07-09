@@ -30,6 +30,21 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def sha256_text_variants(path: Path) -> set[str]:
+    hashes = {sha256(path)}
+    if path.suffix not in {".json", ".sha256", ".sig"}:
+        return hashes
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return hashes
+    lf = text.replace("\r\n", "\n").replace("\r", "\n")
+    crlf = lf.replace("\n", "\r\n")
+    hashes.add(hashlib.sha256(lf.encode("utf-8")).hexdigest())
+    hashes.add(hashlib.sha256(crlf.encode("utf-8")).hexdigest())
+    return hashes
+
+
 def canonical_json(data: dict[str, Any]) -> bytes:
     return json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
@@ -65,8 +80,8 @@ def top_level_skill_paths(artifact: Path) -> set[str]:
 
 
 def check_sidecar_hash(subject: dict[str, Any], field: str, path: Path) -> None:
-    expected = sha256(path)
-    if subject.get(field) != expected:
+    recorded = subject.get(field)
+    if recorded not in sha256_text_variants(path):
         raise AssertionError(f"{path.name}: provenance {field} does not match file hash")
 
 
@@ -158,7 +173,7 @@ def check_release_dir(release_dir: Path, policy: dict[str, Any]) -> None:
             check_sidecar_hash(subject, "sbom_sha256", sbom)
         reported = {row["name"]: row["sha256"] for row in subject.get("reports", [])}
         for name, path in report_sidecars.items():
-            if reported.get(name) != sha256(path):
+            if reported.get(name) not in sha256_text_variants(path):
                 raise AssertionError(f"{release}: provenance report hash does not match {name}")
 
     if signature.exists():

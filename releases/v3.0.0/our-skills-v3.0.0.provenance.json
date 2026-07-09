@@ -5,13 +5,13 @@
   "generated_at": "2026-07-09",
   "subject": {
     "artifact": "our-skills-v3.0.0.zip",
-    "artifact_sha256": "b7dac613b187987a0145ed3ba0d362a81aeb332c7f30e9c2c45eaf88e2e484ff",
+    "artifact_sha256": "a12ee7fbcbfbb0272ebff67b043980d82859139b07d46b429b30dac562e41701",
     "manifest": "our-skills-v3.0.0.manifest.json",
-    "manifest_sha256": "f008824584bdd32dff0778a03a9852387f8c344a1ca74d25909569d30689d93b",
+    "manifest_sha256": "4355c6ab08eec0f968d8f140ea7627d7a3a0e927ddf91de6855ea6a039812f11",
     "checksum": "our-skills-v3.0.0.sha256",
-    "checksum_sha256": "ea340e98967c00654f1348f7f7ce7ed287022c4d0d84994a711326f3165afe59",
+    "checksum_sha256": "72767292c7f02bbccd576ded64dc752d375d1efbb1901dd2a33235bcfbf82049",
     "sbom": "our-skills-v3.0.0.sbom.json",
-    "sbom_sha256": "f7f917788494ce2df9c4c0046e7c376e053b9107d94c95d29c6a0bb2428b3385",
+    "sbom_sha256": "40ff879e0753232e4a2a6f64cd0b30ade5cf2dbdd53fbf170b0a11c008c783a7",
     "reports": [
       {
         "name": "our-skills-v3.0.0.marketplace-index.json",
@@ -35,11 +35,11 @@
     "project": "our-skills",
     "version": "3.0.0",
     "registry_sha256": "0541b512fb5cafa964f148b9c094201fd3992604de7ac65bc9b1dca12c5b3af0",
-    "git_commit": "b9909d18044dfbde61482345877e6383bf22e332",
+    "git_commit": "5d7eeb9e10a6a5ae8ae741dc13b2453959173abb",
     "git_tags_at_head": [],
     "git_dirty": false,
     "source_file_count": 99,
-    "source_tree_sha256": "6d24408290bfdb18ec801d7ccb4bb60afc6f38b6928c4f95eed04c72ba55f76d"
+    "source_tree_sha256": "bd78c4ca9a3c9d56685d8df16468ad487cc16cbdf195cf6dc38e3a091a92d505"
   },
   "builder": {
     "script": "scripts/create_release.py",

@@ -147,7 +147,7 @@
       "name": "check_release_archive.py",
       "path": "scripts/check_release_archive.py",
       "runtime": "python-stdlib",
-      "sha256": "75e3955523b6947445b73c67470efa77ce7b952b3f407baccdb435e85b6da572"
+      "sha256": "048705079e654d174693e193f17d2ee08a3f3630bb535959b2c1e46d42c7f6c4"
     },
     {
       "type": "script",
@@ -259,9 +259,9 @@
       "name": "verify_release.py",
       "path": "scripts/verify_release.py",
       "runtime": "python-stdlib",
-      "sha256": "761adb49d5aef3b85b184cb895698613a2453069decdbefe56b0f8d1e35ec6e6"
+      "sha256": "8e6aa9f5757a571ae333036395ac51b371dc49f7d90dab72cc94ba700ed231f4"
     }
   ],
   "source_file_count": 99,
-  "source_tree_sha256": "6d24408290bfdb18ec801d7ccb4bb60afc6f38b6928c4f95eed04c72ba55f76d"
+  "source_tree_sha256": "bd78c4ca9a3c9d56685d8df16468ad487cc16cbdf195cf6dc38e3a091a92d505"
 }
