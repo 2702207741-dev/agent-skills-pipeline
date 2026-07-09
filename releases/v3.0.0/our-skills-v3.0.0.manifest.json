@@ -4,7 +4,7 @@
   "version": "3.0.0",
   "created_at": "2026-07-09",
   "artifact": "our-skills-v3.0.0.zip",
-  "sha256": "1f15d4f37a2e923e01f14bbf21ca4694d9922733ae5f0960426f85c79c727db9",
+  "sha256": "2f00c95340a90a803a28752d71eae0b1de0381a723eb40c9652c6e7a8a6d13db",
   "skills": [
     {
       "name": "skill-authoring-workflow",
@@ -122,7 +122,7 @@
   "reports": [
     {
       "name": "our-skills-v3.0.0.marketplace-index.json",
-      "sha256": "c245bc293f5f4be26724543a3080ff03b13ffdf916643f11e3c81cbc8c761d56"
+      "sha256": "2625560046aa7fc9a2407b2c1fad10174ea43aaf67d358fc0b561d98a84f6084"
     },
     {
       "name": "our-skills-v3.0.0.model-eval-report.json",

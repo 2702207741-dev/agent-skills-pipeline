@@ -2,11 +2,12 @@
   "schema_version": 1,
   "release": "v3.0.0",
   "semver": "3.0.0",
-  "date": "2026-07-08",
+  "date": "2026-07-09",
   "artifact_name": "our-skills-v3.0.0.zip",
   "release_type": "major-ecosystem-milestone",
-  "public_publish": false,
-  "public_publish_requires_explicit_request": true,
+  "public_publish": true,
+  "public_publish_requires_explicit_request": false,
+  "public_publish_request": "Maintainer requested public GitHub publication on 2026-07-09.",
   "summary": "Adds ecosystem entry points: public docs site, example task library, replay dataset, third-party skill specification, automatic review bot, multi-model replay evaluation, and community contribution governance.",
   "includes": [
     "docs/index.html public documentation site",
@@ -22,7 +23,8 @@
     "CLA.md",
     "SECURITY.md",
     ".github/PULL_REQUEST_TEMPLATE.md",
-    "docs/review-checklist.md"
+    "docs/review-checklist.md",
+    "releases/v3.0.0/RELEASE_NOTES.md"
   ],
   "gates": [
     "python scripts/review_bot.py --all --check",

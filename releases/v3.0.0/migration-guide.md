@@ -2,7 +2,7 @@
 
 ## Scope
 
-v3.0.0 adds ecosystem entry points. It prepares the repository for public contribution and publication, but does not push, tag, or publish without an explicit user request.
+v3.0.0 adds ecosystem entry points and is the first public-release-ready baseline. Public Git tags and GitHub Releases are maintainer actions; this release records that publication was explicitly requested on 2026-07-09.
 
 ## Maintainer Actions
 
@@ -28,6 +28,13 @@ python scripts/review_bot.py --all --check
 
 ```bash
 python scripts/verify_release.py
+```
+
+5. Publish only after the verification gate passes:
+
+```bash
+git tag -a v3.0.0 -m "our-skills v3.0.0"
+git push origin v3.0.0
 ```
 
 ## Contributor Actions

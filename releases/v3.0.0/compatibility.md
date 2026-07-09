@@ -8,6 +8,7 @@
 | Cursor Skills | Supported | Docs distinguish skills from always-loaded rules |
 | Third-party skills | Proposed/active/deprecated lifecycle | Intake schema, review checklist, CLA, and security gates required |
 | Multi-model evaluation | Replay-supported | Codex, Claude, Gemini, and local model rows are evaluated through deterministic replay |
+| GitHub Release | Published by maintainer request | Tag and release assets are expected to point at the verified v3.0.0 source tree |
 
 ## Public Entry Points
 
@@ -18,6 +19,7 @@
 - `reports/model-eval-report.md`
 - `reports/quality-dashboard.md`
 - `reports/skill-graph-report.md`
+- `releases/v3.0.0/RELEASE_NOTES.md`
 
 ## Release Sidecars
 

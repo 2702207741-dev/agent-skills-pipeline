@@ -6,7 +6,7 @@
   "release": "v3.0.0",
   "generated_at": "2026-07-09",
   "source_registry": "skills.json",
-  "source_registry_sha256": "8ed4a42d981439852cc14547b7917cc1547aa08e9cefb56a2173866b3a099b17",
+  "source_registry_sha256": "4596be935d1f6ab0d8ec5db05f2bed89e0ed2c9a1f5ad9951dc7e1e6e2cca977",
   "platforms": [
     {
       "id": "hermes",

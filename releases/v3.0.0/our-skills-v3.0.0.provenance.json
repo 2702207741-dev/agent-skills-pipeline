@@ -5,17 +5,17 @@
   "generated_at": "2026-07-09",
   "subject": {
     "artifact": "our-skills-v3.0.0.zip",
-    "artifact_sha256": "1f15d4f37a2e923e01f14bbf21ca4694d9922733ae5f0960426f85c79c727db9",
+    "artifact_sha256": "2f00c95340a90a803a28752d71eae0b1de0381a723eb40c9652c6e7a8a6d13db",
     "manifest": "our-skills-v3.0.0.manifest.json",
-    "manifest_sha256": "d071617681a7e8d5e4fb1f8583581d555a8b39b18e7d6f0546bfde8b619db33b",
+    "manifest_sha256": "f49e6765ebb9f409c0512a2b1508ed93482a34120019fb58be5a559b8596a5c1",
     "checksum": "our-skills-v3.0.0.sha256",
-    "checksum_sha256": "71b3c302ae3aa5334abfa4a42c549aa52d4a13306b74659d004231813247387c",
+    "checksum_sha256": "afbed01409c272b518490a7b0c32cfc5fed565e2485b103952b5161c2bab3827",
     "sbom": "our-skills-v3.0.0.sbom.json",
-    "sbom_sha256": "6fd207f3685f00c1e25a9c2fcf13ff2e0718805ac7686ed77279d888151e5983",
+    "sbom_sha256": "31c11220bbf42062c57bde5e86460e8dd820d5612375ae2ec7197ac9c0eae7e4",
     "reports": [
       {
         "name": "our-skills-v3.0.0.marketplace-index.json",
-        "sha256": "c245bc293f5f4be26724543a3080ff03b13ffdf916643f11e3c81cbc8c761d56"
+        "sha256": "2625560046aa7fc9a2407b2c1fad10174ea43aaf67d358fc0b561d98a84f6084"
       },
       {
         "name": "our-skills-v3.0.0.model-eval-report.json",
@@ -34,12 +34,12 @@
   "source": {
     "project": "our-skills",
     "version": "3.0.0",
-    "registry_sha256": "0541b512fb5cafa964f148b9c094201fd3992604de7ac65bc9b1dca12c5b3af0",
-    "git_commit": "469e83007b5a570304d2bea8769230fc0f7cef53",
+    "registry_sha256": "22370fbfb0b39303ba98f6acd1afae8af39a52eac617abb131865bb543c39cfa",
+    "git_commit": "299cfd9e4006f577ef7f8921e56daf4eab50ec9f",
     "git_tags_at_head": [],
     "git_dirty": false,
-    "source_file_count": 99,
-    "source_tree_sha256": "89336d2066b892a8b1b7d81b965682d0426e4581020d666081fba7cb3665d423"
+    "source_file_count": 100,
+    "source_tree_sha256": "7a4fdd8782a09854b77d41f8875f6ed031ae641b8505116fdd48be035980bdc0"
   },
   "builder": {
     "script": "scripts/create_release.py",

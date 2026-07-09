@@ -40,8 +40,17 @@ python scripts/verify_release.py
 python scripts/review_bot.py --all --check
 ```
 
+## Fast Review Path
+
+1. Start with `README.md` for the project shape and the 14-skill registry.
+2. Open `releases/v3.0.0/RELEASE_NOTES.md` for the public release summary.
+3. Inspect `eval-runs/rigorbench-v1.3/traces.json` to confirm every skill has
+   success, failure, and boundary execution evidence.
+4. Run `python scripts/verify_release.py` to reproduce the complete gate.
+5. Check the GitHub Actions `CI / validate` workflow on `main`.
+
 ## Scope Boundaries
 
 - The deterministic model evaluation in `reports/model-eval-report.md` uses replay adapters, not live model API calls.
-- Public release publishing is intentionally separated from local release artifact generation.
+- Public release publishing is intentionally explicit and now recorded for v3.0.0.
 - The marketplace installer writes only after explicit `--apply` or `--yes`.

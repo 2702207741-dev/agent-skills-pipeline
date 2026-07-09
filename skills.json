@@ -7,7 +7,7 @@
     "versioning": "semver",
     "artifact_prefix": "our-skills",
     "current_release": "v3.0.0",
-    "publish_policy": "v3.0 is the first ecosystem-ready milestone; public publishing still requires an explicit user request."
+    "publish_policy": "v3.0.0 is the first ecosystem-ready public release. Public tags and GitHub Releases are created only after an explicit maintainer request."
   },
   "skills": [
     {
