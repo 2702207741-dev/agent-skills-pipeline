@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "release": "v3.0.0",
+  "version": "3.0.0",
+  "created_at": "2026-07-09",
+  "artifact": "our-skills-v3.0.0.zip",
+  "sha256": "81712e4186e8155707f0b0fd15f52cb8bd8a61959d5a1b905b8621504d40774d",
+  "skills": [
+    {
+      "name": "skill-authoring-workflow",
+      "version": "1.5.0",
+      "path": "skill-authoring-workflow",
+      "category": "meta",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "skill-review-workflow",
+      "version": "1.1.0",
+      "path": "skill-review-workflow",
+      "category": "review",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "agent-security-guard",
+      "version": "1.0.0",
+      "path": "agent-security-guard",
+      "category": "security",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "cross-model-verification",
+      "version": "1.0.0",
+      "path": "cross-model-verification",
+      "category": "testing",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "skill-pipeline-orchestrator",
+      "version": "1.0.0",
+      "path": "skill-pipeline-orchestrator",
+      "category": "workflow",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "git-workflow-for-agents",
+      "version": "1.0.0",
+      "path": "git-workflow-for-agents",
+      "category": "git",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "agent-config-reference",
+      "version": "1.0.0",
+      "path": "agent-config-reference",
+      "category": "reference",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "code-review-workflow",
+      "version": "1.0.0",
+      "path": "code-review-workflow",
+      "category": "code-review",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "systematic-debugging",
+      "version": "1.0.0",
+      "path": "systematic-debugging",
+      "category": "debugging",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "test-design-workflow",
+      "version": "1.0.0",
+      "path": "test-design-workflow",
+      "category": "testing",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "requirements-clarifier",
+      "version": "1.0.0",
+      "path": "requirements-clarifier",
+      "category": "requirements",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "planning-workflow",
+      "version": "1.0.0",
+      "path": "planning-workflow",
+      "category": "planning",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "observability-workflow",
+      "version": "1.0.0",
+      "path": "observability-workflow",
+      "category": "observability",
+      "status": "active",
+      "deprecated": false
+    },
+    {
+      "name": "incident-retro-workflow",
+      "version": "1.0.0",
+      "path": "incident-retro-workflow",
+      "category": "incident-retro",
+      "status": "active",
+      "deprecated": false
+    }
+  ],
+  "reports": [
+    {
+      "name": "our-skills-v3.0.0.marketplace-index.json",
+      "sha256": "0b4c87fdb3cb7a8b0724fb403e8b4d5d0e7b084325d3e49b6ac8a169495acf2a"
+    },
+    {
+      "name": "our-skills-v3.0.0.model-eval-report.json",
+      "sha256": "320c1e34b20bd103e510d3d3e20a246e357a197b5290c73efc23eb3fb068adda"
+    },
+    {
+      "name": "our-skills-v3.0.0.quality-dashboard.json",
+      "sha256": "4cc194b566176069fa7a12be38f9f741a4f38eac185c1dfabc001a50578912d1"
+    },
+    {
+      "name": "our-skills-v3.0.0.skill-graph-report.json",
+      "sha256": "9a60638bc1ff2d0259a4fae97eb6f416f15a420bfbce77a6f50c429ac9622a09"
+    }
+  ]
+}

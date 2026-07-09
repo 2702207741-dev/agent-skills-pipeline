@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "marketplace": "our-skills",
+  "version": "3.0.0",
+  "source_registry": "skills.json",
+  "installer": {
+    "command": "python scripts/marketplace.py",
+    "supports": [
+      "list",
+      "install",
+      "update",
+      "rollback",
+      "doctor"
+    ],
+    "platforms": [
+      "hermes",
+      "claude-code",
+      "codex",
+      "cursor"
+    ],
+    "dry_run": true,
+    "backup_before_update": true,
+    "apply_required_for_writes": true,
+    "audit_log": ".our-skills-audit/events.jsonl"
+  },
+  "one_command_examples": [
+    "python scripts/marketplace.py list",
+    "python scripts/marketplace.py install --platform codex --target-root ~",
+    "python scripts/marketplace.py install --platform codex --target-root ~ --apply",
+    "python scripts/marketplace.py update --platform codex --target-root ~ --skill skill-review-workflow --apply",
+    "python scripts/marketplace.py rollback --platform codex --skill skill-review-workflow --target-root ~ --apply",
+    "python scripts/marketplace.py doctor --platform codex --target-root ~",
+    "python scripts/review_bot.py --all --check",
+    "python scripts/run_model_eval.py --check"
+  ],
+  "skill_count": 14,
+  "index": {
+    "path": "marketplace/index.json",
+    "fields": [
+      "version",
+      "compatible_platforms",
+      "dependencies",
+      "score",
+      "status"
+    ]
+  },
+  "reports": {
+    "quality_dashboard": "reports/quality-dashboard.json",
+    "skill_graph_report": "reports/skill-graph-report.json"
+  },
+  "ecosystem": {
+    "docs_site": "docs/index.html",
+    "task_library": "examples/task-library.json",
+    "replay_dataset": "examples/replay-dataset.json",
+    "third_party_spec": "docs/third-party-skill-spec.md",
+    "review_bot": "scripts/review_bot.py",
+    "model_eval_report": "reports/model-eval-report.json"
+  }
+}

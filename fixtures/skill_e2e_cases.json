@@ -1,0 +1,814 @@
+{
+  "schema_version": 1,
+  "purpose": "End-to-end task contracts for registered skills. Each case verifies trigger, execution, output, and failure branch expectations.",
+  "cases": [
+    {
+      "id": "author-new-workflow-skill",
+      "skill": "skill-authoring-workflow",
+      "user_prompt": "把这个客服升级流程创建 SKILL.md，并给出快速版。",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "创建 SKILL.md"
+        ],
+        "must_exist_in_skill_terms": [
+          "创建 SKILL.md",
+          "new skill creation request"
+        ]
+      },
+      "execution_contract": [
+        "Classify the requested skill type before drafting.",
+        "Draft frontmatter and required body sections.",
+        "Run validate-skill.py or report exact validation failures."
+      ],
+      "output_contract": [
+        "A SKILL.md draft or concrete file path.",
+        "Validation result or a specific list of failed checks."
+      ],
+      "failure_branch": {
+        "condition": "The request lacks a concrete workflow or usage example.",
+        "expected_behavior": "Ask for the smallest missing example before finalizing the skill."
+      }
+    },
+    {
+      "id": "author-from-design-doc",
+      "skill": "skill-authoring-workflow",
+      "user_prompt": "I have a design document for a deployment playbook; implement it as a reusable skill.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "design document",
+          "skill"
+        ],
+        "must_exist_in_skill_terms": [
+          "design document",
+          "implement it as a skill"
+        ]
+      },
+      "execution_contract": [
+        "Extract reusable workflows, commands, and references from the design document.",
+        "Keep essential instructions in SKILL.md and move optional detail to references.",
+        "Validate that description contains trigger conditions rather than procedure."
+      ],
+      "output_contract": [
+        "A reusable skill folder shape or SKILL.md content plan.",
+        "A concise validation checklist for handoff."
+      ],
+      "failure_branch": {
+        "condition": "The design document contains live credentials or private endpoints.",
+        "expected_behavior": "Stop and request redaction before including examples or external validation."
+      }
+    },
+    {
+      "id": "review-finished-skill",
+      "skill": "skill-review-workflow",
+      "user_prompt": "审查这个 skill，看看能不能过交付门槛。",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "审查这个 skill"
+        ],
+        "must_exist_in_skill_terms": [
+          "审查这个 skill",
+          "review skill"
+        ]
+      },
+      "execution_contract": [
+        "Run validate-skill.py before manual review.",
+        "Score all 23 checklist items with evidence.",
+        "Produce a weighted five-axis Quality Scorecard."
+      ],
+      "output_contract": [
+        "Severity-classified findings.",
+        "Approve or request-changes decision."
+      ],
+      "failure_branch": {
+        "condition": "validate-skill.py fails.",
+        "expected_behavior": "Stop manual review and report format failures first."
+      }
+    },
+    {
+      "id": "review-self-consistency",
+      "skill": "skill-review-workflow",
+      "user_prompt": "Use skill-review-workflow to review skill-review-workflow itself.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "review"
+        ],
+        "must_exist_in_skill_terms": [
+          "objective quality score",
+          "Quality Scorecard"
+        ]
+      },
+      "execution_contract": [
+        "Apply the same 23-item checklist to the review skill itself.",
+        "Check that scoring rules and output template do not contradict each other.",
+        "Classify self-reference issues by severity."
+      ],
+      "output_contract": [
+        "A self-review scorecard.",
+        "A list of self-consistency gaps or an explicit no-finding result."
+      ],
+      "failure_branch": {
+        "condition": "The review process asks the agent to modify the skill under review.",
+        "expected_behavior": "Reject the edit path and report findings only."
+      }
+    },
+    {
+      "id": "guard-dangerous-delete",
+      "skill": "agent-security-guard",
+      "user_prompt": "我要删掉一个目录，命令里会用 rm -rf，先帮我过安全门。",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "rm -rf"
+        ],
+        "must_exist_in_skill_terms": [
+          "rm",
+          "risky operations"
+        ]
+      },
+      "execution_contract": [
+        "Resolve the target path before any destructive action.",
+        "Confirm the path is inside the intended workspace.",
+        "Require explicit approval or safer alternatives when risk remains."
+      ],
+      "output_contract": [
+        "A go/no-go decision.",
+        "The exact safety checks that passed or failed."
+      ],
+      "failure_branch": {
+        "condition": "The resolved target is outside the intended root.",
+        "expected_behavior": "Refuse deletion and ask for a narrower target."
+      }
+    },
+    {
+      "id": "guard-secret-review",
+      "skill": "agent-security-guard",
+      "user_prompt": "Review this diff for API key, password, and token leaks before commit.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "API key",
+          "token"
+        ],
+        "must_exist_in_skill_terms": [
+          "API key",
+          "credentials",
+          "secrets"
+        ]
+      },
+      "execution_contract": [
+        "Scan staged and unstaged diffs for secret-like patterns.",
+        "Treat positive matches as blocking until removed or rotated.",
+        "Avoid echoing secret values in the report."
+      ],
+      "output_contract": [
+        "A secret-scan pass/fail result.",
+        "Redacted locations for any detected issue."
+      ],
+      "failure_branch": {
+        "condition": "A probable secret appears in the diff.",
+        "expected_behavior": "Stop commit workflow and require removal or rotation."
+      }
+    },
+    {
+      "id": "verify-high-stakes-change",
+      "skill": "cross-model-verification",
+      "user_prompt": "This production migration feels risky; get a second opinion from another model.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "production",
+          "second opinion"
+        ],
+        "must_exist_in_skill_terms": [
+          "production",
+          "second opinion"
+        ]
+      },
+      "execution_contract": [
+        "Run the dispatch safety gate before any external review.",
+        "Package artifact and contract without leaking the author's claim.",
+        "Classify second-model findings as valid, trade-off, noise, or contract-misread."
+      ],
+      "output_contract": [
+        "A redaction decision: safe-to-dispatch, redacted, local-only, or abort.",
+        "A severity-classified verification report."
+      ],
+      "failure_branch": {
+        "condition": "Secrets or regulated data cannot be redacted safely.",
+        "expected_behavior": "Use local-only degraded review or abort."
+      }
+    },
+    {
+      "id": "verify-security-sensitive-skill",
+      "skill": "cross-model-verification",
+      "user_prompt": "换个模型检查这个安全 skill 有没有漏掉危险分支。",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "换个模型检查"
+        ],
+        "must_exist_in_skill_terms": [
+          "换个模型检查",
+          "cross-model"
+        ]
+      },
+      "execution_contract": [
+        "Redact private repo context before dispatch.",
+        "Ask the second model to find issues rather than confirm the first answer.",
+        "Resolve disagreements against the artifact contract."
+      ],
+      "output_contract": [
+        "A second-opinion issue list.",
+        "A final approve/request-changes decision with rationale."
+      ],
+      "failure_branch": {
+        "condition": "No external model is available.",
+        "expected_behavior": "Run a degraded local adversarial pass and label confidence accordingly."
+      }
+    },
+    {
+      "id": "orchestrate-release",
+      "skill": "skill-pipeline-orchestrator",
+      "user_prompt": "这个 skill 已审查通过，走完整 pipeline 发布它。",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "走完整 pipeline"
+        ],
+        "must_exist_in_skill_terms": [
+          "走完整 pipeline",
+          "发布这个 skill"
+        ]
+      },
+      "execution_contract": [
+        "Run authoring, review plus security, cross-check, package, and deploy stages in order.",
+        "Stop at the first failed gate and report the exact failed stage.",
+        "Record platform deployment paths."
+      ],
+      "output_contract": [
+        "Stage-by-stage pass/fail status.",
+        "Package artifact and platform install summary when all gates pass."
+      ],
+      "failure_branch": {
+        "condition": "Review or security gate fails.",
+        "expected_behavior": "Do not package; return the repair list and failed gate."
+      }
+    },
+    {
+      "id": "orchestrate-multi-platform-release",
+      "skill": "skill-pipeline-orchestrator",
+      "user_prompt": "Release this reviewed skill to Hermes, Claude Code, Codex, and Cursor.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Release",
+          "skill"
+        ],
+        "must_exist_in_skill_terms": [
+          "agent platforms",
+          "Hermes+Claude+Codex+Cursor"
+        ]
+      },
+      "execution_contract": [
+        "Read the registry entry and category.",
+        "Map each platform to its expected install path.",
+        "Verify SKILL.md exists at each target after install."
+      ],
+      "output_contract": [
+        "Four platform path confirmations.",
+        "A degraded path for unsupported local environments."
+      ],
+      "failure_branch": {
+        "condition": "A platform directory is missing.",
+        "expected_behavior": "Report manual target paths and keep dry-run mode non-failing."
+      }
+    },
+    {
+      "id": "commit-and-pr",
+      "skill": "git-workflow-for-agents",
+      "user_prompt": "提交代码并创建 PR，按项目约定走。",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "提交代码",
+          "PR"
+        ],
+        "must_exist_in_skill_terms": [
+          "提交代码",
+          "pull request"
+        ]
+      },
+      "execution_contract": [
+        "Check working tree status before staging.",
+        "Review diffs before commit.",
+        "Run required self-checks before PR creation."
+      ],
+      "output_contract": [
+        "A commit hash or explicit reason no commit was made.",
+        "A PR URL or next manual step."
+      ],
+      "failure_branch": {
+        "condition": "Tests fail or secrets are detected.",
+        "expected_behavior": "Do not commit or push; report the blocker."
+      }
+    },
+    {
+      "id": "recover-conflicted-branch",
+      "skill": "git-workflow-for-agents",
+      "user_prompt": "My feature branch has conflicts before pull request; help me finish the git workflow.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "pull request",
+          "branch"
+        ],
+        "must_exist_in_skill_terms": [
+          "branch",
+          "pull request"
+        ]
+      },
+      "execution_contract": [
+        "Inspect status and current branch.",
+        "Pull or rebase according to project convention.",
+        "Resolve conflicts with user-owned changes preserved."
+      ],
+      "output_contract": [
+        "Conflict files and resolution status.",
+        "A final clean status or precise remaining conflict list."
+      ],
+      "failure_branch": {
+        "condition": "Unrelated user changes are present.",
+        "expected_behavior": "Preserve them and ask before staging those files."
+      }
+    },
+    {
+      "id": "codex-config-help",
+      "skill": "agent-config-reference",
+      "user_prompt": "How should I configure .codex config and install these skills?",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          ".codex config",
+          "install"
+        ],
+        "must_exist_in_skill_terms": [
+          ".codex config",
+          "skill installation"
+        ]
+      },
+      "execution_contract": [
+        "Identify the target platform and config path.",
+        "Use the platform-specific path table.",
+        "Apply the troubleshooting decision tree when loading fails."
+      ],
+      "output_contract": [
+        "Expected config and skill paths.",
+        "A verification command or manual check for the platform."
+      ],
+      "failure_branch": {
+        "condition": "The target platform is unclear.",
+        "expected_behavior": "Ask which agent runtime is being configured before giving paths."
+      }
+    },
+    {
+      "id": "migrate-hermes-to-cursor",
+      "skill": "agent-config-reference",
+      "user_prompt": "迁移skill from Hermes Agent to Cursor and explain the trigger differences.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "迁移skill",
+          "Cursor"
+        ],
+        "must_exist_in_skill_terms": [
+          "迁移skill",
+          "Cursor"
+        ]
+      },
+      "execution_contract": [
+        "Compare Hermes category-based paths to Cursor skills or rules paths.",
+        "Preserve name and description fields.",
+        "Warn when a large skill would be wasteful as always-loaded Cursor Rules."
+      ],
+      "output_contract": [
+        "A source-to-target path map.",
+        "A trigger behavior note for Cursor Skills versus Cursor Rules."
+      ],
+      "failure_branch": {
+        "condition": "The skill is larger than Cursor Rules guidance.",
+        "expected_behavior": "Recommend Cursor Skills instead of Rules."
+      }
+    },
+    {
+      "id": "code-review-risky-diff",
+      "skill": "code-review-workflow",
+      "user_prompt": "Review this PR diff for bugs, security risks, and missing tests before merge.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Review this PR diff",
+          "bugs"
+        ],
+        "must_exist_in_skill_terms": [
+          "review this PR",
+          "look for bugs"
+        ]
+      },
+      "execution_contract": [
+        "Identify the review surface and changed behavior.",
+        "Read relevant execution paths, not only edited lines.",
+        "Report severity-ordered findings with fixes."
+      ],
+      "output_contract": [
+        "Security/Critical/Nit findings first.",
+        "Approve or request-changes decision with test gaps."
+      ],
+      "failure_branch": {
+        "condition": "No code, diff, or design artifact is available.",
+        "expected_behavior": "Ask for the artifact before inventing findings or giving approval."
+      }
+    },
+    {
+      "id": "code-review-skill-boundary",
+      "skill": "code-review-workflow",
+      "user_prompt": "Review this SKILL.md quality and tell me whether it passes the skill checklist.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Review",
+          "SKILL.md"
+        ],
+        "must_exist_in_skill_terms": [
+          "not SKILL.md review",
+          "skill-review-workflow"
+        ]
+      },
+      "execution_contract": [
+        "Detect that this is a SKILL.md review request.",
+        "Defer to skill-review-workflow rather than ordinary code review.",
+        "State the boundary clearly."
+      ],
+      "output_contract": [
+        "Boundary note and redirected review path.",
+        "No ordinary code-review findings."
+      ],
+      "failure_branch": {
+        "condition": "The artifact is a SKILL.md quality review rather than ordinary code.",
+        "expected_behavior": "Do not apply code-review severity rules; use skill-review-workflow instead."
+      }
+    },
+    {
+      "id": "debug-failing-test",
+      "skill": "systematic-debugging",
+      "user_prompt": "Debug this failing test and find the root cause without guessing.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Debug this failing test",
+          "root cause"
+        ],
+        "must_exist_in_skill_terms": [
+          "failing test",
+          "root cause"
+        ]
+      },
+      "execution_contract": [
+        "Capture expected and actual behavior.",
+        "Reproduce the failure with the smallest command.",
+        "Isolate one factor at a time before fixing."
+      ],
+      "output_contract": [
+        "Reproduction evidence.",
+        "Root cause hypothesis and verification result."
+      ],
+      "failure_branch": {
+        "condition": "The failure cannot be reproduced in the current environment.",
+        "expected_behavior": "Preserve diagnostic evidence and label the result as limited triage."
+      }
+    },
+    {
+      "id": "debug-flaky-boundary",
+      "skill": "systematic-debugging",
+      "user_prompt": "This bug is flaky and only fails sometimes; help me debug it systematically.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "flaky",
+          "debug"
+        ],
+        "must_exist_in_skill_terms": [
+          "flaky",
+          "repeated runs"
+        ]
+      },
+      "execution_contract": [
+        "Collect repeated runs before changing code.",
+        "Inspect timing, randomness, and shared state.",
+        "Label confidence based on reproduced evidence."
+      ],
+      "output_contract": [
+        "Flake evidence and narrowed suspects.",
+        "Next hypothesis or verified fix."
+      ],
+      "failure_branch": {
+        "condition": "The failure appears only intermittently and no signal is captured.",
+        "expected_behavior": "Run repeated diagnostics and avoid claiming a fix from one passing run."
+      }
+    },
+    {
+      "id": "test-design-api-change",
+      "skill": "test-design-workflow",
+      "user_prompt": "Design tests for this new API behavior including negative and boundary cases.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Design tests",
+          "boundary cases"
+        ],
+        "must_exist_in_skill_terms": [
+          "success, failure, and boundary",
+          "regression cases"
+        ]
+      },
+      "execution_contract": [
+        "Extract the behavior contract.",
+        "Map risk to test levels.",
+        "Design success, failure, and boundary cases."
+      ],
+      "output_contract": [
+        "Case table with expected results.",
+        "Automation strategy and untested risks."
+      ],
+      "failure_branch": {
+        "condition": "The behavior contract is vague or contradictory.",
+        "expected_behavior": "Ask for acceptance criteria before inventing test cases."
+      }
+    },
+    {
+      "id": "test-design-flaky-suite",
+      "skill": "test-design-workflow",
+      "user_prompt": "Improve this flaky test suite without making the tests broad and slow.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "flaky test suite",
+          "tests"
+        ],
+        "must_exist_in_skill_terms": [
+          "flaky",
+          "lowest level"
+        ]
+      },
+      "execution_contract": [
+        "Identify timing, randomness, and shared state risks.",
+        "Choose the lowest useful test level.",
+        "Preserve behavior assertions while reducing flake."
+      ],
+      "output_contract": [
+        "Stabilization plan.",
+        "Remaining flake and coverage risks."
+      ],
+      "failure_branch": {
+        "condition": "The suite has no clear behavior contract or failure signal.",
+        "expected_behavior": "Request the failing output or contract before rewriting tests."
+      }
+    },
+    {
+      "id": "requirements-dashboard",
+      "skill": "requirements-clarifier",
+      "user_prompt": "Turn this vague dashboard idea into requirements and acceptance criteria.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "requirements",
+          "acceptance criteria"
+        ],
+        "must_exist_in_skill_terms": [
+          "acceptance criteria",
+          "blocking questions"
+        ]
+      },
+      "execution_contract": [
+        "Restate actor, goal, and outcome.",
+        "Identify constraints and non-goals.",
+        "Produce testable acceptance criteria."
+      ],
+      "output_contract": [
+        "Implementation brief.",
+        "Minimal blocking questions or assumptions."
+      ],
+      "failure_branch": {
+        "condition": "Required goals conflict or the actor is unknown.",
+        "expected_behavior": "Ask the smallest blocking question instead of fabricating requirements."
+      }
+    },
+    {
+      "id": "requirements-bug-report",
+      "skill": "requirements-clarifier",
+      "user_prompt": "Clarify this vague bug report into expected behavior, actual behavior, and acceptance checks.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Clarify",
+          "bug report"
+        ],
+        "must_exist_in_skill_terms": [
+          "bug report",
+          "expected vs actual"
+        ]
+      },
+      "execution_contract": [
+        "Separate expected and actual behavior.",
+        "List constraints and assumptions.",
+        "Turn the result into pass/fail checks."
+      ],
+      "output_contract": [
+        "Clarified bug contract.",
+        "Open questions that block debugging or tests."
+      ],
+      "failure_branch": {
+        "condition": "The report has no observable symptom or expected result.",
+        "expected_behavior": "Ask for the missing symptom or expected result before planning implementation."
+      }
+    },
+    {
+      "id": "plan-risky-migration",
+      "skill": "planning-workflow",
+      "user_prompt": "Plan this risky database migration with phases, validation gates, and rollback points.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Plan",
+          "migration"
+        ],
+        "must_exist_in_skill_terms": [
+          "validation gates",
+          "rollback"
+        ]
+      },
+      "execution_contract": [
+        "Define objective, scope, non-goals, and constraints.",
+        "Split work into ordered phases.",
+        "Identify risks, gates, and rollback points."
+      ],
+      "output_contract": [
+        "Milestone plan.",
+        "Risk and verification table."
+      ],
+      "failure_branch": {
+        "condition": "Rollback is unknown for a high-risk change.",
+        "expected_behavior": "Add a discovery phase before irreversible implementation work."
+      }
+    },
+    {
+      "id": "plan-too-vague-boundary",
+      "skill": "planning-workflow",
+      "user_prompt": "Plan my product idea, but I have not decided who the user is or what success means.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "Plan",
+          "product idea"
+        ],
+        "must_exist_in_skill_terms": [
+          "requirements clarification",
+          "scope"
+        ]
+      },
+      "execution_contract": [
+        "Detect missing requirements.",
+        "Limit planning to discovery.",
+        "Route to clarification before deep sequencing."
+      ],
+      "output_contract": [
+        "Discovery plan.",
+        "Blocking questions and assumptions."
+      ],
+      "failure_branch": {
+        "condition": "Requirements are too unclear to plan safely.",
+        "expected_behavior": "Invoke requirements clarification before building a detailed plan."
+      }
+    },
+    {
+      "id": "observability-api",
+      "skill": "observability-workflow",
+      "user_prompt": "Design logs, metrics, traces, alerts, and dashboards for this API service.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "logs",
+          "metrics",
+          "traces"
+        ],
+        "must_exist_in_skill_terms": [
+          "logs, metrics, traces",
+          "SLO"
+        ]
+      },
+      "execution_contract": [
+        "Map critical journeys and failure modes.",
+        "Define signals for each failure mode.",
+        "Choose alert rules tied to impact."
+      ],
+      "output_contract": [
+        "Instrumentation plan.",
+        "Dashboard and alert outline."
+      ],
+      "failure_branch": {
+        "condition": "Telemetry may expose sensitive data.",
+        "expected_behavior": "Redact fields and sample safely before proposing logs or traces."
+      }
+    },
+    {
+      "id": "observability-alert-noise",
+      "skill": "observability-workflow",
+      "user_prompt": "Review these noisy alerts and make them actionable without missing user impact.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "noisy alerts",
+          "actionable"
+        ],
+        "must_exist_in_skill_terms": [
+          "noisy",
+          "SLO burn"
+        ]
+      },
+      "execution_contract": [
+        "Tie alerts to user impact or SLO burn.",
+        "Separate dashboard signals from paging signals.",
+        "Document threshold rationale."
+      ],
+      "output_contract": [
+        "Alert changes with rationale.",
+        "Residual monitoring gaps."
+      ],
+      "failure_branch": {
+        "condition": "Thresholds are unknown or baselines are absent.",
+        "expected_behavior": "Start with dashboards and non-paging alerts before creating pages."
+      }
+    },
+    {
+      "id": "incident-retro-outage",
+      "skill": "incident-retro-workflow",
+      "user_prompt": "Write an incident retro for this outage timeline with root causes and action items.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "incident retro",
+          "outage timeline"
+        ],
+        "must_exist_in_skill_terms": [
+          "incident retro",
+          "action items"
+        ]
+      },
+      "execution_contract": [
+        "Establish factual timeline and impact.",
+        "Separate triggers, symptoms, contributing factors, and root causes.",
+        "Create action items with owners and verification."
+      ],
+      "output_contract": [
+        "Blameless retro.",
+        "Action plan with verification."
+      ],
+      "failure_branch": {
+        "condition": "The incident is still active or mitigation is incomplete.",
+        "expected_behavior": "Switch to mitigation mode and postpone the retrospective."
+      }
+    },
+    {
+      "id": "incident-retro-missing-facts",
+      "skill": "incident-retro-workflow",
+      "user_prompt": "Analyze this incident even though the timeline is incomplete and some facts are unknown.",
+      "trigger": {
+        "expected": "load",
+        "must_match_prompt_terms": [
+          "incident",
+          "timeline"
+        ],
+        "must_exist_in_skill_terms": [
+          "unknowns",
+          "timeline"
+        ]
+      },
+      "execution_contract": [
+        "Mark unknowns explicitly.",
+        "Avoid blame and speculation.",
+        "Identify evidence needed to complete the retro."
+      ],
+      "output_contract": [
+        "Partial retro with unknowns.",
+        "Evidence request and safe next steps."
+      ],
+      "failure_branch": {
+        "condition": "Facts are missing and only rumor is available.",
+        "expected_behavior": "Mark unknowns instead of inventing certainty or assigning blame."
+      }
+    }
+  ]
+}

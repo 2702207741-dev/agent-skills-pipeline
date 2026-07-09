@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "release": "v1.5.0",
+  "version": "1.5.0",
+  "created_at": "2026-07-08",
+  "artifact": "our-skills-v1.5.0.zip",
+  "sha256": "f311657ff266279652fc01e6f9b0c053e398cdc5297f72469b5bb3c75a3c03e7",
+  "skills": [
+    {
+      "name": "skill-authoring-workflow",
+      "version": "1.5.0",
+      "path": "skill-authoring-workflow",
+      "category": "meta"
+    },
+    {
+      "name": "skill-review-workflow",
+      "version": "1.1.0",
+      "path": "skill-review-workflow",
+      "category": "review"
+    },
+    {
+      "name": "agent-security-guard",
+      "version": "1.0.0",
+      "path": "agent-security-guard",
+      "category": "security"
+    },
+    {
+      "name": "cross-model-verification",
+      "version": "1.0.0",
+      "path": "cross-model-verification",
+      "category": "testing"
+    },
+    {
+      "name": "skill-pipeline-orchestrator",
+      "version": "1.0.0",
+      "path": "skill-pipeline-orchestrator",
+      "category": "workflow"
+    },
+    {
+      "name": "git-workflow-for-agents",
+      "version": "1.0.0",
+      "path": "git-workflow-for-agents",
+      "category": "git"
+    },
+    {
+      "name": "agent-config-reference",
+      "version": "1.0.0",
+      "path": "agent-config-reference",
+      "category": "reference"
+    },
+    {
+      "name": "code-review-workflow",
+      "version": "1.0.0",
+      "path": "code-review-workflow",
+      "category": "code-review"
+    },
+    {
+      "name": "systematic-debugging",
+      "version": "1.0.0",
+      "path": "systematic-debugging",
+      "category": "debugging"
+    },
+    {
+      "name": "test-design-workflow",
+      "version": "1.0.0",
+      "path": "test-design-workflow",
+      "category": "testing"
+    },
+    {
+      "name": "requirements-clarifier",
+      "version": "1.0.0",
+      "path": "requirements-clarifier",
+      "category": "requirements"
+    },
+    {
+      "name": "planning-workflow",
+      "version": "1.0.0",
+      "path": "planning-workflow",
+      "category": "planning"
+    },
+    {
+      "name": "observability-workflow",
+      "version": "1.0.0",
+      "path": "observability-workflow",
+      "category": "observability"
+    },
+    {
+      "name": "incident-retro-workflow",
+      "version": "1.0.0",
+      "path": "incident-retro-workflow",
+      "category": "incident-retro"
+    }
+  ]
+}

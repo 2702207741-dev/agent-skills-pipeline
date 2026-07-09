@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "predicate_type": "our-skills-release-provenance-v1",
+  "release": "v3.0.0",
+  "generated_at": "2026-07-09",
+  "subject": {
+    "artifact": "our-skills-v3.0.0.zip",
+    "artifact_sha256": "81712e4186e8155707f0b0fd15f52cb8bd8a61959d5a1b905b8621504d40774d",
+    "manifest": "our-skills-v3.0.0.manifest.json",
+    "manifest_sha256": "c9ff749de1e9586a0eedd54d792436f76361463bed6e96c37e6584cbad2de817",
+    "checksum": "our-skills-v3.0.0.sha256",
+    "checksum_sha256": "7f059a55bd3dc58f98082c1885d0758a2103f01f5b393fe4c3295de3b8374fe6",
+    "sbom": "our-skills-v3.0.0.sbom.json",
+    "sbom_sha256": "537ac21aeea1a94f4314808e6558afd5279dbe3c2f0f71d3d8f15298aee4f3b7",
+    "reports": [
+      {
+        "name": "our-skills-v3.0.0.marketplace-index.json",
+        "sha256": "0b4c87fdb3cb7a8b0724fb403e8b4d5d0e7b084325d3e49b6ac8a169495acf2a"
+      },
+      {
+        "name": "our-skills-v3.0.0.model-eval-report.json",
+        "sha256": "320c1e34b20bd103e510d3d3e20a246e357a197b5290c73efc23eb3fb068adda"
+      },
+      {
+        "name": "our-skills-v3.0.0.quality-dashboard.json",
+        "sha256": "4cc194b566176069fa7a12be38f9f741a4f38eac185c1dfabc001a50578912d1"
+      },
+      {
+        "name": "our-skills-v3.0.0.skill-graph-report.json",
+        "sha256": "9a60638bc1ff2d0259a4fae97eb6f416f15a420bfbce77a6f50c429ac9622a09"
+      }
+    ]
+  },
+  "source": {
+    "project": "our-skills",
+    "version": "3.0.0",
+    "registry_sha256": "79adb53bb7d4f1abad8444428de88fbc2334db4d792c6b3ba767da6b129b6e5d",
+    "git_commit": "464366356a2dbfc80bbf1be1ad64e2ad00847034",
+    "git_tags_at_head": [],
+    "git_dirty": false,
+    "source_file_count": 98,
+    "source_tree_sha256": "87312161babe338caca960d3596d0532adcc78058a870f8f4da13ade0abc3edf"
+  },
+  "builder": {
+    "script": "scripts/create_release.py",
+    "script_sha256": "0eab8c16c8e9eafa4c7d3c1e9c875e54794057583780c70e0fe2e643b719c6b4",
+    "python": "3.11.9"
+  }
+}

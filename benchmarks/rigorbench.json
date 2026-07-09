@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "suite": "our-skills-rigorbench",
+  "version": "3.0.0",
+  "description": "Replayable E2E evaluation suite for registered AI agent skills, public examples, and v3 multi-model replay evaluation.",
+  "source_runs_file": "eval-runs/rigorbench-v1.3/traces.json",
+  "scoring": {
+    "case_points": 5,
+    "dimensions": [
+      "trigger",
+      "resources",
+      "execution",
+      "final_output",
+      "score_record"
+    ],
+    "required_case_types": [
+      "success",
+      "failure",
+      "boundary"
+    ],
+    "pass_threshold": 1.0
+  },
+  "required_outputs": [
+    "per-skill pass rate from replayed execution traces",
+    "per-skill passed/total counts",
+    "success/failure/boundary coverage per registered skill",
+    "regression comparison against benchmarks/regression-history.json",
+    "stale-trace detection when SKILL.md content changes",
+    "platform quality dashboard metrics",
+    "public task library coverage",
+    "multi-model replay evaluation report"
+  ]
+}

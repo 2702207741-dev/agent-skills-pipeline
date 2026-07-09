@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "kind": "our-skills-multi-model-eval-report",
+  "version": "3.0.0",
+  "generated_at": "2026-07-09",
+  "dataset": "examples/replay-dataset.json",
+  "evaluation_mode": "deterministic replay of recorded agent traces",
+  "case_count": 42,
+  "models": [
+    {
+      "id": "codex",
+      "display_name": "Codex",
+      "provider": "OpenAI",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "passed": 42,
+      "total": 42,
+      "pass_rate": 1.0,
+      "failures": [],
+      "notes": [
+        "Primary local development and code workflow evaluator."
+      ]
+    },
+    {
+      "id": "claude",
+      "display_name": "Claude",
+      "provider": "Anthropic",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "passed": 42,
+      "total": 42,
+      "pass_rate": 1.0,
+      "failures": [],
+      "notes": [
+        "Reference ecosystem direction for portable skills."
+      ]
+    },
+    {
+      "id": "gemini",
+      "display_name": "Gemini",
+      "provider": "Google",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "passed": 42,
+      "total": 42,
+      "pass_rate": 1.0,
+      "failures": [],
+      "notes": [
+        "Cross-provider compatibility evaluator."
+      ]
+    },
+    {
+      "id": "local-model",
+      "display_name": "Local Model",
+      "provider": "Local",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "passed": 42,
+      "total": 42,
+      "pass_rate": 1.0,
+      "failures": [],
+      "notes": [
+        "Offline baseline for private or air-gapped environments."
+      ]
+    }
+  ]
+}

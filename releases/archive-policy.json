@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "release_baselines": [
+    {
+      "release": "v1.1.0",
+      "expected_formal_skills": 7,
+      "required_absent_paths": [
+        "code-review-workflow",
+        "systematic-debugging",
+        "test-design-workflow",
+        "requirements-clarifier",
+        "planning-workflow",
+        "observability-workflow",
+        "incident-retro-workflow"
+      ]
+    },
+    {
+      "release": "v1.5.0",
+      "expected_formal_skills": 14,
+      "required_absent_paths": []
+    },
+    {
+      "release": "v2.0.0",
+      "expected_formal_skills": 14,
+      "required_absent_paths": []
+    },
+    {
+      "release": "v3.0.0",
+      "expected_formal_skills": 14,
+      "required_absent_paths": []
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>our-skills Platform</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">our-skills v3.0 ecosystem entry</p>
+        <h1>Portable agent skills with quality, safety, and replay evidence.</h1>
+        <p class="lede">List, install, update, rollback, diagnose, review, and evaluate skills without learning the repository layout first.</p>
+      </div>
+      <img src="assets/ecosystem-map.svg" alt="our-skills ecosystem map">
+    </header>
+
+    <main>
+      <section id="marketplace">
+        <h2>Marketplace</h2>
+        <p>The local marketplace index exposes every skill with version, platform paths, dependencies, status, owner, and quality score.</p>
+        <pre><code>python scripts/marketplace.py list
+python scripts/marketplace.py install --platform codex --target-root ~/.tmp --apply
+python scripts/marketplace.py update --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply
+python scripts/marketplace.py rollback --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply</code></pre>
+      </section>
+
+      <section id="doctor">
+        <h2>Doctor</h2>
+        <p>The doctor checks registry and index sync, source metadata, dependencies, platform paths, trigger metadata, and installed versions.</p>
+        <pre><code>python scripts/marketplace.py doctor --platform codex --target-root ~/.tmp --strict</code></pre>
+      </section>
+
+      <section id="quality">
+        <h2>Quality</h2>
+        <p>Maintainers can scan pass rates, regressions, owners, last updates, lifecycle status, graph islands, cycles, and stage coverage.</p>
+        <ul>
+          <li><a href="../reports/quality-dashboard.md">Quality dashboard</a></li>
+          <li><a href="../reports/skill-graph-report.md">Skill graph report</a></li>
+          <li><a href="../reports/model-eval-report.md">Multi-model evaluation</a></li>
+        </ul>
+      </section>
+
+      <section id="replay">
+        <h2>Replay</h2>
+        <p>The public task library and replay dataset cover success, failure, and boundary cases for every registered skill.</p>
+        <pre><code>python scripts/generate_example_dataset.py --check
+python scripts/run_model_eval.py --check
+python scripts/verify_release.py</code></pre>
+      </section>
+
+      <section id="contribute">
+        <h2>Contribute</h2>
+        <p>Third-party skills enter through a schema, template, review checklist, security gates, CLA, and automated review bot.</p>
+        <ul>
+          <li><a href="third-party-skill-spec.md">Third-party skill specification</a></li>
+          <li><a href="review-checklist.md">Review checklist</a></li>
+          <li><a href="../CONTRIBUTING.md">Contribution guide</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="520" viewBox="0 0 720 520" role="img" aria-label="our-skills ecosystem map">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <rect x="42" y="48" width="636" height="424" fill="#f7f8fb" stroke="#d8deea"/>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" fill="#18202f">
+    <text x="76" y="96" font-size="26" font-weight="700">our-skills ecosystem</text>
+    <text x="76" y="132" fill="#536074">Portable skills, local marketplace, replay evidence, and governance gates.</text>
+  </g>
+  <g stroke="#116b5f" stroke-width="2" fill="none">
+    <path d="M360 176 L204 258"/>
+    <path d="M360 176 L516 258"/>
+    <path d="M204 258 L204 364"/>
+    <path d="M516 258 L516 364"/>
+    <path d="M204 364 L360 420"/>
+    <path d="M516 364 L360 420"/>
+  </g>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" text-anchor="middle">
+    <rect x="252" y="144" width="216" height="64" fill="#e9f6f3" stroke="#116b5f"/>
+    <text x="360" y="181" font-size="18" font-weight="700" fill="#116b5f">Marketplace Index</text>
+    <rect x="86" y="226" width="236" height="64" fill="#fff4ef" stroke="#a8422d"/>
+    <text x="204" y="263" font-size="18" font-weight="700" fill="#a8422d">Review Bot</text>
+    <rect x="398" y="226" width="236" height="64" fill="#edf2ff" stroke="#3659a8"/>
+    <text x="516" y="263" font-size="18" font-weight="700" fill="#3659a8">Replay Dataset</text>
+    <rect x="86" y="332" width="236" height="64" fill="#f5f7fb" stroke="#536074"/>
+    <text x="204" y="369" font-size="18" font-weight="700" fill="#536074">Quality Dashboard</text>
+    <rect x="398" y="332" width="236" height="64" fill="#f5f7fb" stroke="#536074"/>
+    <text x="516" y="369" font-size="18" font-weight="700" fill="#536074">Model Eval</text>
+    <rect x="252" y="396" width="216" height="64" fill="#e9f6f3" stroke="#116b5f"/>
+    <text x="360" y="433" font-size="18" font-weight="700" fill="#116b5f">Release Evidence</text>
+  </g>
+</svg>

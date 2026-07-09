@@ -1,0 +1,1163 @@
+{
+  "schema_version": 1,
+  "kind": "our-skills-marketplace-index",
+  "project": "our-skills",
+  "version": "3.0.0",
+  "release": "v3.0.0",
+  "generated_at": "2026-07-09",
+  "source_registry": "skills.json",
+  "source_registry_sha256": "79adb53bb7d4f1abad8444428de88fbc2334db4d792c6b3ba767da6b129b6e5d",
+  "platforms": [
+    {
+      "id": "hermes",
+      "display_name": "Hermes Agent",
+      "install_path_template": "~/.hermes/skills/<category>/<name>/SKILL.md",
+      "install_verification": [
+        "Category directory exists.",
+        "SKILL.md exists under <category>/<name>.",
+        "Frontmatter name equals registry name."
+      ],
+      "trigger_verification": [
+        "skill_view(name) resolves the installed skill.",
+        "A prompt containing a description trigger loads the skill.",
+        "Category mismatch is reported as a load failure."
+      ],
+      "failure_branch": "If category is missing or wrong, report the expected registry category and do not mark Hermes install as verified.",
+      "known_limits": [
+        "Requires category path segment.",
+        "version and metadata fields are useful for tracking."
+      ]
+    },
+    {
+      "id": "claude-code",
+      "display_name": "Claude Code",
+      "install_path_template": "~/.claude/skills/<name>/SKILL.md",
+      "install_verification": [
+        "Skill directory exists directly under ~/.claude/skills.",
+        "SKILL.md exists under <name>.",
+        "Frontmatter name equals registry name."
+      ],
+      "trigger_verification": [
+        "A new session discovers the skill.",
+        "A prompt containing a description trigger loads the skill.",
+        "Hermes-only metadata fields are ignored safely."
+      ],
+      "failure_branch": "If the skill does not appear in a new session, verify path shape before changing frontmatter.",
+      "known_limits": [
+        "Usually requires a new session after install."
+      ]
+    },
+    {
+      "id": "codex",
+      "display_name": "Codex",
+      "install_path_template": "~/.codex/skills/<name>/SKILL.md",
+      "install_verification": [
+        "Skill directory exists directly under ~/.codex/skills.",
+        "SKILL.md exists under <name>.",
+        "Frontmatter name equals registry name."
+      ],
+      "trigger_verification": [
+        "Skill list includes the installed skill.",
+        "A prompt containing a description trigger loads the skill.",
+        "Referenced files are read only after the skill triggers."
+      ],
+      "failure_branch": "If discovery fails, verify CODEX_HOME and the exact skills directory before editing skill content.",
+      "known_limits": [
+        "name and description frontmatter drive discovery."
+      ]
+    },
+    {
+      "id": "cursor",
+      "display_name": "Cursor",
+      "install_path_template": "~/.cursor/skills/<name>/SKILL.md",
+      "install_verification": [
+        "Skill directory exists under ~/.cursor/skills.",
+        "SKILL.md exists under <name>.",
+        "Large skills are not placed in always-loaded rules."
+      ],
+      "trigger_verification": [
+        "Cursor Skills trigger from description-matching prompts.",
+        "Cursor Rules are reserved for small always-loaded guidance.",
+        "Rules fallback documents token-cost tradeoffs."
+      ],
+      "failure_branch": "If a large skill was installed as a rule, move it to Cursor Skills and keep only tiny always-on guidance in rules.",
+      "known_limits": [
+        "Rules are always loaded.",
+        "Prefer Skills for files over 3k characters."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "skill-authoring-workflow",
+      "version": "1.5.0",
+      "path": "skill-authoring-workflow",
+      "type": "meta",
+      "category": "meta",
+      "summary": "Create SKILL.md files from requirements using quick and full authoring workflows.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [],
+      "soft_dependencies": [],
+      "dependents": [
+        "agent-config-reference",
+        "skill-pipeline-orchestrator",
+        "skill-review-workflow"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/meta/skill-authoring-workflow/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/skill-authoring-workflow/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/skill-authoring-workflow/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/skill-authoring-workflow/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "author"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-06",
+      "risk_level": "low"
+    },
+    {
+      "name": "skill-review-workflow",
+      "version": "1.1.0",
+      "path": "skill-review-workflow",
+      "type": "quality",
+      "category": "review",
+      "summary": "Review SKILL.md quality with a 23-item checklist and weighted scorecard.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "skill-authoring-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "agent-security-guard",
+        "skill-pipeline-orchestrator"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/review/skill-review-workflow/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/skill-review-workflow/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/skill-review-workflow/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/skill-review-workflow/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "review"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-07",
+      "risk_level": "low"
+    },
+    {
+      "name": "agent-security-guard",
+      "version": "1.0.0",
+      "path": "agent-security-guard",
+      "type": "security",
+      "category": "security",
+      "summary": "Gate risky operations, secret exposure, and shell-injection-prone actions.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "skill-review-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "code-review-workflow",
+        "incident-retro-workflow",
+        "observability-workflow",
+        "planning-workflow",
+        "requirements-clarifier",
+        "skill-pipeline-orchestrator",
+        "systematic-debugging",
+        "test-design-workflow"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/security/agent-security-guard/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/agent-security-guard/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/agent-security-guard/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/agent-security-guard/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "security"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-06",
+      "risk_level": "low"
+    },
+    {
+      "name": "cross-model-verification",
+      "version": "1.0.0",
+      "path": "cross-model-verification",
+      "type": "testing",
+      "category": "testing",
+      "summary": "Run adversarial second-opinion reviews with redaction and degraded-mode handling.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [],
+      "soft_dependencies": [],
+      "dependents": [
+        "code-review-workflow",
+        "incident-retro-workflow",
+        "observability-workflow",
+        "planning-workflow",
+        "requirements-clarifier",
+        "skill-pipeline-orchestrator",
+        "systematic-debugging",
+        "test-design-workflow"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/testing/cross-model-verification/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/cross-model-verification/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/cross-model-verification/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/cross-model-verification/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "verify"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-07",
+      "risk_level": "low"
+    },
+    {
+      "name": "skill-pipeline-orchestrator",
+      "version": "1.0.0",
+      "path": "skill-pipeline-orchestrator",
+      "type": "workflow",
+      "category": "workflow",
+      "summary": "Coordinate authoring, review, security, cross-check, package, and deployment stages.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-config-reference",
+        "agent-security-guard",
+        "cross-model-verification",
+        "git-workflow-for-agents",
+        "skill-authoring-workflow",
+        "skill-review-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/workflow/skill-pipeline-orchestrator/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/skill-pipeline-orchestrator/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/skill-pipeline-orchestrator/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/skill-pipeline-orchestrator/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "package",
+        "deploy"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    },
+    {
+      "name": "git-workflow-for-agents",
+      "version": "1.0.0",
+      "path": "git-workflow-for-agents",
+      "type": "git",
+      "category": "git",
+      "summary": "Standardize agent git workflows from status checks through PR creation.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [],
+      "soft_dependencies": [],
+      "dependents": [
+        "code-review-workflow",
+        "planning-workflow",
+        "skill-pipeline-orchestrator"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/git/git-workflow-for-agents/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/git-workflow-for-agents/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/git-workflow-for-agents/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/git-workflow-for-agents/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "git"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-07",
+      "risk_level": "low"
+    },
+    {
+      "name": "agent-config-reference",
+      "version": "1.0.0",
+      "path": "agent-config-reference",
+      "type": "reference",
+      "category": "reference",
+      "summary": "Reference platform-specific config, skill paths, migration, and troubleshooting.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "skill-authoring-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "skill-pipeline-orchestrator"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/reference/agent-config-reference/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/agent-config-reference/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/agent-config-reference/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/agent-config-reference/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "configure"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-06",
+      "risk_level": "low"
+    },
+    {
+      "name": "code-review-workflow",
+      "version": "1.0.0",
+      "path": "code-review-workflow",
+      "type": "review",
+      "category": "code-review",
+      "summary": "Review ordinary code, diffs, patches, and pull requests for bugs, risk, and missing tests.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-security-guard",
+        "cross-model-verification",
+        "git-workflow-for-agents",
+        "systematic-debugging",
+        "test-design-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/code-review/code-review-workflow/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/code-review-workflow/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/code-review-workflow/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/code-review-workflow/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "code-review"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    },
+    {
+      "name": "systematic-debugging",
+      "version": "1.0.0",
+      "path": "systematic-debugging",
+      "type": "debugging",
+      "category": "debugging",
+      "summary": "Reproduce, isolate, fix, and verify failures without guessing.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-security-guard",
+        "cross-model-verification",
+        "incident-retro-workflow",
+        "observability-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "code-review-workflow"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/debugging/systematic-debugging/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/systematic-debugging/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/systematic-debugging/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/systematic-debugging/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "debugging"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    },
+    {
+      "name": "test-design-workflow",
+      "version": "1.0.0",
+      "path": "test-design-workflow",
+      "type": "testing",
+      "category": "testing",
+      "summary": "Design risk-based success, failure, boundary, and regression tests for behavior changes.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-security-guard",
+        "cross-model-verification",
+        "observability-workflow",
+        "requirements-clarifier"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "code-review-workflow"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/testing/test-design-workflow/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/test-design-workflow/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/test-design-workflow/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/test-design-workflow/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "testing"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    },
+    {
+      "name": "requirements-clarifier",
+      "version": "1.0.0",
+      "path": "requirements-clarifier",
+      "type": "requirements",
+      "category": "requirements",
+      "summary": "Turn vague feature, bug, product, or workflow requests into testable acceptance criteria.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-security-guard",
+        "cross-model-verification",
+        "observability-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "test-design-workflow"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/requirements/requirements-clarifier/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/requirements-clarifier/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/requirements-clarifier/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/requirements-clarifier/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "requirements"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    },
+    {
+      "name": "planning-workflow",
+      "version": "1.0.0",
+      "path": "planning-workflow",
+      "type": "planning",
+      "category": "planning",
+      "summary": "Plan projects, migrations, refactors, releases, and risky multi-step work with validation gates.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-security-guard",
+        "cross-model-verification",
+        "git-workflow-for-agents",
+        "observability-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/planning/planning-workflow/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/planning-workflow/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/planning-workflow/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/planning-workflow/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "planning"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    },
+    {
+      "name": "observability-workflow",
+      "version": "1.0.0",
+      "path": "observability-workflow",
+      "type": "observability",
+      "category": "observability",
+      "summary": "Design logs, metrics, traces, alerts, dashboards, and health checks around failure modes.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-security-guard",
+        "cross-model-verification",
+        "incident-retro-workflow"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "planning-workflow",
+        "requirements-clarifier",
+        "systematic-debugging",
+        "test-design-workflow"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/observability/observability-workflow/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/observability-workflow/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/observability-workflow/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/observability-workflow/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "observability"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    },
+    {
+      "name": "incident-retro-workflow",
+      "version": "1.0.0",
+      "path": "incident-retro-workflow",
+      "type": "incident-retro",
+      "category": "incident-retro",
+      "summary": "Create blameless incident retros with timelines, impact, root causes, and verified action items.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null,
+      "dependencies": [
+        "agent-security-guard",
+        "cross-model-verification"
+      ],
+      "soft_dependencies": [],
+      "dependents": [
+        "observability-workflow",
+        "systematic-debugging"
+      ],
+      "platforms": [
+        {
+          "id": "hermes",
+          "display_name": "Hermes Agent",
+          "install_path": "~/.hermes/skills/incident-retro/incident-retro-workflow/SKILL.md",
+          "known_limits": [
+            "Requires category path segment.",
+            "version and metadata fields are useful for tracking."
+          ]
+        },
+        {
+          "id": "claude-code",
+          "display_name": "Claude Code",
+          "install_path": "~/.claude/skills/incident-retro-workflow/SKILL.md",
+          "known_limits": [
+            "Usually requires a new session after install."
+          ]
+        },
+        {
+          "id": "codex",
+          "display_name": "Codex",
+          "install_path": "~/.codex/skills/incident-retro-workflow/SKILL.md",
+          "known_limits": [
+            "name and description frontmatter drive discovery."
+          ]
+        },
+        {
+          "id": "cursor",
+          "display_name": "Cursor",
+          "install_path": "~/.cursor/skills/incident-retro-workflow/SKILL.md",
+          "known_limits": [
+            "Rules are always loaded.",
+            "Prefer Skills for files over 3k characters."
+          ]
+        }
+      ],
+      "stages": [
+        "incident-retro"
+      ],
+      "quality": {
+        "passed": 3,
+        "total": 3,
+        "pass_rate": 1.0,
+        "score": 100.0,
+        "case_types": [
+          "boundary",
+          "failure",
+          "success"
+        ],
+        "failures": [],
+        "regressions": []
+      },
+      "last_updated": "2026-07-08",
+      "risk_level": "low"
+    }
+  ]
+}

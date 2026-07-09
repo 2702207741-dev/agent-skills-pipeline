@@ -1,0 +1,49 @@
+﻿{
+  "schema_version": 1,
+  "release": "v1.5.0",
+  "semver": "1.5.0",
+  "date": "2026-07-08",
+  "artifact_name": "our-skills-v1.5.0.zip",
+  "release_type": "minor",
+  "summary": "Completes the trusted-distribution v1.5 line: 14 registered skills, replayable RigorBench traces, policy-backed security scans, release signing, SBOM/provenance sidecars, audited dry-run-first marketplace install/update/rollback, and one-command verification.",
+  "requires": {
+    "python": ">=3.10",
+    "bash": "optional, for scripts/install.sh only",
+    "git": "optional provenance source metadata"
+  },
+  "includes": [
+    "14 registered skill directories",
+    "skills.json registry at version 1.5.0",
+    "frontmatter version synchronization checks",
+    "fixture contracts and platform matrix",
+    "eval-runs replay traces",
+    "RigorBench replay baseline",
+    "marketplace manifest",
+    "skill graph snapshot",
+    "release migration and compatibility docs",
+    "release zip, manifest, checksum, SBOM, provenance, and signature",
+    "dangerous command allowlist/denylist policy",
+    "redaction and dangerous-command regression samples",
+    "validation, security, release, marketplace, and installer scripts"
+  ],
+  "gates": [
+    "python scripts/verify_release.py",
+    "python scripts/check_registry.py",
+    "python scripts/validate-skill.py <registered skill paths>",
+    "python scripts/run_fixture_checks.py",
+    "python scripts/security_scan.py",
+    "python scripts/run_rigorbench.py",
+    "python scripts/check_skill_graph.py",
+    "python scripts/create_release.py --output <dist>",
+    "python scripts/marketplace.py list",
+    "python scripts/marketplace.py install --platform codex --target-root <tmp> --apply",
+    "python scripts/marketplace.py update --platform codex --target-root <tmp> --skill skill-review-workflow --apply",
+    "python scripts/marketplace.py rollback --platform codex --target-root <tmp> --skill skill-review-workflow --apply"
+  ],
+  "supply_chain": {
+    "signature": "our-skills-v1.5.0.sig",
+    "sbom": "our-skills-v1.5.0.sbom.json",
+    "provenance": "our-skills-v1.5.0.provenance.json",
+    "audit_log": ".our-skills-audit/events.jsonl"
+  }
+}

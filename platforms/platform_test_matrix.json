@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "purpose": "Cross-platform install and trigger verification matrix for every registered skill.",
+  "coverage_policy": "Apply each platform row to all entries in skills.json; this matrix tests the platform adapter layer, not individual skill behavior.",
+  "platforms": [
+    {
+      "id": "hermes",
+      "display_name": "Hermes Agent",
+      "install_path_template": "~/.hermes/skills/<category>/<name>/SKILL.md",
+      "install_verification": [
+        "Category directory exists.",
+        "SKILL.md exists under <category>/<name>.",
+        "Frontmatter name equals registry name."
+      ],
+      "trigger_verification": [
+        "skill_view(name) resolves the installed skill.",
+        "A prompt containing a description trigger loads the skill.",
+        "Category mismatch is reported as a load failure."
+      ],
+      "failure_branch": "If category is missing or wrong, report the expected registry category and do not mark Hermes install as verified.",
+      "known_limits": ["Requires category path segment.", "version and metadata fields are useful for tracking."]
+    },
+    {
+      "id": "claude-code",
+      "display_name": "Claude Code",
+      "install_path_template": "~/.claude/skills/<name>/SKILL.md",
+      "install_verification": [
+        "Skill directory exists directly under ~/.claude/skills.",
+        "SKILL.md exists under <name>.",
+        "Frontmatter name equals registry name."
+      ],
+      "trigger_verification": [
+        "A new session discovers the skill.",
+        "A prompt containing a description trigger loads the skill.",
+        "Hermes-only metadata fields are ignored safely."
+      ],
+      "failure_branch": "If the skill does not appear in a new session, verify path shape before changing frontmatter.",
+      "known_limits": ["Usually requires a new session after install."]
+    },
+    {
+      "id": "codex",
+      "display_name": "Codex",
+      "install_path_template": "~/.codex/skills/<name>/SKILL.md",
+      "install_verification": [
+        "Skill directory exists directly under ~/.codex/skills.",
+        "SKILL.md exists under <name>.",
+        "Frontmatter name equals registry name."
+      ],
+      "trigger_verification": [
+        "Skill list includes the installed skill.",
+        "A prompt containing a description trigger loads the skill.",
+        "Referenced files are read only after the skill triggers."
+      ],
+      "failure_branch": "If discovery fails, verify CODEX_HOME and the exact skills directory before editing skill content.",
+      "known_limits": ["name and description frontmatter drive discovery."]
+    },
+    {
+      "id": "cursor",
+      "display_name": "Cursor",
+      "install_path_template": "~/.cursor/skills/<name>/SKILL.md",
+      "install_verification": [
+        "Skill directory exists under ~/.cursor/skills.",
+        "SKILL.md exists under <name>.",
+        "Large skills are not placed in always-loaded rules."
+      ],
+      "trigger_verification": [
+        "Cursor Skills trigger from description-matching prompts.",
+        "Cursor Rules are reserved for small always-loaded guidance.",
+        "Rules fallback documents token-cost tradeoffs."
+      ],
+      "failure_branch": "If a large skill was installed as a rule, move it to Cursor Skills and keep only tiny always-on guidance in rules.",
+      "known_limits": ["Rules are always loaded.", "Prefer Skills for files over 3k characters."]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "release": "v2.0.0",
+  "semver": "2.0.0",
+  "date": "2026-07-08",
+  "artifact_name": "our-skills-v2.0.0.zip",
+  "release_type": "major-local-milestone",
+  "public_publish": false,
+  "public_publish_target": "v3.0.0",
+  "summary": "Promotes our-skills from a repository to a local skill platform with a marketplace index, install doctor, graph report, quality dashboard, release report sidecars, and lifecycle/deprecation policy.",
+  "requires": {
+    "python": ">=3.10",
+    "bash": "optional, for scripts/install.sh only",
+    "git": "optional provenance source metadata and dashboard last-updated fields"
+  },
+  "includes": [
+    "14 registered skill directories",
+    "skills.json registry at project version 2.0.0",
+    "marketplace/index.json local marketplace index",
+    "scripts/marketplace.py doctor command",
+    "reports/quality-dashboard.json and reports/quality-dashboard.md",
+    "reports/skill-graph-report.json and reports/skill-graph-report.md",
+    "release marketplace index, quality dashboard, and graph report sidecars",
+    "deprecation policy with owner, status, deprecated, replaced_by, and migration_path metadata",
+    "one-command verification including platform report freshness and doctor strict checks"
+  ],
+  "gates": [
+    "python scripts/verify_release.py",
+    "python scripts/generate_platform_reports.py --check",
+    "python scripts/marketplace.py list",
+    "python scripts/marketplace.py doctor --platform codex --target-root <tmp> --strict",
+    "python scripts/create_release.py --output <dist>"
+  ],
+  "platform": {
+    "marketplace_index": "marketplace/index.json",
+    "quality_dashboard": "reports/quality-dashboard.json",
+    "skill_graph_report": "reports/skill-graph-report.json",
+    "doctor": "python scripts/marketplace.py doctor"
+  }
+}

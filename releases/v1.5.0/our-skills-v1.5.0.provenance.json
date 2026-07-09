@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "predicate_type": "our-skills-release-provenance-v1",
+  "release": "v1.5.0",
+  "generated_at": "2026-07-08",
+  "subject": {
+    "artifact": "our-skills-v1.5.0.zip",
+    "artifact_sha256": "f311657ff266279652fc01e6f9b0c053e398cdc5297f72469b5bb3c75a3c03e7",
+    "manifest": "our-skills-v1.5.0.manifest.json",
+    "manifest_sha256": "0d65fbd68852084e8bdceca64f6568f14a9d2b6a199a082c39b781b1e0a1e84a",
+    "checksum": "our-skills-v1.5.0.sha256",
+    "checksum_sha256": "9c9ba8c59f1fd67f1ee6dd81ca09659bccc227cca930fa7e3792fd69a1e600ba",
+    "sbom": "our-skills-v1.5.0.sbom.json",
+    "sbom_sha256": "e16eb43529c41b1e30d8875b2b2791e0c8c6cd0c8e9fbf7a434c66615bfea78e"
+  },
+  "source": {
+    "project": "our-skills",
+    "version": "1.5.0",
+    "registry_sha256": "2f28b3d9347e0dad9a6c09d50bce808a9e8583e4357424ffdf55c7ed1e978ee0",
+    "git_commit": "0a9cc86603997e7ef79c5516fff69ba4d553163e",
+    "git_tags_at_head": [
+      "v1.5.0"
+    ],
+    "git_dirty": false,
+    "source_file_count": 54,
+    "source_tree_sha256": "fc19b3a64b969eca7bff3972145de7d5fc6e4f57342bc1b2a8fd3ea0e526725c"
+  },
+  "builder": {
+    "script": "scripts/create_release.py",
+    "script_sha256": "a53acbc8e82e3bcbf2ffd08dc3dbc26ac3627b7a5738bdef02c200258adb0bac",
+    "python": "3.11.9"
+  }
+}

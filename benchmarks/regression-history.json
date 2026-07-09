@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "suite": "our-skills-rigorbench",
+  "history": [
+    {
+      "release": "v1.1.0",
+      "date": "2026-07-07",
+      "source": "fixtures/skill_e2e_cases.json",
+      "results": {
+        "skill-authoring-workflow": {
+          "passed": 2,
+          "total": 2,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-review-workflow": {
+          "passed": 2,
+          "total": 2,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-security-guard": {
+          "passed": 2,
+          "total": 2,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "cross-model-verification": {
+          "passed": 2,
+          "total": 2,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-pipeline-orchestrator": {
+          "passed": 2,
+          "total": 2,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "git-workflow-for-agents": {
+          "passed": 2,
+          "total": 2,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-config-reference": {
+          "passed": 2,
+          "total": 2,
+          "pass_rate": 1.0,
+          "regressions": []
+        }
+      }
+    },
+    {
+      "release": "v1.3-e2e-harness",
+      "date": "2026-07-07",
+      "source": "eval-runs/rigorbench-v1.3/traces.json",
+      "results": {
+        "skill-authoring-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-review-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-security-guard": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "cross-model-verification": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-pipeline-orchestrator": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "git-workflow-for-agents": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-config-reference": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        }
+      }
+    },
+    {
+      "release": "v1.4-general-agent-domains",
+      "date": "2026-07-08",
+      "source": "eval-runs/rigorbench-v1.3/traces.json",
+      "results": {
+        "skill-authoring-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-review-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-security-guard": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "cross-model-verification": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-pipeline-orchestrator": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "git-workflow-for-agents": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-config-reference": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "code-review-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "systematic-debugging": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "test-design-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "requirements-clarifier": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "planning-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "observability-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "incident-retro-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        }
+      }
+    },
+    {
+      "release": "v2.0-skill-platform",
+      "date": "2026-07-08",
+      "source": "eval-runs/rigorbench-v1.3/traces.json",
+      "results": {
+        "skill-authoring-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-review-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-security-guard": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "cross-model-verification": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-pipeline-orchestrator": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "git-workflow-for-agents": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-config-reference": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "code-review-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "systematic-debugging": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "test-design-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "requirements-clarifier": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "planning-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "observability-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "incident-retro-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        }
+      }
+    },
+    {
+      "release": "v3.0-ecosystem-entry",
+      "date": "2026-07-08",
+      "source": "eval-runs/rigorbench-v1.3/traces.json",
+      "results": {
+        "skill-authoring-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-review-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-security-guard": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "cross-model-verification": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "skill-pipeline-orchestrator": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "git-workflow-for-agents": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "agent-config-reference": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "code-review-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "systematic-debugging": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "test-design-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "requirements-clarifier": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "planning-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "observability-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        },
+        "incident-retro-workflow": {
+          "passed": 3,
+          "total": 3,
+          "pass_rate": 1.0,
+          "regressions": []
+        }
+      }
+    }
+  ]
+}

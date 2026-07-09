@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "release": "v1.1.0",
+  "version": "1.1.0",
+  "created_at": "2026-07-07",
+  "artifact": "our-skills-v1.1.0.zip",
+  "sha256": "0469485bf9f404b011d6cef2b303357df80696643ffa81e175335478aa2bf01d",
+  "skills": [
+    {
+      "name": "skill-authoring-workflow",
+      "version": "1.5.0",
+      "path": "skill-authoring-workflow",
+      "category": "meta"
+    },
+    {
+      "name": "skill-review-workflow",
+      "version": "1.1.0",
+      "path": "skill-review-workflow",
+      "category": "review"
+    },
+    {
+      "name": "agent-security-guard",
+      "version": "1.0.0",
+      "path": "agent-security-guard",
+      "category": "security"
+    },
+    {
+      "name": "cross-model-verification",
+      "version": "1.0.0",
+      "path": "cross-model-verification",
+      "category": "testing"
+    },
+    {
+      "name": "skill-pipeline-orchestrator",
+      "version": "1.0.0",
+      "path": "skill-pipeline-orchestrator",
+      "category": "workflow"
+    },
+    {
+      "name": "git-workflow-for-agents",
+      "version": "1.0.0",
+      "path": "git-workflow-for-agents",
+      "category": "git"
+    },
+    {
+      "name": "agent-config-reference",
+      "version": "1.0.0",
+      "path": "agent-config-reference",
+      "category": "reference"
+    }
+  ]
+}

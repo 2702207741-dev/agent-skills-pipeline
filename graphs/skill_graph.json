@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "purpose": "Skill dependency and collaboration graph. Hard edges are blocking load/dependency edges; soft edges are workflow collaboration edges.",
+  "required_stages": [
+    "author",
+    "review",
+    "security",
+    "verify",
+    "package",
+    "deploy",
+    "configure",
+    "git",
+    "code-review",
+    "debugging",
+    "testing",
+    "requirements",
+    "planning",
+    "observability",
+    "incident-retro"
+  ],
+  "nodes": [
+    {
+      "id": "skill-authoring-workflow",
+      "stages": [
+        "author"
+      ]
+    },
+    {
+      "id": "skill-review-workflow",
+      "stages": [
+        "review"
+      ]
+    },
+    {
+      "id": "agent-security-guard",
+      "stages": [
+        "security"
+      ]
+    },
+    {
+      "id": "cross-model-verification",
+      "stages": [
+        "verify"
+      ]
+    },
+    {
+      "id": "skill-pipeline-orchestrator",
+      "stages": [
+        "package",
+        "deploy"
+      ]
+    },
+    {
+      "id": "git-workflow-for-agents",
+      "stages": [
+        "git"
+      ]
+    },
+    {
+      "id": "agent-config-reference",
+      "stages": [
+        "configure"
+      ]
+    },
+    {
+      "id": "code-review-workflow",
+      "stages": [
+        "code-review"
+      ]
+    },
+    {
+      "id": "systematic-debugging",
+      "stages": [
+        "debugging"
+      ]
+    },
+    {
+      "id": "test-design-workflow",
+      "stages": [
+        "testing"
+      ]
+    },
+    {
+      "id": "requirements-clarifier",
+      "stages": [
+        "requirements"
+      ]
+    },
+    {
+      "id": "planning-workflow",
+      "stages": [
+        "planning"
+      ]
+    },
+    {
+      "id": "observability-workflow",
+      "stages": [
+        "observability"
+      ]
+    },
+    {
+      "id": "incident-retro-workflow",
+      "stages": [
+        "incident-retro"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "skill-review-workflow",
+      "to": "skill-authoring-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "agent-security-guard",
+      "to": "skill-review-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "agent-config-reference",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "git-workflow-for-agents",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "skill-authoring-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "skill-review-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "skill-authoring-workflow",
+      "type": "hard",
+      "source": "Loads"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "skill-review-workflow",
+      "type": "hard",
+      "source": "Loads"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "Loads"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "Loads"
+    },
+    {
+      "from": "skill-pipeline-orchestrator",
+      "to": "agent-config-reference",
+      "type": "hard",
+      "source": "Loads"
+    },
+    {
+      "from": "agent-config-reference",
+      "to": "skill-authoring-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "code-review-workflow",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "code-review-workflow",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "code-review-workflow",
+      "to": "git-workflow-for-agents",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "code-review-workflow",
+      "to": "systematic-debugging",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "code-review-workflow",
+      "to": "test-design-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "systematic-debugging",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "systematic-debugging",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "systematic-debugging",
+      "to": "incident-retro-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "systematic-debugging",
+      "to": "observability-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "test-design-workflow",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "test-design-workflow",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "test-design-workflow",
+      "to": "observability-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "test-design-workflow",
+      "to": "requirements-clarifier",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "requirements-clarifier",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "requirements-clarifier",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "requirements-clarifier",
+      "to": "observability-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "planning-workflow",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "planning-workflow",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "planning-workflow",
+      "to": "git-workflow-for-agents",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "planning-workflow",
+      "to": "observability-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "observability-workflow",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "observability-workflow",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "observability-workflow",
+      "to": "incident-retro-workflow",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "incident-retro-workflow",
+      "to": "agent-security-guard",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    },
+    {
+      "from": "incident-retro-workflow",
+      "to": "cross-model-verification",
+      "type": "hard",
+      "source": "metadata.related_skills"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "our-skills-model-matrix",
+  "version": "3.0.0",
+  "evaluation_mode": "deterministic replay by default; live adapters may be added without changing the dataset",
+  "models": [
+    {
+      "id": "codex",
+      "display_name": "Codex",
+      "provider": "OpenAI",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "notes": ["Primary local development and code workflow evaluator."]
+    },
+    {
+      "id": "claude",
+      "display_name": "Claude",
+      "provider": "Anthropic",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "notes": ["Reference ecosystem direction for portable skills."]
+    },
+    {
+      "id": "gemini",
+      "display_name": "Gemini",
+      "provider": "Google",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "notes": ["Cross-provider compatibility evaluator."]
+    },
+    {
+      "id": "local-model",
+      "display_name": "Local Model",
+      "provider": "Local",
+      "mode": "replay-adapter",
+      "status": "enabled",
+      "notes": ["Offline baseline for private or air-gapped environments."]
+    }
+  ]
+}

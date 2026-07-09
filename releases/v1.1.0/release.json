@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "release": "v1.1.0",
+  "semver": "1.1.0",
+  "date": "2026-07-07",
+  "artifact_name": "our-skills-v1.1.0.zip",
+  "release_type": "minor",
+  "summary": "Adds production-readiness automation: registry validation, end-to-end fixtures, platform matrix, security scans, release packaging, benchmark baseline, marketplace installer, and skill graph checks.",
+  "requires": {
+    "python": ">=3.10",
+    "bash": "for scripts/install.sh only"
+  },
+  "includes": [
+    "7 registered skill directories",
+    "skills.json registry",
+    "fixture contracts",
+    "platform test matrix",
+    "blank-domain roadmap",
+    "RigorBench baseline",
+    "marketplace manifest",
+    "skill graph snapshot",
+    "release migration and compatibility docs",
+    "validation and installer scripts"
+  ],
+  "gates": [
+    "python scripts/check_registry.py",
+    "python scripts/validate-skill.py */SKILL.md",
+    "python scripts/run_fixture_checks.py",
+    "python scripts/security_scan.py",
+    "python scripts/run_rigorbench.py",
+    "python scripts/check_skill_graph.py",
+    "python scripts/create_release.py --output <dist>",
+    "python scripts/marketplace.py list"
+  ]
+}
