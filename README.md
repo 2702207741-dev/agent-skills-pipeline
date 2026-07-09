@@ -1,17 +1,59 @@
-# AI Agent Skills — 14-Skill Registry
+# Agent Skills Pipeline
 
-AI agent skill 套件。`skills.json` 是唯一 registry，当前登记 14 个 skill，覆盖 skill 工程自身，也覆盖 code review、debugging、testing、requirements、planning、observability 和 incident retro 等通用 agent 工作流。
+An open-source skill infrastructure layer for Codex and other coding agents.
 
-## Open Source Upload
+`our-skills` turns agent skills from loose prompt snippets into governed, testable, installable assets. The repository contains a 14-skill registry covering skill engineering plus day-to-day maintainer work: code review, debugging, test design, requirements clarification, planning, observability, incident retros, git workflow, security, verification, and configuration.
 
-This repository is ready to publish as an open-source GitHub project.
+## Why This Exists
 
-- Upload or push the repository root: `C:\Users\86178\Desktop\github\our-skills`.
-- Do not upload the parent folder `C:\Users\86178\Desktop\github`; it only contains this repository.
-- The project uses the MIT license in `LICENSE`.
-- Before publishing, run `python scripts/verify_release.py` from the repository root.
-- For a lighter public-upload check, run `python scripts/check_publication_ready.py`.
-- If you use GitHub web upload, upload the tracked project files and omit `.git/`, local caches, and temporary build directories.
+Maintainers increasingly use coding agents for review, triage, debugging, release prep, and security checks. Those workflows need more than good prompts: they need a registry, reproducible evidence, security gates, install/update/rollback behavior, and clear contribution rules.
+
+This project packages those pieces together:
+
+- **14 production-ready skills** listed in `skills.json`.
+- **42 replayable E2E traces** in `eval-runs/rigorbench-v1.3/traces.json`, covering success, failure, and boundary cases for every skill.
+- **RigorBench replay checks** that score execution evidence rather than only static contracts.
+- **Security and supply-chain gates** for secret scanning, dangerous-command policy, redaction regression cases, SBOM, provenance, checksums, and release signatures.
+- **Marketplace-style installation** with dry-run defaults, diff-before-write, install/update/rollback, doctor checks, and audit logs.
+- **Contributor infrastructure** with CI, review bot, issue templates, PR checklist, CODEOWNERS, CLA, security policy, and third-party skill intake schema.
+
+For a short reviewer-oriented summary, see [`OSS_REVIEW.md`](OSS_REVIEW.md).
+
+## Quick Verification
+
+Fresh clone, one command:
+
+```bash
+python scripts/verify_release.py
+```
+
+That command runs the registry, format, fixture, security, RigorBench, graph, platform, ecosystem, release archive, publication-readiness, packaging, artifact, marketplace, install/update/rollback, and review-bot gates.
+
+For a lighter public-upload check:
+
+```bash
+python scripts/check_publication_ready.py
+```
+
+## Current Evidence
+
+| Area | Evidence |
+|---|---|
+| Registry | `skills.json` is the single source of truth for 14 active skills. |
+| E2E harness | `eval-runs/rigorbench-v1.3/traces.json` stores 42 replayable traces. |
+| Quality | `reports/quality-dashboard.md` reports 14 skills, 1.00 average pass rate, 0 regressions. |
+| Model replay | `reports/model-eval-report.md` covers Codex, Claude, Gemini, and local-model replay adapters. |
+| Skill graph | `reports/skill-graph-report.md` checks dependencies, hard cycles, isolated skills, and stage coverage. |
+| Release evidence | `releases/v3.0.0/` keeps manifest, checksum, SBOM, provenance, signature, marketplace index, dashboard, graph, and model-eval sidecars. |
+| Marketplace | `scripts/marketplace.py` supports `list`, `install`, `update`, `rollback`, and `doctor`. |
+| Public project hygiene | MIT license, contributing guide, code of conduct, security policy, CLA, CI, review bot, issue templates, and PR template are included. |
+
+## Repository Status
+
+- Current milestone: **v3.0.0 ecosystem-ready baseline**.
+- License: **MIT**.
+- Runtime dependencies: Python standard library for validation/release scripts; Bash/coreutils for `scripts/install.sh`.
+- Publishing policy: release publishing and public tag operations remain explicit maintainer actions.
 
 ## Skill 概览
 

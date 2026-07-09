@@ -1,0 +1,26 @@
+name: Skill Review Bot
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run review bot
+        run: python scripts/review_bot.py --all --check --output reports/review-bot-report.json
+
+      - name: Upload review report
+        uses: actions/upload-artifact@v4
+        with:
+          name: review-bot-report
+          path: reports/review-bot-report.json

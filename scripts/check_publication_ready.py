@@ -12,6 +12,7 @@ MAX_PUBLIC_FILE_BYTES = 50 * 1024 * 1024
 
 REQUIRED_FILES = [
     "README.md",
+    "OSS_REVIEW.md",
     "LICENSE",
     "CHANGELOG.md",
     "CONTRIBUTING.md",

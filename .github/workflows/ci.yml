@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Check registry
+        run: python scripts/check_registry.py
+
+      - name: Validate skills
+        run: python scripts/validate-skill.py */SKILL.md
+
+      - name: Check fixtures and matrix
+        run: python scripts/run_fixture_checks.py
+
+      - name: Security scan
+        run: python scripts/security_scan.py
+
+      - name: Replay RigorBench E2E traces
+        run: python scripts/run_rigorbench.py
+
+      - name: Check skill graph
+        run: python scripts/check_skill_graph.py
+
+      - name: Check platform reports
+        run: python scripts/generate_platform_reports.py --check
+
+      - name: Check example datasets
+        run: python scripts/generate_example_dataset.py --check
+
+      - name: Check multi-model replay evaluation
+        run: python scripts/run_model_eval.py --check
+
+      - name: Check ecosystem assets
+        run: python scripts/check_ecosystem.py
+
+      - name: Check release archive
+        run: python scripts/check_release_archive.py
+
+      - name: Check publication readiness
+        run: python scripts/check_publication_ready.py
+
+      - name: Run review bot
+        run: python scripts/review_bot.py --all --check --output "$RUNNER_TEMP/review-bot-report.json"
+
+      - name: Check whitespace
+        run: git diff --check
+
+      - name: Package smoke test
+        run: |
+          mkdir -p dist-smoke
+          python scripts/package_skill.py --all dist-smoke
+          EXPECTED="$(python -c 'import json; print(len(json.load(open("skills.json"))["skills"]))')"
+          test "$(find dist-smoke -name '*.zip' | wc -l)" -eq "$EXPECTED"
+
+      - name: Release artifact smoke test
+        run: |
+          mkdir -p dist-release
+          python scripts/create_release.py --output dist-release
+          RELEASE="$(python -c 'import json; print("v" + json.load(open("skills.json"))["version"])')"
+          test -f "dist-release/our-skills-$RELEASE.zip"
+          test -f "dist-release/our-skills-$RELEASE.manifest.json"
+          test -f "dist-release/our-skills-$RELEASE.sha256"
+          test -f "dist-release/our-skills-$RELEASE.sbom.json"
+          test -f "dist-release/our-skills-$RELEASE.provenance.json"
+          test -f "dist-release/our-skills-$RELEASE.sig"
+          test -f "dist-release/our-skills-$RELEASE.marketplace-index.json"
+          test -f "dist-release/our-skills-$RELEASE.quality-dashboard.json"
+          test -f "dist-release/our-skills-$RELEASE.skill-graph-report.json"
+          test -f "dist-release/our-skills-$RELEASE.model-eval-report.json"
+
+      - name: Marketplace smoke test
+        run: |
+          python scripts/marketplace.py list
+          export MARKET_HOME="$RUNNER_TEMP/marketplace-home"
+          python scripts/marketplace.py install --platform codex --target-root "$MARKET_HOME" --apply
+          python scripts/marketplace.py doctor --platform codex --target-root "$MARKET_HOME" --strict
+          test -f "$MARKET_HOME/.codex/skills/skill-review-workflow/SKILL.md"
+          python scripts/marketplace.py update --platform codex --target-root "$MARKET_HOME" --skill skill-review-workflow --apply
+          python scripts/marketplace.py rollback --platform codex --target-root "$MARKET_HOME" --skill skill-review-workflow --apply
+          test -f "$MARKET_HOME/.our-skills-audit/events.jsonl"
+
+      - name: One-command release verification
+        run: python scripts/verify_release.py
+
+      - name: Install dry-run
+        run: |
+          export HOME="$RUNNER_TEMP/home"
+          mkdir -p "$HOME/.codex/skills"
+          bash scripts/install.sh --dry-run

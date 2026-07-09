@@ -1,0 +1,33 @@
+name: Skill proposal
+description: Propose a new portable skill.
+title: "Skill proposal: "
+labels: ["skill-proposal"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Skill name
+      description: Lowercase kebab-case name.
+    validations:
+      required: true
+  - type: textarea
+    id: trigger
+    attributes:
+      label: Trigger
+      description: What user requests should load this skill?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Success, failure, and boundary examples.
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security notes
+      description: Secrets, destructive actions, external network, and data classification.
+    validations:
+      required: true
