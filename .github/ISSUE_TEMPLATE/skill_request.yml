@@ -1,5 +1,5 @@
 name: Skill proposal
-description: Propose a new portable skill.
+description: Propose a portable skill with a maintainable trigger and evidence plan.
 title: "Skill proposal: "
 labels: ["skill-proposal"]
 body:
@@ -11,6 +11,13 @@ body:
     validations:
       required: true
   - type: textarea
+    id: maintainer_problem
+    attributes:
+      label: Maintainer problem and desired outcome
+      description: State the repeated OSS task, who needs it, and the observable outcome.
+    validations:
+      required: true
+  - type: textarea
     id: trigger
     attributes:
       label: Trigger
@@ -18,12 +25,42 @@ body:
     validations:
       required: true
   - type: textarea
+    id: non_trigger
+    attributes:
+      label: Do not trigger when
+      description: Name adjacent requests that should use another skill or no skill.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Existing skills and alternatives considered
+      description: Link related skills and explain why this is not duplicate scope.
+    validations:
+      required: true
+  - type: textarea
     id: evidence
     attributes:
       label: Evidence
-      description: Success, failure, and boundary examples.
+      description: Provide a success, failure, and boundary case plus fixture and replay-record plans.
     validations:
       required: true
+  - type: textarea
+    id: ownership
+    attributes:
+      label: Ownership and lifecycle
+      description: Name an owner, expected maintenance cadence, and deprecation or migration path if applicable.
+    validations:
+      required: true
+  - type: checkboxes
+    id: compatibility
+    attributes:
+      label: Platform compatibility considered
+      options:
+        - label: Codex
+        - label: Claude Code
+        - label: Cursor
+        - label: Hermes
   - type: textarea
     id: security
     attributes:
@@ -31,3 +68,10 @@ body:
       description: Secrets, destructive actions, external network, and data classification.
     validations:
       required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I will not include credentials, private repository content, or unredacted logs in examples or evidence.
+          required: true

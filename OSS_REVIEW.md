@@ -2,6 +2,19 @@
 
 This repository is an agent skill infrastructure project for Codex-style coding agents.
 
+## v3.1 Fast Path
+
+In under a minute, a reviewer can establish the project scope and verify its
+maintenance posture:
+
+1. Read the [Codex for OSS Case Study](docs/codex-for-oss-case-study.md) for
+   the problem, evidence, and honest scope boundary.
+2. Inspect [AGENTS.md](AGENTS.md) and the
+   [Maintainer Workflows](docs/maintainer-workflows.md) for explicit Codex
+   review, release, and security behavior.
+3. Run `python scripts/verify_release.py`, then inspect the
+   [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).
+
 ## Project in One Sentence
 
 `our-skills` makes agent workflows reviewable and repeatable by combining a skill registry, replayable execution traces, security gates, release evidence, marketplace-style installation, and contributor review automation.

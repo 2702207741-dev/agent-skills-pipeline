@@ -1,15 +1,44 @@
 # Agent Skills Pipeline
 
 [![CI](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/badge/release-v3.0.0-blue)](releases/v3.0.0/)
+[![Release](https://img.shields.io/badge/release-v3.0.0-blue)](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-An open-source infrastructure layer for Codex-style coding agents.
+**Governed, replayable maintenance infrastructure for open-source coding agents.**
 
 `our-skills` turns agent skills from loose prompt snippets into governed, testable,
 installable assets. It combines a skill registry, replayable execution evidence,
 security gates, release provenance, marketplace-style installation, and
 contributor review automation.
+
+This is not a prompt collection or a demo. It is an operating layer that makes
+agent-assisted OSS maintenance inspectable before it is trusted.
+
+## 60-Second Review
+
+**One sentence:** `our-skills` gives maintainers a verifiable way to review,
+test, secure, package, install, roll back, and govern coding-agent skills.
+
+### Three Commands
+
+```bash
+python scripts/verify_release.py
+python scripts/marketplace.py list
+python scripts/marketplace.py install --platform codex --target-root ./our-skills-preview
+```
+
+The first command reproduces the full gate from a fresh clone. The third command
+is a dry run: it previews installation and does not write without `--apply`.
+
+### Three Evidence Links
+
+- [42 replayable RigorBench traces](eval-runs/rigorbench-v1.3/traces.json)
+- [v3.0.0 release artifact, manifest, checksum, SBOM, provenance, and signature](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
+- [CI validation workflow](.github/workflows/ci.yml)
+
+For the reviewer narrative, read the [Codex for OSS Case Study](docs/codex-for-oss-case-study.md).
+For the operating rules, read [AGENTS.md](AGENTS.md) and the
+[Maintainer Workflows](docs/maintainer-workflows.md).
 
 ## Why Maintainers Should Care
 
@@ -31,7 +60,7 @@ prompt. They need a repeatable operating layer:
 
 ## Current Release
 
-**v3.0.0** is the ecosystem-ready baseline.
+**[v3.0.0](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)** is the ecosystem-ready baseline.
 
 It includes:
 
@@ -44,7 +73,8 @@ It includes:
   provenance, signature, marketplace index, quality dashboard, skill graph, and
   model-eval sidecars.
 
-For a reviewer-focused one-page summary, see [OSS_REVIEW.md](OSS_REVIEW.md).
+For a compact reviewer path, see [OSS_REVIEW.md](OSS_REVIEW.md), then the
+[Codex for OSS Case Study](docs/codex-for-oss-case-study.md).
 
 ## One-Command Verification
 
@@ -221,11 +251,18 @@ copied around as isolated prompts.
 | v1.5 | Security and supply chain hardening | Signed artifacts, SBOM, dry-run installer, redaction and command-policy regressions. |
 | v2.0 | Skill platform | Marketplace index, doctor, quality dashboard, graph report, lifecycle policy. |
 | v3.0 | Ecosystem entry | Docs site, third-party spec, review bot, multi-model replay, community gates. |
+| v3.1 | Reviewer confidence | Codex operating rules, maintainer workflows, evidence-led case study, and contribution templates. |
+| v3.2 | Real Codex maintenance evidence | Replayable records for PR review, issue triage, release, and security/code-quality work. |
+| v3.3 | Strong supply-chain assurance | OIDC provenance, standard OSS security tools, stronger signing, and a threat model. |
+| v4.0 | External adoption | Quickstart, external-repository examples, reusable GitHub Action, and an end-to-end maintainer demo. |
 
 ## Limitations
 
 - The current multi-model report uses deterministic replay adapters, not live
   API calls. That keeps CI reproducible and avoids requiring provider secrets.
+- v3.1 defines how Codex should assist maintainers; it does not claim that the
+  current 42 RigorBench records are historical live Codex sessions. v3.2 will
+  retain real maintenance evidence with human adoption decisions.
 - The signature is a deterministic SHA-256 signature over canonical provenance,
   not yet a hardware-backed or Sigstore identity.
 - The marketplace installer is local-first. Remote registry federation is a

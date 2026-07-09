@@ -13,15 +13,19 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 REQUIRED_FILES = [
+    "AGENTS.md",
     "docs/index.html",
     "docs/styles.css",
     "docs/assets/ecosystem-map.svg",
     "docs/third-party-skill-spec.md",
     "docs/review-checklist.md",
+    "docs/codex-for-oss-case-study.md",
+    "docs/maintainer-workflows.md",
     "CONTRIBUTING.md",
     "CLA.md",
     "SECURITY.md",
     ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/ISSUE_TEMPLATE/config.yml",
     ".github/CODEOWNERS",
     ".github/workflows/skill-review-bot.yml",
     "schemas/third-party-skill.schema.json",
@@ -32,6 +36,34 @@ REQUIRED_FILES = [
     "reports/model-eval-report.json",
     "reports/model-eval-report.md",
 ]
+
+
+REQUIRED_MARKERS = {
+    "README.md": (
+        "## 60-Second Review",
+        "### Three Commands",
+        "### Three Evidence Links",
+        "Codex for OSS Case Study",
+        "releases/tag/v3.0.0",
+    ),
+    "AGENTS.md": (
+        "## Review Behavior",
+        "## Release Behavior",
+        "## Security Behavior",
+    ),
+    "docs/codex-for-oss-case-study.md": (
+        "## The Maintainer Problem",
+        "## Why Codex Fits",
+        "## Evidence Already in This Repository",
+        "## Next: Real Maintenance Evidence",
+    ),
+    "docs/maintainer-workflows.md": (
+        "## Pull Request Review",
+        "## Issue Triage",
+        "## Release Workflow",
+        "## Security Audit",
+    ),
+}
 
 
 def load_json(path: str) -> Any:
@@ -86,6 +118,12 @@ def main() -> int:
     for marker in ("Marketplace", "Doctor", "Quality", "Contribute", "Replay"):
         if marker not in docs:
             failures.append(f"docs site missing section marker: {marker}")
+
+    for rel, markers in REQUIRED_MARKERS.items():
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in text:
+                failures.append(f"{rel} missing reviewer marker: {marker}")
 
     if failures:
         for failure in failures:

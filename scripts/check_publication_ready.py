@@ -13,6 +13,7 @@ MAX_PUBLIC_FILE_BYTES = 50 * 1024 * 1024
 REQUIRED_FILES = [
     "README.md",
     "OSS_REVIEW.md",
+    "AGENTS.md",
     "LICENSE",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
@@ -24,11 +25,14 @@ REQUIRED_FILES = [
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/ISSUE_TEMPLATE/bug_report.yml",
     ".github/ISSUE_TEMPLATE/skill_request.yml",
+    ".github/ISSUE_TEMPLATE/config.yml",
     ".github/workflows/ci.yml",
     ".github/workflows/skill-review-bot.yml",
     "scripts/verify_release.py",
     "scripts/review_bot.py",
     "scripts/check_release_archive.py",
+    "docs/codex-for-oss-case-study.md",
+    "docs/maintainer-workflows.md",
 ]
 
 FORBIDDEN_NAMES = {

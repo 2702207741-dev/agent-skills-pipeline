@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "our-skills-multi-model-eval-report",
   "version": "3.0.0",
-  "generated_at": "2026-07-09",
+  "generated_at": "2026-07-10",
   "dataset": "examples/replay-dataset.json",
   "evaluation_mode": "deterministic replay of recorded agent traces",
   "case_count": 42,

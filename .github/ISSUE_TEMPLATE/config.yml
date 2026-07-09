@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability report
+    url: https://github.com/2702207741-dev/agent-skills-pipeline/security/policy
+    about: Please use the private reporting path in SECURITY.md rather than a public issue.
+  - name: Contribution and review guide
+    url: https://github.com/2702207741-dev/agent-skills-pipeline/blob/main/CONTRIBUTING.md
+    about: Read the evidence, compatibility, and safety expectations before opening a proposal.
