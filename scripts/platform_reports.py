@@ -54,6 +54,13 @@ def git_last_updated(path: Path) -> str | None:
     return git_output("log", "-1", "--format=%cs", "--", rel)
 
 
+def skill_last_updated(entry: dict[str, Any], path: Path) -> str | None:
+    configured = entry.get("last_updated")
+    if configured:
+        return configured
+    return git_last_updated(path)
+
+
 def platform_path(template: str, entry: dict[str, Any]) -> str:
     return template.replace("<category>", entry.get("category", "meta")).replace("<name>", entry["name"])
 
@@ -197,7 +204,7 @@ def build_all_reports() -> dict[str, Any]:
                 "failures": result["failures"],
                 "regressions": result.get("regressions", []),
             },
-            "last_updated": git_last_updated(skill_file),
+            "last_updated": skill_last_updated(entry, skill_file),
         }
         row["risk_level"] = risk_level(result, lifecycle)
         skills.append(row)

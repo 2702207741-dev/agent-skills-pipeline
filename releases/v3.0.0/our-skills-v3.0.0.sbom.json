@@ -133,7 +133,7 @@
       "name": "check_publication_ready.py",
       "path": "scripts/check_publication_ready.py",
       "runtime": "python-stdlib",
-      "sha256": "833357f7ad129cc84ef3d01c2909686d30344ff4e0aee2966a6cb1eea13ca224"
+      "sha256": "69382b9a57a962f29fc7dede87c59d778d60197723a2eae841b324758015d8c0"
     },
     {
       "type": "script",
@@ -203,7 +203,7 @@
       "name": "platform_reports.py",
       "path": "scripts/platform_reports.py",
       "runtime": "python-stdlib",
-      "sha256": "1aa35aa6c496f71fb886e0271421058603bd3ee6f8a57ff7d2ff66925131c562"
+      "sha256": "1fdf0baa44364bd5068d72ee0f94227bedbb3edf7ec447f99d8342a9c32812b4"
     },
     {
       "type": "script",
@@ -262,6 +262,6 @@
       "sha256": "761adb49d5aef3b85b184cb895698613a2453069decdbefe56b0f8d1e35ec6e6"
     }
   ],
-  "source_file_count": 98,
-  "source_tree_sha256": "87312161babe338caca960d3596d0532adcc78058a870f8f4da13ade0abc3edf"
+  "source_file_count": 99,
+  "source_tree_sha256": "291ddd1dc89021f29058dc26208b809895953eacb997e5df98fd30a22d32997e"
 }
