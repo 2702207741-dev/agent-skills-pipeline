@@ -63,26 +63,28 @@ jobs:
 
       - name: Package smoke test
         run: |
-          mkdir -p dist-smoke
-          python scripts/package_skill.py --all dist-smoke
+          PKG_DIR="$RUNNER_TEMP/dist-smoke"
+          mkdir -p "$PKG_DIR"
+          python scripts/package_skill.py --all "$PKG_DIR"
           EXPECTED="$(python -c 'import json; print(len(json.load(open("skills.json"))["skills"]))')"
-          test "$(find dist-smoke -name '*.zip' | wc -l)" -eq "$EXPECTED"
+          test "$(find "$PKG_DIR" -name '*.zip' | wc -l)" -eq "$EXPECTED"
 
       - name: Release artifact smoke test
         run: |
-          mkdir -p dist-release
-          python scripts/create_release.py --output dist-release
+          RELEASE_DIR="$RUNNER_TEMP/dist-release"
+          mkdir -p "$RELEASE_DIR"
+          python scripts/create_release.py --output "$RELEASE_DIR"
           RELEASE="$(python -c 'import json; print("v" + json.load(open("skills.json"))["version"])')"
-          test -f "dist-release/our-skills-$RELEASE.zip"
-          test -f "dist-release/our-skills-$RELEASE.manifest.json"
-          test -f "dist-release/our-skills-$RELEASE.sha256"
-          test -f "dist-release/our-skills-$RELEASE.sbom.json"
-          test -f "dist-release/our-skills-$RELEASE.provenance.json"
-          test -f "dist-release/our-skills-$RELEASE.sig"
-          test -f "dist-release/our-skills-$RELEASE.marketplace-index.json"
-          test -f "dist-release/our-skills-$RELEASE.quality-dashboard.json"
-          test -f "dist-release/our-skills-$RELEASE.skill-graph-report.json"
-          test -f "dist-release/our-skills-$RELEASE.model-eval-report.json"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.zip"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.manifest.json"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.sha256"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.sbom.json"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.provenance.json"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.sig"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.marketplace-index.json"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.quality-dashboard.json"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.skill-graph-report.json"
+          test -f "$RELEASE_DIR/our-skills-$RELEASE.model-eval-report.json"
 
       - name: Marketplace smoke test
         run: |
