@@ -5,17 +5,17 @@
   "generated_at": "2026-07-09",
   "subject": {
     "artifact": "our-skills-v3.0.0.zip",
-    "artifact_sha256": "20ee1ec8793f5ecc303b0db2e9a8aee0189e63c6fb05c6664c4a275637676631",
+    "artifact_sha256": "b7dac613b187987a0145ed3ba0d362a81aeb332c7f30e9c2c45eaf88e2e484ff",
     "manifest": "our-skills-v3.0.0.manifest.json",
-    "manifest_sha256": "99673c030cfe37308e4822d0a41d769b1e13d715e58a963848d8f04500bcf65b",
+    "manifest_sha256": "f008824584bdd32dff0778a03a9852387f8c344a1ca74d25909569d30689d93b",
     "checksum": "our-skills-v3.0.0.sha256",
-    "checksum_sha256": "92a27722bdc3a5da186be8e2f96f35c5413730c587bec6861b1e44a33ceda954",
+    "checksum_sha256": "ea340e98967c00654f1348f7f7ce7ed287022c4d0d84994a711326f3165afe59",
     "sbom": "our-skills-v3.0.0.sbom.json",
-    "sbom_sha256": "ec2c74a863948bacab71b00cde008c5faa989e2074cfceddccaccc4ba23dcd3c",
+    "sbom_sha256": "f7f917788494ce2df9c4c0046e7c376e053b9107d94c95d29c6a0bb2428b3385",
     "reports": [
       {
         "name": "our-skills-v3.0.0.marketplace-index.json",
-        "sha256": "48e327e96effbf8a38f207df66c5bbdd8952f18348d1ab8afcb742d26c880166"
+        "sha256": "c245bc293f5f4be26724543a3080ff03b13ffdf916643f11e3c81cbc8c761d56"
       },
       {
         "name": "our-skills-v3.0.0.model-eval-report.json",
@@ -35,11 +35,11 @@
     "project": "our-skills",
     "version": "3.0.0",
     "registry_sha256": "0541b512fb5cafa964f148b9c094201fd3992604de7ac65bc9b1dca12c5b3af0",
-    "git_commit": "64de1248c3c4db8d18b4058a40ccdb5e922858db",
+    "git_commit": "b9909d18044dfbde61482345877e6383bf22e332",
     "git_tags_at_head": [],
     "git_dirty": false,
     "source_file_count": 99,
-    "source_tree_sha256": "291ddd1dc89021f29058dc26208b809895953eacb997e5df98fd30a22d32997e"
+    "source_tree_sha256": "6d24408290bfdb18ec801d7ccb4bb60afc6f38b6928c4f95eed04c72ba55f76d"
   },
   "builder": {
     "script": "scripts/create_release.py",

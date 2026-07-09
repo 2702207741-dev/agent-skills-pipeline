@@ -33,12 +33,9 @@ def write_json(path: Path, data: Any) -> None:
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+def sha256_normalized_text(path: Path) -> str:
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def git_output(*args: str) -> str | None:
@@ -222,7 +219,7 @@ def build_all_reports() -> dict[str, Any]:
         "release": registry["release_policy"]["current_release"],
         "generated_at": date.today().isoformat(),
         "source_registry": "skills.json",
-        "source_registry_sha256": sha256(REGISTRY),
+        "source_registry_sha256": sha256_normalized_text(REGISTRY),
         "platforms": platforms["platforms"],
         "skills": skills,
     }
