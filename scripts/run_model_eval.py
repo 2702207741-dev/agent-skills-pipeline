@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -70,7 +69,6 @@ def evaluate() -> dict[str, Any]:
         "schema_version": 1,
         "kind": "our-skills-multi-model-eval-report",
         "version": dataset["version"],
-        "generated_at": date.today().isoformat(),
         "dataset": "examples/replay-dataset.json",
         "evaluation_mode": "deterministic replay of recorded agent traces",
         "case_count": len(cases),

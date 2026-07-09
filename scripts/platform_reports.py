@@ -7,7 +7,6 @@ import hashlib
 import json
 import subprocess
 from collections import defaultdict
-from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -170,7 +169,6 @@ def build_all_reports() -> dict[str, Any]:
     node_stage_map = {node["id"]: node.get("stages", []) for node in graph.get("nodes", [])}
     covered_stages = sorted({stage for stages in node_stage_map.values() for stage in stages})
     required_stages = sorted(graph.get("required_stages", []))
-
     skills = []
     for entry in registry["skills"]:
         name = entry["name"]
@@ -217,7 +215,6 @@ def build_all_reports() -> dict[str, Any]:
         "project": registry["project"],
         "version": registry["version"],
         "release": registry["release_policy"]["current_release"],
-        "generated_at": date.today().isoformat(),
         "source_registry": "skills.json",
         "source_registry_sha256": sha256_normalized_text(REGISTRY),
         "platforms": platforms["platforms"],
@@ -228,7 +225,6 @@ def build_all_reports() -> dict[str, Any]:
         "schema_version": 1,
         "kind": "our-skills-skill-graph-report",
         "version": registry["version"],
-        "generated_at": date.today().isoformat(),
         "node_count": len(registered),
         "edge_count": len(graph.get("edges", [])),
         "isolated_skills": sorted(registered - edge_nodes),
@@ -257,7 +253,6 @@ def build_all_reports() -> dict[str, Any]:
         "kind": "our-skills-quality-dashboard",
         "version": registry["version"],
         "release": registry["release_policy"]["current_release"],
-        "generated_at": date.today().isoformat(),
         "summary": {
             "skill_count": len(skills),
             "average_pass_rate": average_pass_rate,

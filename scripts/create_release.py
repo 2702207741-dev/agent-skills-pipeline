@@ -10,7 +10,7 @@ import re
 import subprocess
 import sys
 import zipfile
-from datetime import date
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -72,6 +72,11 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def utc_today() -> str:
+    """Use UTC dates so release metadata is independent of the builder's time zone."""
+    return datetime.now(timezone.utc).date().isoformat()
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -144,7 +149,7 @@ def create_sbom(output_dir: Path, registry: dict[str, Any], release: str, files:
         "schema_version": 1,
         "format": "our-skills-minimal-sbom",
         "release": release,
-        "generated_at": date.today().isoformat(),
+        "generated_at": utc_today(),
         "dependency_policy": "No third-party runtime packages are required; Python scripts use the standard library and install.sh uses Bash/coreutils.",
         "external_runtime_dependencies": [
             {"name": "python", "minimum": "3.10", "scope": "validation, release, marketplace, benchmark, graph"},
@@ -180,7 +185,7 @@ def create_provenance(
         "schema_version": 1,
         "predicate_type": "our-skills-release-provenance-v1",
         "release": release,
-        "generated_at": date.today().isoformat(),
+        "generated_at": utc_today(),
         "subject": {
             "artifact": artifact.name,
             "artifact_sha256": sha256(artifact),
@@ -258,7 +263,7 @@ def create_artifact(output_dir: Path, registry: dict[str, Any]) -> tuple[Path, P
         "schema_version": 1,
         "release": release,
         "version": version,
-        "created_at": date.today().isoformat(),
+        "created_at": utc_today(),
         "artifact": artifact.name,
         "sha256": sha256(artifact),
         "skills": [

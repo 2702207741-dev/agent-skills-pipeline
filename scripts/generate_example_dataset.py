@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -31,7 +30,6 @@ def build_outputs() -> dict[Path, str]:
     skills = {entry["name"]: entry for entry in registry["skills"]}
     tasks = []
     replay_cases = []
-
     for trace in traces["traces"]:
         skill = trace["skill"]
         if skill not in skills:
@@ -73,7 +71,6 @@ def build_outputs() -> dict[Path, str]:
         "schema_version": 1,
         "kind": "our-skills-public-task-library",
         "version": registry["version"],
-        "generated_at": date.today().isoformat(),
         "source_traces": "eval-runs/rigorbench-v1.3/traces.json",
         "coverage": {
             "skill_count": len(skills),
@@ -86,7 +83,6 @@ def build_outputs() -> dict[Path, str]:
         "schema_version": 1,
         "kind": "our-skills-replay-dataset",
         "version": registry["version"],
-        "generated_at": date.today().isoformat(),
         "source_traces": "eval-runs/rigorbench-v1.3/traces.json",
         "model_eval_entrypoint": "python scripts/run_model_eval.py",
         "cases": replay_cases,
