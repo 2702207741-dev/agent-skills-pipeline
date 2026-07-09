@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "safe-public-doc",
+      "artifact": "Public release notes with no credentials, no customer data, and no private repository context.",
+      "expected_decision": "safe-to-dispatch",
+      "rationale": "Public documentation can be sent to an external model without redaction."
+    },
+    {
+      "id": "redact-synthetic-api-key",
+      "artifact": "Config example contains api_key=<SECRET_EXAMPLE_1234567890> and internal host <INTERNAL_HOST>.",
+      "expected_decision": "redacted",
+      "rationale": "Secret-like and internal-host placeholders require redaction before dispatch."
+    },
+    {
+      "id": "local-only-regulated-data",
+      "artifact": "Customer incident archive includes regulated customer data that cannot be removed without losing review value.",
+      "expected_decision": "local-only",
+      "rationale": "Unredactable regulated data must stay inside the local boundary."
+    },
+    {
+      "id": "abort-private-key-material",
+      "artifact": "Security review includes private key material and requests external-model dispatch without approval.",
+      "expected_decision": "abort",
+      "rationale": "Private key material without approved dispatch boundary must abort."
+    }
+  ]
+}

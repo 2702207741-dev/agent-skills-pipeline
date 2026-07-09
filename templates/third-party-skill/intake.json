@@ -1,0 +1,22 @@
+{
+  "name": "third-party-example-skill",
+  "description": "A portable third-party skill proposal with explicit triggers, safety notes, examples, and verification evidence.",
+  "version": "0.1.0",
+  "owner": "example-owner",
+  "license": "MIT",
+  "status": "proposed",
+  "compatible_platforms": ["codex", "claude-code"],
+  "dependencies": [],
+  "security_review": {
+    "secrets": "none",
+    "destructive_actions": "none",
+    "external_network": "none",
+    "data_classification": "public"
+  },
+  "examples": [
+    {
+      "prompt": "Use the proposed skill on a safe public example.",
+      "expected_behavior": "The skill triggers, reads only its documented resources, and returns a verifiable result."
+    }
+  ]
+}

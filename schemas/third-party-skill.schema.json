@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "our-skills third-party skill intake",
+  "type": "object",
+  "required": [
+    "name",
+    "description",
+    "version",
+    "owner",
+    "license",
+    "security_review"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)+$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 40
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:[-+][0-9A-Za-z.-]+)?$"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 2
+    },
+    "license": {
+      "type": "string",
+      "minLength": 2
+    },
+    "status": {
+      "enum": ["proposed", "active", "deprecated"]
+    },
+    "compatible_platforms": {
+      "type": "array",
+      "items": {
+        "enum": ["hermes", "claude-code", "codex", "cursor"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "security_review": {
+      "type": "object",
+      "required": ["secrets", "destructive_actions", "external_network", "data_classification"],
+      "properties": {
+        "secrets": {
+          "enum": ["none", "redacted", "requires-review"]
+        },
+        "destructive_actions": {
+          "enum": ["none", "guarded", "requires-review"]
+        },
+        "external_network": {
+          "enum": ["none", "documented", "requires-review"]
+        },
+        "data_classification": {
+          "enum": ["public", "internal", "sensitive", "regulated"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["prompt", "expected_behavior"],
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "expected_behavior": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

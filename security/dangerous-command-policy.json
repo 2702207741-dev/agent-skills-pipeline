@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "policy": "our-skills-dangerous-command-policy",
+  "denylist": [
+    {
+      "id": "recursive_root_delete",
+      "pattern": "\\brm\\s+-rf\\s+(?:/|\\*|\\.|~|\\$HOME|%USERPROFILE%)(?=\\s|$)",
+      "severity": "critical",
+      "rationale": "Recursive deletion of root, home, wildcard, or current directory can destroy unrelated data."
+    },
+    {
+      "id": "force_push",
+      "pattern": "\\bgit\\s+push\\s+(?:-[^\\s]*f[^\\s]*|--force)(?!-with-lease)\\b",
+      "severity": "critical",
+      "rationale": "Force push without lease can overwrite remote work."
+    },
+    {
+      "id": "sudo_recursive_delete",
+      "pattern": "\\bsudo\\s+rm\\s+-r[f]?\\b",
+      "severity": "critical",
+      "rationale": "Privileged recursive deletion requires an explicit safety gate."
+    },
+    {
+      "id": "drop_table",
+      "pattern": "\\bdrop\\s+table\\b",
+      "severity": "critical",
+      "rationale": "Database destructive schema changes require explicit review."
+    },
+    {
+      "id": "delete_without_where",
+      "pattern": "\\bdelete\\s+from\\s+\\w+\\s*;",
+      "severity": "critical",
+      "rationale": "SQL delete without WHERE can remove every row."
+    }
+  ],
+  "allowlist": [
+    {
+      "id": "documented_safe_placeholder",
+      "pattern": "<SAFE_EXAMPLE>",
+      "rationale": "Samples marked as SAFE_EXAMPLE are documentation-only and not executable commands."
+    },
+    {
+      "id": "force_with_lease",
+      "pattern": "\\bgit\\s+push\\s+--force-with-lease\\b",
+      "rationale": "force-with-lease is the safer explicit alternative documented by git-workflow-for-agents."
+    }
+  ]
+}

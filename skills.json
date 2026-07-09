@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "project": "our-skills",
+  "version": "3.0.0",
+  "description": "AI agent skill system covering skill engineering plus general agent workflows for review, debugging, testing, requirements, planning, observability, incident retros, git, security, verification, and configuration.",
+  "release_policy": {
+    "versioning": "semver",
+    "artifact_prefix": "our-skills",
+    "current_release": "v3.0.0",
+    "publish_policy": "v3.0 is the first ecosystem-ready milestone; public publishing still requires an explicit user request."
+  },
+  "skills": [
+    {
+      "name": "skill-authoring-workflow",
+      "path": "skill-authoring-workflow",
+      "version": "1.5.0",
+      "type": "meta",
+      "category": "meta",
+      "summary": "Create SKILL.md files from requirements using quick and full authoring workflows.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "skill-review-workflow",
+      "path": "skill-review-workflow",
+      "version": "1.1.0",
+      "type": "quality",
+      "category": "review",
+      "summary": "Review SKILL.md quality with a 23-item checklist and weighted scorecard.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "agent-security-guard",
+      "path": "agent-security-guard",
+      "version": "1.0.0",
+      "type": "security",
+      "category": "security",
+      "summary": "Gate risky operations, secret exposure, and shell-injection-prone actions.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "cross-model-verification",
+      "path": "cross-model-verification",
+      "version": "1.0.0",
+      "type": "testing",
+      "category": "testing",
+      "summary": "Run adversarial second-opinion reviews with redaction and degraded-mode handling.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "skill-pipeline-orchestrator",
+      "path": "skill-pipeline-orchestrator",
+      "version": "1.0.0",
+      "type": "workflow",
+      "category": "workflow",
+      "summary": "Coordinate authoring, review, security, cross-check, package, and deployment stages.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "git-workflow-for-agents",
+      "path": "git-workflow-for-agents",
+      "version": "1.0.0",
+      "type": "git",
+      "category": "git",
+      "summary": "Standardize agent git workflows from status checks through PR creation.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "agent-config-reference",
+      "path": "agent-config-reference",
+      "version": "1.0.0",
+      "type": "reference",
+      "category": "reference",
+      "summary": "Reference platform-specific config, skill paths, migration, and troubleshooting.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "code-review-workflow",
+      "path": "code-review-workflow",
+      "version": "1.0.0",
+      "type": "review",
+      "category": "code-review",
+      "summary": "Review ordinary code, diffs, patches, and pull requests for bugs, risk, and missing tests.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "systematic-debugging",
+      "path": "systematic-debugging",
+      "version": "1.0.0",
+      "type": "debugging",
+      "category": "debugging",
+      "summary": "Reproduce, isolate, fix, and verify failures without guessing.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "test-design-workflow",
+      "path": "test-design-workflow",
+      "version": "1.0.0",
+      "type": "testing",
+      "category": "testing",
+      "summary": "Design risk-based success, failure, boundary, and regression tests for behavior changes.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "requirements-clarifier",
+      "path": "requirements-clarifier",
+      "version": "1.0.0",
+      "type": "requirements",
+      "category": "requirements",
+      "summary": "Turn vague feature, bug, product, or workflow requests into testable acceptance criteria.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "planning-workflow",
+      "path": "planning-workflow",
+      "version": "1.0.0",
+      "type": "planning",
+      "category": "planning",
+      "summary": "Plan projects, migrations, refactors, releases, and risky multi-step work with validation gates.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "observability-workflow",
+      "path": "observability-workflow",
+      "version": "1.0.0",
+      "type": "observability",
+      "category": "observability",
+      "summary": "Design logs, metrics, traces, alerts, dashboards, and health checks around failure modes.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    },
+    {
+      "name": "incident-retro-workflow",
+      "path": "incident-retro-workflow",
+      "version": "1.0.0",
+      "type": "incident-retro",
+      "category": "incident-retro",
+      "summary": "Create blameless incident retros with timelines, impact, root causes, and verified action items.",
+      "owner": "core-platform",
+      "status": "active",
+      "deprecated": false,
+      "replaced_by": null,
+      "migration_path": null
+    }
+  ],
+  "deprecation_policy": {
+    "status_values": [
+      "active",
+      "deprecated",
+      "removed"
+    ],
+    "required_fields": [
+      "deprecated",
+      "replaced_by",
+      "migration_path"
+    ],
+    "rules": [
+      "Deprecated skills remain installable for one major version unless a security issue requires removal.",
+      "Deprecated skills must name a replacement or state why no replacement exists.",
+      "Migration paths must describe the user-visible install and trigger changes."
+    ]
+  },
+  "ecosystem_policy": {
+    "docs_site": "docs/index.html",
+    "third_party_spec": "docs/third-party-skill-spec.md",
+    "review_bot": "scripts/review_bot.py",
+    "model_eval": "scripts/run_model_eval.py",
+    "contribution_gates": [
+      "CLA",
+      "review checklist",
+      "security scan",
+      "replay evidence"
+    ]
+  }
+}

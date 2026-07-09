@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "deny-rm-root",
+      "kind": "deny",
+      "sample": "rm -rf /",
+      "expected_policy": "recursive_root_delete"
+    },
+    {
+      "id": "deny-force-push",
+      "kind": "deny",
+      "sample": "git push --force origin main",
+      "expected_policy": "force_push"
+    },
+    {
+      "id": "deny-delete-without-where",
+      "kind": "deny",
+      "sample": "DELETE FROM users;",
+      "expected_policy": "delete_without_where"
+    },
+    {
+      "id": "allow-force-with-lease",
+      "kind": "allow",
+      "sample": "git push --force-with-lease origin feature",
+      "expected_policy": "force_with_lease",
+      "rationale": "This is the safer git alternative and should not be flagged as a raw force push."
+    },
+    {
+      "id": "allow-safe-placeholder",
+      "kind": "allow",
+      "sample": "<SAFE_EXAMPLE> rm -rf /tmp/generated-preview",
+      "expected_policy": "documented_safe_placeholder",
+      "rationale": "The sample is explicitly marked as documentation-only and not executable."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "release": "v3.0.0",
+  "semver": "3.0.0",
+  "date": "2026-07-08",
+  "artifact_name": "our-skills-v3.0.0.zip",
+  "release_type": "major-ecosystem-milestone",
+  "public_publish": false,
+  "public_publish_requires_explicit_request": true,
+  "summary": "Adds ecosystem entry points: public docs site, example task library, replay dataset, third-party skill specification, automatic review bot, multi-model replay evaluation, and community contribution governance.",
+  "includes": [
+    "docs/index.html public documentation site",
+    "examples/task-library.json",
+    "examples/replay-dataset.json",
+    "docs/third-party-skill-spec.md",
+    "schemas/third-party-skill.schema.json",
+    "scripts/review_bot.py",
+    ".github/workflows/skill-review-bot.yml",
+    "evals/model_matrix.json",
+    "scripts/run_model_eval.py",
+    "CONTRIBUTING.md",
+    "CLA.md",
+    "SECURITY.md",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    "docs/review-checklist.md"
+  ],
+  "gates": [
+    "python scripts/review_bot.py --all --check",
+    "python scripts/verify_release.py",
+    "python scripts/check_ecosystem.py",
+    "python scripts/run_model_eval.py --check",
+    "python scripts/generate_example_dataset.py --check"
+  ]
+}

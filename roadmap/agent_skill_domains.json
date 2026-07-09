@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "purpose": "Track common agent skill domains and their registered workflow coverage.",
+  "domains": [
+    {
+      "domain": "code-review",
+      "candidate_skill_name": "code-review-workflow",
+      "status": "registered",
+      "why_missing": "Filled in v1.4 as a registered general-agent workflow skill with fixtures, graph coverage, platform coverage, and RigorBench traces.",
+      "trigger_prompts": [
+        "review this PR",
+        "look for bugs in this diff"
+      ],
+      "success_contract": [
+        "findings first",
+        "severity ordered",
+        "line-grounded evidence"
+      ],
+      "first_fixture_ideas": [
+        "review a security-sensitive diff",
+        "review a frontend state change"
+      ],
+      "registered_skill": "code-review-workflow"
+    },
+    {
+      "domain": "debugging",
+      "candidate_skill_name": "systematic-debugging",
+      "status": "registered",
+      "why_missing": "Filled in v1.4 as a registered general-agent workflow skill with fixtures, graph coverage, platform coverage, and RigorBench traces.",
+      "trigger_prompts": [
+        "debug this failing test",
+        "find why this runtime error happens"
+      ],
+      "success_contract": [
+        "reproduction captured",
+        "root cause isolated",
+        "fix verified"
+      ],
+      "first_fixture_ideas": [
+        "debug a flaky unit test",
+        "debug a config-dependent crash"
+      ],
+      "registered_skill": "systematic-debugging"
+    },
+    {
+      "domain": "testing",
+      "candidate_skill_name": "test-design-workflow",
+      "status": "registered",
+      "why_missing": "Filled in v1.4 as a registered general-agent workflow skill with fixtures, graph coverage, platform coverage, and RigorBench traces.",
+      "trigger_prompts": [
+        "add tests for this feature",
+        "design a regression test plan"
+      ],
+      "success_contract": [
+        "risk-based test scope",
+        "positive and negative cases",
+        "automation path"
+      ],
+      "first_fixture_ideas": [
+        "design tests for an API endpoint",
+        "add regression tests for a CLI flag"
+      ],
+      "registered_skill": "test-design-workflow"
+    },
+    {
+      "domain": "requirements",
+      "candidate_skill_name": "requirements-clarifier",
+      "status": "registered",
+      "why_missing": "Filled in v1.4 as a registered general-agent workflow skill with fixtures, graph coverage, platform coverage, and RigorBench traces.",
+      "trigger_prompts": [
+        "turn this idea into requirements",
+        "write acceptance criteria"
+      ],
+      "success_contract": [
+        "actors and goals identified",
+        "acceptance criteria",
+        "open questions minimized"
+      ],
+      "first_fixture_ideas": [
+        "clarify a dashboard request",
+        "turn a bug report into requirements"
+      ],
+      "registered_skill": "requirements-clarifier"
+    },
+    {
+      "domain": "planning",
+      "candidate_skill_name": "planning-workflow",
+      "status": "registered",
+      "why_missing": "Filled in v1.4 as a registered general-agent workflow skill with fixtures, graph coverage, platform coverage, and RigorBench traces.",
+      "trigger_prompts": [
+        "plan this migration",
+        "break this project into milestones"
+      ],
+      "success_contract": [
+        "scope clarified",
+        "risks listed",
+        "ordered plan with verification points"
+      ],
+      "first_fixture_ideas": [
+        "plan a medium-risk refactor",
+        "plan a data migration with rollback"
+      ],
+      "registered_skill": "planning-workflow"
+    },
+    {
+      "domain": "observability",
+      "candidate_skill_name": "observability-workflow",
+      "status": "registered",
+      "why_missing": "Filled in v1.4 as a registered general-agent workflow skill with fixtures, graph coverage, platform coverage, and RigorBench traces.",
+      "trigger_prompts": [
+        "add observability",
+        "what metrics should this service emit"
+      ],
+      "success_contract": [
+        "signals mapped",
+        "dashboards or alerts proposed",
+        "failure modes observable"
+      ],
+      "first_fixture_ideas": [
+        "instrument a queue worker",
+        "define SLO alerts for an API"
+      ],
+      "registered_skill": "observability-workflow"
+    },
+    {
+      "domain": "incident-retro",
+      "candidate_skill_name": "incident-retro-workflow",
+      "status": "registered",
+      "why_missing": "Filled in v1.4 as a registered general-agent workflow skill with fixtures, graph coverage, platform coverage, and RigorBench traces.",
+      "trigger_prompts": [
+        "write an incident retro",
+        "analyze this outage timeline"
+      ],
+      "success_contract": [
+        "timeline",
+        "impact",
+        "root causes",
+        "action items with owners"
+      ],
+      "first_fixture_ideas": [
+        "retro a deploy rollback",
+        "retro a data freshness incident"
+      ],
+      "registered_skill": "incident-retro-workflow"
+    }
+  ]
+}
