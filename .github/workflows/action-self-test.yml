@@ -48,3 +48,36 @@ jobs:
 
       - name: Verify unified POSIX launcher
         run: ./our-skills --version
+
+  pinned-external-reference:
+    name: Validate pinned remote consumer interface
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout consumer fixture
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Run immutable external Action reference
+        id: our-skills
+        uses: 2702207741-dev/agent-skills-pipeline@8f7976636bb44899ea54e97d01884c4509f00b00
+        with:
+          workspace: examples/external-repos/python-library
+          registry: skills.json
+          mode: all
+          output-directory: .our-skills-dist-pinned
+          artifact-name: external-python-library-pinned-release
+
+      - name: Verify pinned Action outputs
+        env:
+          GATE_STATUS: ${{ steps.our-skills.outputs.status }}
+          SKILL_COUNT: ${{ steps.our-skills.outputs.skill-count }}
+          ARTIFACT_PATH: ${{ steps.our-skills.outputs.artifact-path }}
+          MANIFEST_PATH: ${{ steps.our-skills.outputs.manifest-path }}
+          CHECKSUM_PATH: ${{ steps.our-skills.outputs.checksum-path }}
+        run: |
+          test "$GATE_STATUS" = "pass"
+          test "$SKILL_COUNT" = "1"
+          test -f "$ARTIFACT_PATH"
+          test -f "$MANIFEST_PATH"
+          test -f "$CHECKSUM_PATH"

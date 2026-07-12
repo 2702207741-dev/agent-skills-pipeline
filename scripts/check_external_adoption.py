@@ -52,6 +52,13 @@ ACTION_MARKERS = (
     '--repository-root "$GITHUB_WORKSPACE"',
 )
 
+SELF_TEST_MARKERS = (
+    "Run local composite Action as an external consumer",
+    "Run immutable external Action reference",
+    "8f7976636bb44899ea54e97d01884c4509f00b00",
+    "external-python-library-pinned-release",
+)
+
 QUICKSTART_MARKERS = (
     "# Five-Minute Quickstart",
     "./our-skills quickstart",
@@ -153,6 +160,13 @@ def check_static_contracts(failures: list[str]) -> None:
         for name, ref in action_references(action):
             if not SHA_RE.fullmatch(ref):
                 failures.append(f"action.yml dependency is not pinned to a full commit SHA: {name}@{ref}")
+
+    self_test = ROOT / ".github" / "workflows" / "action-self-test.yml"
+    if self_test.is_file():
+        content = self_test.read_text(encoding="utf-8")
+        for marker in SELF_TEST_MARKERS:
+            if marker not in content:
+                failures.append(f"action self-test missing marker: {marker}")
 
     quickstart = ROOT / "docs" / "quickstart.md"
     if quickstart.is_file():
