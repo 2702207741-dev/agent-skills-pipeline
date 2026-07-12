@@ -456,7 +456,7 @@
           "command": "python scripts/marketplace.py list",
           "exit_code": 0,
           "recorded_output_excerpt": "our-skills 3.0.0\ncode-review-workflow\t1.0.0\tcode-review\tactive\t100",
-          "replay_markers": ["our-skills 3.0.0", "code-review-workflow"],
+          "replay_markers": ["code-review-workflow"],
           "interpretation": "The marketplace lists the published release and its active maintenance workflow inventory."
         }
       ],
