@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Full v1.0-v3.3 regression suite
+# Full v1.0-v4.0-candidate regression suite
 # Usage: bash scripts/test_all.sh
 set -euo pipefail
 export PYTHONDONTWRITEBYTECODE=1
@@ -20,7 +20,7 @@ pass() { echo "  [PASS] $1"; PASS=$((PASS + 1)); }
 fail() { echo "  [FAIL] $1"; FAIL=$((FAIL + 1)); }
 
 echo "============================================"
-echo " our-skills Full Test Suite (v1.0 - v3.3)"
+echo " our-skills Full Test Suite (v1.0 - v4.0 candidate)"
 echo "============================================"
 EXPECTED_SKILLS=$("$PYTHON" -c "import json; print(len(json.load(open('skills.json'))['skills']))")
 RELEASE=$("$PYTHON" -c "import json; print('v' + json.load(open('skills.json'))['version'])")
