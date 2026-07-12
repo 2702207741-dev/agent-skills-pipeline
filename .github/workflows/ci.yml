@@ -7,17 +7,21 @@ on:
 env:
   PYTHONDONTWRITEBYTECODE: "1"
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "3.x"
 
@@ -32,6 +36,9 @@ jobs:
 
       - name: Security scan
         run: python scripts/security_scan.py
+
+      - name: Check supply-chain assurance
+        run: python scripts/check_supply_chain.py
 
       - name: Validate Codex maintenance evidence format and coverage
         run: python scripts/check_maintenance_evidence.py --no-replay

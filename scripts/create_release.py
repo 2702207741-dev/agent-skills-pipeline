@@ -225,10 +225,12 @@ def create_signature(output_dir: Path, release: str, provenance: Path) -> Path:
     provenance_data = json.loads(provenance.read_text(encoding="utf-8"))
     sig_data = {
         "schema_version": 1,
-        "signature_type": "sha256-canonical-provenance-v1",
+        "signature_type": "sha256-canonical-provenance-integrity-v1",
+        "assurance": "local-integrity-only",
         "signed": provenance.name,
         "signature": sha256_bytes(canonical_json(provenance_data)),
         "verify": "Recompute SHA256 over canonical JSON of the provenance file, then verify all subject hashes.",
+        "identity_signature": "The GitHub OIDC workflow writes a separate .sigstore.json bundle for cryptographic identity verification.",
     }
     signature.write_text(json.dumps(sig_data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return signature

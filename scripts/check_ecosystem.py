@@ -29,7 +29,12 @@ REQUIRED_FILES = [
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/ISSUE_TEMPLATE/config.yml",
     ".github/CODEOWNERS",
+    ".github/dependabot.yml",
+    ".github/secret_scanning.yml",
+    ".github/workflows/codeql.yml",
+    ".github/workflows/scorecard.yml",
     ".github/workflows/skill-review-bot.yml",
+    ".github/workflows/supply-chain.yml",
     "schemas/third-party-skill.schema.json",
     "templates/third-party-skill/SKILL.md",
     "examples/task-library.json",
@@ -38,6 +43,11 @@ REQUIRED_FILES = [
     "reports/model-eval-report.json",
     "reports/model-eval-report.md",
     "scripts/check_maintenance_evidence.py",
+    "scripts/check_supply_chain.py",
+    "scripts/generate_slsa_provenance.py",
+    "docs/security-review-checklist.md",
+    "docs/slsa-provenance.md",
+    "docs/threat-model.md",
 ]
 
 
@@ -54,6 +64,7 @@ REQUIRED_MARKERS = {
         "## Review Behavior",
         "## Release Behavior",
         "## Security Behavior",
+        "check_supply_chain.py",
     ),
     "docs/codex-for-oss-case-study.md": (
         "## The Maintainer Problem",
@@ -67,6 +78,11 @@ REQUIRED_MARKERS = {
         "## Release Workflow",
         "## Security Audit",
         "## Evidence Replay",
+    ),
+    "SECURITY.md": (
+        "## Standard OSS Security Tooling",
+        "docs/security-review-checklist.md",
+        "Sigstore",
     ),
 }
 

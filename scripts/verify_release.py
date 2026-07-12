@@ -219,6 +219,7 @@ def main() -> int:
         run([PYTHON, "scripts/validate-skill.py", *registry_skill_paths()])
         run([PYTHON, "scripts/run_fixture_checks.py"])
         run([PYTHON, "scripts/security_scan.py"])
+        run([PYTHON, "scripts/check_supply_chain.py"])
         run([PYTHON, "scripts/run_rigorbench.py"])
         run([PYTHON, "scripts/check_skill_graph.py"])
         run([PYTHON, "scripts/generate_platform_reports.py", "--check"])

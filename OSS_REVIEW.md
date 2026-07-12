@@ -2,7 +2,7 @@
 
 This repository is an agent skill infrastructure project for Codex-style coding agents.
 
-## v3.2 Fast Path
+## v3.3 Fast Path
 
 In under a minute, a reviewer can establish the project scope and verify its
 maintenance posture:
@@ -16,6 +16,8 @@ maintenance posture:
    with `python scripts/check_maintenance_evidence.py`.
 4. Run `python scripts/verify_release.py`, then inspect the
    [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).
+5. Inspect the [Supply Chain workflow](.github/workflows/supply-chain.yml),
+   [threat model](docs/threat-model.md), and latest signed workflow artifact.
 
 ## Project in One Sentence
 
@@ -43,8 +45,8 @@ The project targets maintainer work that coding agents are already asked to help
 | Replayable scoring | `scripts/run_rigorbench.py` checks trace evidence and regression history. |
 | Real Codex maintenance | `eval-runs/codex-maintenance/traces.json` has 12 Git-pinned review, triage, release, and security records with replayed commands. |
 | One-command validation | `python scripts/verify_release.py` runs the full verification gate. |
-| Security posture | `scripts/security_scan.py`, `security/dangerous-command-policy.json`, and redaction regression cases are included. |
-| Trusted distribution | `releases/v3.0.0/` includes manifest, checksum, SBOM, provenance, signature, marketplace index, dashboard, graph, and model-eval sidecars. |
+| Security posture | CodeQL, OpenSSF Scorecard, GitHub secret scanning, Dependabot, custom policy gates, and a threat model are checked together. |
+| Trusted distribution | Every accepted `main` build emits SLSA provenance, a GitHub OIDC Cosign bundle, and a GitHub artifact attestation; release upload authority is isolated. |
 | Install safety | `scripts/marketplace.py` and `scripts/install.sh` default to dry-run and support auditable rollback. |
 | Community readiness | MIT license, contributing guide, security policy, code of conduct, CLA, CI, review bot, issue templates, PR template, and CODEOWNERS are present. |
 
@@ -52,8 +54,8 @@ The project targets maintainer work that coding agents are already asked to help
 
 ```bash
 python scripts/check_publication_ready.py
+python scripts/check_supply_chain.py
 python scripts/verify_release.py
-python scripts/review_bot.py --all --check
 ```
 
 ## Fast Review Path
@@ -65,10 +67,13 @@ python scripts/review_bot.py --all --check
 4. Inspect `eval-runs/codex-maintenance/traces.json` to confirm the four
    maintainer workflows each have three replayable records.
 5. Run `python scripts/verify_release.py` to reproduce the complete gate.
-6. Check the GitHub Actions `CI / validate` workflow on `main`.
+6. Check the `CI`, `Supply Chain`, `CodeQL`, and `OpenSSF Scorecard` workflows
+   on `main`.
 
 ## Scope Boundaries
 
 - The deterministic model evaluation in `reports/model-eval-report.md` uses replay adapters, not live model API calls.
 - Public release publishing is intentionally explicit and now recorded for v3.0.0.
 - The marketplace installer writes only after explicit `--apply` or `--yes`.
+- The v3.0.0 `.sig` is legacy local-integrity evidence; identity-backed signing
+  begins with v3.3 workflow artifacts and does not rewrite the old release.

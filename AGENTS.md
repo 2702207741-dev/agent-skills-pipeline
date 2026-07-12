@@ -20,6 +20,8 @@ turn a plausible result into an unsupported claim.
   Codex review, triage, release, and security work.
 - `security/` holds the dangerous-command and redaction policies.
 - `releases/` holds retained, immutable release evidence.
+- `.github/workflows/supply-chain.yml` is the identity-backed build, signing,
+  attestation, and release-upload contract.
 
 Read the relevant source before proposing an edit. Preserve unrelated working
 tree changes and never reset or discard a maintainer's work.
@@ -71,18 +73,24 @@ For a pull request, diff, or patch:
    `release_policy.current_release` as one synchronized release contract.
 2. Before a release request, run `python scripts/verify_release.py` from a
    clean worktree and retain the generated manifest, checksum, SBOM,
-   provenance, signature, and marketplace reports.
+   provenance, local integrity sidecar, and marketplace reports. Also run
+   `python scripts/check_supply_chain.py` to validate the identity-signing path.
 3. Validate install, update, doctor, and rollback with the marketplace flow.
    Review the dry-run diff before any `--apply` operation.
 4. Do not tag, publish, overwrite a retained artifact, or modify `releases/v*/`
    unless a maintainer explicitly requests that release or recovery action.
 5. Report the exact version, artifact paths, verification result, rollback
    plan, and any known limitation before asking for a release decision.
+6. Treat `.sig` as backward-compatible local integrity evidence. Identity
+   assurance requires the matching `.sigstore.json` bundle, exact GitHub
+   workflow identity and issuer checks, and the GitHub artifact attestation.
 
 ## Security Behavior
 
 1. Run `python scripts/security_scan.py` for security-sensitive changes and
    follow `security/dangerous-command-policy.json` without undocumented bypasses.
+   Run `python scripts/check_supply_chain.py` for workflow, Action, dependency,
+   signing, provenance, or release-path changes.
 2. Redact external-model inputs. Never send private repository context,
    credentials, regulated data, or production secrets to an external service
    without explicit maintainer approval and an allowed data classification.
@@ -91,6 +99,11 @@ For a pull request, diff, or patch:
    be audited.
 4. Treat a suspected vulnerability as private until the maintainer decides the
    disclosure path described in `SECURITY.md`.
+5. Keep external Actions pinned to full commit SHAs, preserve least-privilege
+   job permissions, and use Dependabot plus human upstream-release review for
+   updates. Never grant a build job release-write authority.
+6. Apply `docs/security-review-checklist.md` to outbound data, dangerous
+   commands, installation writes, rollback, and supply-chain poisoning.
 
 ## Validation and Handoff
 

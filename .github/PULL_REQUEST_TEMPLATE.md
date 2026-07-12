@@ -19,6 +19,7 @@ fixture, replay record, report, or manual validation that proves the change.
 
 - [ ] `python scripts/review_bot.py --all --check`
 - [ ] `python scripts/verify_release.py`
+- [ ] `python scripts/check_supply_chain.py` when workflows, dependencies, signing, provenance, or release behavior changed
 - [ ] Success, failure, and boundary evidence updated when skill behavior changed
 - [ ] Graph, platform, dataset, and model-eval reports refreshed when applicable
 - [ ] Marketplace doctor checked when install behavior changed
@@ -40,16 +41,20 @@ fixture, replay record, report, or manual validation that proves the change.
 
 ## Security and Data Handling
 
+- [ ] I completed `docs/security-review-checklist.md` or documented why it is not applicable
 - [ ] No secrets, private logs, or regulated data are included
 - [ ] Data classification is stated: public, internal, or restricted
-- [ ] Destructive actions are documented, guarded, and reversible where possible
-- [ ] External network or model dispatch is documented, redacted, or absent
+- [ ] Outbound data and external model/network dispatch are documented, redacted, approved, or absent
+- [ ] Dangerous commands are policy-checked, scoped, and reversible where possible
+- [ ] Installation writes are dry-run-first, explicit, and audited
+- [ ] Rollback behavior and retained recovery data are tested
+- [ ] Supply-chain changes keep full-SHA Action pins, least privilege, provenance, and identity verification
 - [ ] `security/dangerous-command-policy.json` was followed or the change is not applicable
 
 ## Release Impact
 
 - [ ] No release or tag is requested by this PR
-- [ ] A release is requested and the version, manifest, checksum, provenance, and rollback plan are included
+- [ ] A release is requested and the version, manifest, checksum, SLSA provenance, Sigstore bundle, GitHub attestation, and rollback plan are included
 
 ## CLA
 

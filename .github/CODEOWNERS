@@ -1,4 +1,12 @@
 * @2702207741-dev
+/.github/workflows/ @2702207741-dev
+/.github/dependabot.yml @2702207741-dev
+/.github/secret_scanning.yml @2702207741-dev
+/docs/security-review-checklist.md @2702207741-dev
+/docs/slsa-provenance.md @2702207741-dev
+/docs/threat-model.md @2702207741-dev
+/scripts/check_supply_chain.py @2702207741-dev
+/scripts/generate_slsa_provenance.py @2702207741-dev
 AGENTS.md @2702207741-dev
 README.md @2702207741-dev
 OSS_REVIEW.md @2702207741-dev

@@ -1,6 +1,9 @@
 # Agent Skills Pipeline
 
 [![CI](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/ci.yml)
+[![Supply Chain](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/supply-chain.yml/badge.svg?branch=main)](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/supply-chain.yml)
+[![CodeQL](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/2702207741-dev/agent-skills-pipeline/badge)](https://scorecard.dev/viewer/?uri=github.com/2702207741-dev/agent-skills-pipeline)
 [![Release](https://img.shields.io/badge/release-v3.0.0-blue)](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -23,18 +26,20 @@ test, secure, package, install, roll back, and govern coding-agent skills.
 
 ```bash
 python scripts/verify_release.py
-python scripts/marketplace.py list
+python scripts/check_supply_chain.py
 python scripts/marketplace.py install --platform codex --target-root ./our-skills-preview
 ```
 
-The first command reproduces the full gate from a fresh clone. The third command
-is a dry run: it previews installation and does not write without `--apply`.
+The first command reproduces the full gate from a fresh clone. The second checks
+OIDC signing, SLSA provenance, pinned Actions, and standard OSS security tooling.
+The third is a dry run: it previews installation and does not write without
+`--apply`.
 
 ### Three Evidence Links
 
 - [42 replayable RigorBench traces](eval-runs/rigorbench-v1.3/traces.json)
 - [12 replayable Codex maintainer workflow records](eval-runs/codex-maintenance/README.md)
-- [CI validation workflow](.github/workflows/ci.yml) and the [v3.0.0 release artifact, manifest, checksum, SBOM, provenance, and signature](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
+- [OIDC signing and attestation workflow](.github/workflows/supply-chain.yml), [threat model](docs/threat-model.md), and [v3.0.0 retained release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
 
 For the reviewer narrative, read the [Codex for OSS Case Study](docs/codex-for-oss-case-study.md).
 For the operating rules, read [AGENTS.md](AGENTS.md) and the
@@ -53,7 +58,8 @@ prompt. They need a repeatable operating layer:
   cases;
 - security regression tests for secrets, dangerous commands, and external-model
   redaction;
-- signed release artifacts with manifest, checksum, SBOM, and provenance;
+- identity-signed CI artifacts with manifest, checksum, SBOM, SLSA provenance,
+  Sigstore bundle, and GitHub artifact attestation;
 - dry-run-first installation, update, rollback, doctor checks, and audit logs;
 - contributor gates that let new skills enter the ecosystem without lowering the
   bar.
@@ -61,6 +67,12 @@ prompt. They need a repeatable operating layer:
 ## Current Release
 
 **[v3.0.0](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)** is the ecosystem-ready baseline.
+
+The current `main` branch adds the v3.3 supply-chain assurance milestone without
+creating a new release: GitHub OIDC keyless signing, GitHub artifact attestation,
+SLSA provenance, CodeQL, OpenSSF Scorecard, Dependabot, and GitHub secret-scanning
+policy. A future explicitly requested release will attach those identity-backed
+sidecars; the existing v3.0.0 files remain immutable.
 
 It includes:
 
@@ -72,8 +84,11 @@ It includes:
 - deterministic multi-model replay rows for Codex, Claude, Gemini, and a local
   model adapter;
 - release artifacts in `releases/v3.0.0/` with manifest, checksum, SBOM,
-  provenance, signature, marketplace index, quality dashboard, skill graph, and
-  model-eval sidecars.
+  provenance, legacy local-integrity `.sig`, marketplace index, quality
+  dashboard, skill graph, and model-eval sidecars;
+- a CI-built signed bundle that adds SLSA provenance, a Cosign
+  `.sigstore.json` identity bundle, and GitHub artifact attestation on every
+  accepted `main` build.
 
 For a compact reviewer path, see [OSS_REVIEW.md](OSS_REVIEW.md), then the
 [Codex for OSS Case Study](docs/codex-for-oss-case-study.md).
@@ -86,7 +101,8 @@ Fresh clone, one command:
 python scripts/verify_release.py
 ```
 
-That command runs the registry, skill format, fixture, security, skill and
+That command runs the registry, skill format, fixture, security, supply-chain,
+skill and
 maintainer-workflow RigorBench replays, graph, platform, ecosystem, release
 archive, publication-readiness, packaging, artifact, marketplace,
 install/update/rollback, and review-bot gates.
@@ -105,8 +121,8 @@ python scripts/check_publication_ready.py
 | Real execution coverage | `eval-runs/rigorbench-v1.3/traces.json` has success, failure, and boundary traces for every skill. |
 | Replayable scoring | `scripts/run_rigorbench.py` checks trace evidence, stale skill hashes, and regression history. |
 | Real Codex maintenance | `eval-runs/codex-maintenance/traces.json` records 12 review, triage, release, and security tasks with Git blob provenance and replayed commands. |
-| Security posture | `scripts/security_scan.py`, `security/dangerous-command-policy.json`, and redaction regression cases are included. |
-| Trusted distribution | `releases/v3.0.0/` includes zip, manifest, checksum, SBOM, provenance, signature, and ecosystem sidecars. |
+| Security posture | Custom command/redaction gates are backed by CodeQL, OpenSSF Scorecard, GitHub secret scanning, Dependabot, and a reviewed threat model. |
+| Trusted distribution | The `Supply Chain` workflow builds the zip, emits SLSA provenance, signs with GitHub OIDC through Cosign, creates a GitHub artifact attestation, and uploads only from an isolated release job. |
 | Safe installation | `scripts/marketplace.py` and `scripts/install.sh` default to dry-run and support auditable rollback. |
 | Community readiness | MIT license, contributing guide, security policy, code of conduct, CLA, CI, review bot, issue templates, PR template, and CODEOWNERS are present. |
 
@@ -140,12 +156,12 @@ The project treats every skill like a small software component.
 3. **Execution evidence**: RigorBench replay traces record input prompt,
    triggered skill, resources read, execution steps, final output, score, and
    the `SKILL.md` hash used by the trace.
-4. **Security evidence**: secret scanning, dangerous-command policy, and
-   redaction cases are regression-tested.
+4. **Security evidence**: GitHub secret scanning, CodeQL, OpenSSF Scorecard,
+   dangerous-command policy, and redaction cases are checked together.
 5. **Graph evidence**: dependency reports check dead links, isolated skills,
    hard cycles, and stage coverage.
-6. **Distribution evidence**: release artifacts include manifest, checksum,
-   SBOM, provenance, and signature sidecars.
+6. **Distribution evidence**: CI artifacts include manifest, checksum, SBOM,
+   SLSA provenance, a Cosign identity bundle, and GitHub artifact attestation.
 
 ## Marketplace and Install Safety
 
@@ -195,11 +211,14 @@ The release version is defined by `skills.json` and
    `skills.json`;
 2. `python scripts/verify_release.py` passes;
 3. `scripts/create_release.py` writes the artifact, manifest, checksum, SBOM,
-   provenance, signature, marketplace index, quality dashboard, graph report,
-   and model-eval report;
-4. the artifact can be installed, updated, and rolled back through the
+   local provenance, backward-compatible integrity `.sig`, marketplace index,
+   quality dashboard, graph report, and model-eval report;
+4. `.github/workflows/supply-chain.yml` emits SLSA provenance, signs the zip
+   with a GitHub OIDC Sigstore identity, verifies that identity, and creates a
+   GitHub artifact attestation;
+5. the artifact can be installed, updated, and rolled back through the
    marketplace flow;
-5. the official skill count matches the registry. v3.0.0 contains 14 active
+6. the official skill count matches the registry. v3.0.0 contains 14 active
    first-party skills.
 
 Generate the retained release artifact:
@@ -226,6 +245,7 @@ our-skills/
 |-- evals/                                   # model replay matrix
 |-- releases/v3.0.0/                         # retained release artifact and sidecars
 |-- security/                                # command policy and redaction regressions
+|-- .github/workflows/                       # CI, CodeQL, Scorecard, OIDC signing and attestation
 |-- templates/third-party-skill/             # starter template and intake metadata
 |-- scripts/                                 # validators, maintainer evidence, release, marketplace, review bot
 |-- *-workflow/SKILL.md                      # first-party agent skills
@@ -265,11 +285,14 @@ copied around as isolated prompts.
 
 - The current multi-model report uses deterministic replay adapters, not live
   API calls. That keeps CI reproducible and avoids requiring provider secrets.
-- v3.1 defines how Codex should assist maintainers; it does not claim that the
-  current 42 RigorBench records are historical live Codex sessions. v3.2 will
-  retain real maintenance evidence with human adoption decisions.
-- The signature is a deterministic SHA-256 signature over canonical provenance,
-  not yet a hardware-backed or Sigstore identity.
+- The 42 skill-level RigorBench records are deterministic replay evidence, not
+  historical live model transcripts. The separate 12-record maintenance suite
+  pins real repository files, commands, outputs, and human adoption decisions.
+- The retained v3.0.0 `.sig` predates v3.3 and is local integrity evidence, not
+  identity signing. New `main` workflow artifacts add an OIDC-backed Cosign
+  bundle and GitHub attestation; no old release is retroactively relabeled.
+- GitHub-hosted runners, GitHub's attestation service, and Sigstore remain
+  external trust assumptions documented in the threat model.
 - The marketplace installer is local-first. Remote registry federation is a
   future direction.
 

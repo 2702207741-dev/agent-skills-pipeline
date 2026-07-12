@@ -2,7 +2,25 @@
 
 ## Unreleased
 
+### Added
+
+- GitHub OIDC supply-chain workflow with Cosign keyless blob signing, immediate
+  identity verification, GitHub artifact attestation, and release-only upload
+  authority.
+- SLSA provenance v1 generator and a CI gate that validates artifact digest,
+  source commit, workflow, builder, invocation, and byproducts.
+- CodeQL, OpenSSF Scorecard, Dependabot, and narrow GitHub secret-scanning
+  configuration with all executable Actions pinned to full commit SHAs.
+- Threat model, supply-chain verification guide, and security review checklist
+  covering outbound data, dangerous commands, install writes, rollback, and
+  supply-chain poisoning.
+
 ### Changed
+
+- Labeled the historical `.sig` sidecar as local integrity evidence and reserved
+  `.sigstore.json` plus GitHub attestation for identity-backed assurance.
+- Added supply-chain assurance to CI, one-command release verification, review
+  bot, ecosystem, publication, and full regression gates.
 
 - Reworked the public README into an English, reviewer-oriented project entry
   point with CI badge, release status, one-command verification, evidence map,

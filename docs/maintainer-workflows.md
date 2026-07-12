@@ -63,17 +63,18 @@ versioned release.
 | Stage | Codex action | Evidence or handoff |
 |---|---|---|
 | Preflight | Check registry version, every frontmatter version, release policy, changelog, and clean working tree | Exact version and any mismatch |
-| Verification | Run `python scripts/verify_release.py` and investigate every failed gate | Full gate result and relevant reports |
-| Package | Generate the artifact and review manifest, checksum, SBOM, provenance, signature, and reports | Artifact paths and hashes |
+| Verification | Run `python scripts/check_supply_chain.py` and `python scripts/verify_release.py`; investigate every failed custom or standard-tool gate | Full gate result, CodeQL/Scorecard status, and relevant reports |
+| Package | Generate the artifact and review manifest, checksum, SBOM, local provenance, SLSA statement, Cosign bundle, GitHub attestation, and reports | Artifact paths, hashes, workflow identity, issuer, and source commit |
 | Recovery | Exercise dry-run install, apply install in a temporary target, doctor, update, and rollback | Audit log and rollback result |
 | Decision | Summarize release notes, limitations, and rollback plan | Explicit maintainer authorization before tag or publish |
 
 Suggested skills: `planning-workflow`, `git-workflow-for-agents`,
 `skill-pipeline-orchestrator`, and `agent-security-guard`.
 
-**Done means:** publishing is still an explicit maintainer action. An agent does
-not create a tag, overwrite `releases/v*/`, or make an external release merely
-because the build is valid.
+**Done means:** Cosign and GitHub attestation verification bind the artifact to
+the expected repository workflow and ref, while publishing remains an explicit
+maintainer action. An agent does not create a tag, overwrite `releases/v*/`, or
+make an external release merely because the build is valid.
 
 ## Security Audit
 
@@ -84,8 +85,8 @@ concern.
 | Stage | Codex action | Evidence or handoff |
 |---|---|---|
 | Scope | Identify data classes, trust boundaries, write targets, and external calls | Audit scope and sensitive data excluded |
-| Automated scan | Run the security scanner and policy regressions | Findings, rule ids, and safe-example context |
-| Manual review | Inspect command construction, destructive actions, redaction, least privilege, and rollback | Risk explanation and remediation options |
+| Automated scan | Run the custom security and supply-chain gates; inspect CodeQL, OpenSSF Scorecard, GitHub secret scanning, and Dependabot | Findings, rule ids, SARIF, and safe-example context |
+| Manual review | Apply `docs/security-review-checklist.md` to outbound data, dangerous commands, installation writes, rollback, and supply-chain poisoning | Risk explanation, identity checks, and remediation options |
 | Escalation | Keep suspected vulnerabilities private and follow `SECURITY.md` | Maintainer-only disclosure recommendation |
 
 Suggested skills: `agent-security-guard`, `cross-model-verification`,

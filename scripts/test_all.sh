@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Full v1.0-v3.2 regression suite
+# Full v1.0-v3.3 regression suite
 # Usage: bash scripts/test_all.sh
 set -euo pipefail
 export PYTHONDONTWRITEBYTECODE=1
@@ -20,7 +20,7 @@ pass() { echo "  [PASS] $1"; PASS=$((PASS + 1)); }
 fail() { echo "  [FAIL] $1"; FAIL=$((FAIL + 1)); }
 
 echo "============================================"
-echo " our-skills Full Test Suite (v1.0 - v3.2)"
+echo " our-skills Full Test Suite (v1.0 - v3.3)"
 echo "============================================"
 EXPECTED_SKILLS=$("$PYTHON" -c "import json; print(len(json.load(open('skills.json'))['skills']))")
 RELEASE=$("$PYTHON" -c "import json; print('v' + json.load(open('skills.json'))['version'])")
@@ -109,6 +109,12 @@ if "$PYTHON" scripts/security_scan.py; then
     pass "security_scan.py"
 else
     fail "security_scan.py"
+fi
+
+if "$PYTHON" scripts/check_supply_chain.py; then
+    pass "check_supply_chain.py (OIDC, Sigstore, SLSA, standard OSS tools)"
+else
+    fail "check_supply_chain.py"
 fi
 
 if "$PYTHON" scripts/check_maintenance_evidence.py; then
@@ -306,6 +312,20 @@ else
     fail "maintenance evidence did NOT detect stale Git blob"
 fi
 rm -f "$TMP_MAINTENANCE"
+
+# 10c: malformed source identity must not produce provenance
+TMP_SLSA_DIR=$(mktemp -d -t our-skills-slsa-negative-XXXXXX)
+printf 'artifact\n' > "$TMP_SLSA_DIR/artifact.zip"
+if ! "$PYTHON" scripts/generate_slsa_provenance.py \
+    --artifact "$TMP_SLSA_DIR/artifact.zip" \
+    --output "$TMP_SLSA_DIR/provenance.json" \
+    --source-uri "https://github.com/example/our-skills" \
+    --source-commit "short" > /dev/null 2>&1; then
+    pass "SLSA generator rejects an incomplete source commit"
+else
+    fail "SLSA generator accepted an incomplete source commit"
+fi
+rm -rf "$TMP_SLSA_DIR"
 
 # ── Summary ────────────────────────────────────
 echo ""
