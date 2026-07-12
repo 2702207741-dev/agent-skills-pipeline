@@ -31,6 +31,7 @@ REQUIRED_FILES = (
     "examples/external-repos/python-library/README.md",
     "examples/external-repos/python-library/skills.json",
     "examples/external-repos/python-library/skills/python-library-review/SKILL.md",
+    "examples/external-repos/python-library/.github/workflows/our-skills.yml",
     "examples/end-to-end-maintenance/README.md",
     "examples/end-to-end-maintenance/expected-report.json",
     "scripts/external_repo_check.py",
@@ -181,6 +182,22 @@ def check_static_contracts(failures: list[str]) -> None:
                 failures.append("external registry schema required fields do not match the portable gate")
         except json.JSONDecodeError:
             failures.append("schemas/external-skills.schema.json is not valid JSON")
+
+    consumer_workflow = EXAMPLE / ".github" / "workflows" / "our-skills.yml"
+    if consumer_workflow.is_file():
+        refs = action_references(consumer_workflow)
+        bases = {"/".join(name.split("/")[:2]) for name, _ in refs}
+        expected = {"actions/checkout", "2702207741-dev/agent-skills-pipeline"}
+        if bases != expected:
+            failures.append(f"external consumer workflow action set is invalid: {sorted(bases ^ expected)}")
+        for name, ref in refs:
+            if not SHA_RE.fullmatch(ref):
+                failures.append(f"external consumer dependency is not pinned to a full commit SHA: {name}@{ref}")
+                continue
+            if name == "2702207741-dev/agent-skills-pipeline":
+                result = run(["git", "cat-file", "-e", f"{ref}:action.yml"])
+                if result.returncode != 0:
+                    failures.append("external consumer pins a commit that does not contain action.yml")
 
 
 def check_runtime_contracts(failures: list[str]) -> None:

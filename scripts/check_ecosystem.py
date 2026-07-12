@@ -60,6 +60,7 @@ REQUIRED_FILES = [
     "examples/external-repos/README.md",
     "examples/external-repos/python-library/README.md",
     "examples/external-repos/python-library/skills.json",
+    "examples/external-repos/python-library/.github/workflows/our-skills.yml",
     "examples/end-to-end-maintenance/README.md",
     "examples/end-to-end-maintenance/expected-report.json",
     "docs/security-review-checklist.md",

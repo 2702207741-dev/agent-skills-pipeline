@@ -58,6 +58,7 @@ REQUIRED_FILES = [
     "eval-runs/codex-maintenance/README.md",
     "eval-runs/codex-maintenance/traces.json",
     "examples/external-repos/python-library/skills.json",
+    "examples/external-repos/python-library/.github/workflows/our-skills.yml",
     "examples/end-to-end-maintenance/expected-report.json",
     "schemas/external-skills.schema.json",
 ]
