@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     "AGENTS.md",
     "docs/index.html",
+    "docs/README.md",
     "docs/styles.css",
     "docs/assets/ecosystem-map.svg",
     "docs/third-party-skill-spec.md",
@@ -24,6 +25,7 @@ REQUIRED_FILES = [
     "docs/quickstart.md",
     "docs/github-action.md",
     "docs/roadmap-to-ecosystem.md",
+    "docs/oss-review.md",
     "eval-runs/codex-maintenance/README.md",
     "eval-runs/codex-maintenance/traces.json",
     "CONTRIBUTING.md",

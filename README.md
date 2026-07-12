@@ -7,21 +7,18 @@
 [![Release](https://img.shields.io/badge/release-v4.0.0-blue)](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**Adoptable maintenance infrastructure for open-source coding agents.**
+**Governed, replay-tested maintenance skills that OSS repositories can validate,
+install, and ship.**
 
-`our-skills` turns agent skills from loose prompt snippets into governed, testable,
-installable assets. It combines a skill registry, replayable execution evidence,
-security gates, release provenance, marketplace-style installation, contributor
-review automation, and a reusable quality/release gate for other repositories.
+`our-skills` turns coding-agent instructions into versioned assets with a
+registry, execution evidence, security gates, deterministic releases, safe
+installation, and a reusable GitHub Action. It is maintenance infrastructure,
+not a prompt collection.
 
-This is not a prompt collection or a demo. It is an operating layer that makes
-agent-assisted OSS maintenance inspectable before it is trusted.
+Current release: **[v4.0.0](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0)**
+with 14 active skills, 42 skill traces, and 12 Codex maintenance records.
 
 ## 60-Second Review
-
-**One sentence:** `our-skills` gives any OSS repository a verifiable way to
-review, test, secure, package, install, roll back, and govern coding-agent
-skills without copying this repository's internal scripts.
 
 ### Three Commands
 
@@ -31,42 +28,32 @@ skills without copying this repository's internal scripts.
 ./our-skills demo --check
 ```
 
-The first command previews and installs one skill into an isolated target,
-strictly diagnoses it, and replays a hash-bound execution case. The second
-checks the repository through one unified entry point. The third executes the
-issue-to-review-to-release maintenance flow.
+The commands install and replay one skill in an isolated target, diagnose the
+repository, and execute the issue-to-review-to-release maintenance flow.
+Windows users can run the same commands through `our-skills.cmd`.
 
 ### Three Evidence Links
 
 - [42 replayable RigorBench traces](eval-runs/rigorbench-v1.3/traces.json)
 - [12 replayable Codex maintainer workflow records](eval-runs/codex-maintenance/README.md)
-- [Reusable GitHub Action](action.yml), [verified external repository fixture](examples/external-repos/python-library/), and [Issue-to-Release Demo](examples/end-to-end-maintenance/)
+- [Reusable GitHub Action](action.yml), [external consumer fixture](examples/external-repos/python-library/), and [Issue-to-Release Demo](examples/end-to-end-maintenance/)
 
-For the reviewer narrative, read the [Codex for OSS Case Study](docs/codex-for-oss-case-study.md).
-For the operating rules, read [AGENTS.md](AGENTS.md) and the
-[Maintainer Workflows](docs/maintainer-workflows.md).
+Reviewer path: [OSS Reviewer Brief](docs/oss-review.md) |
+[Codex for OSS Case Study](docs/codex-for-oss-case-study.md) |
+[Maintainer Workflows](docs/maintainer-workflows.md) |
+[v4.0.0 Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0)
 
 ## Five-Minute Quickstart
 
-The [Five-Minute Quickstart](docs/quickstart.md) uses an isolated target and
-requires no provider credentials:
-
-```bash
-./our-skills quickstart \
-  --platform codex \
-  --target-root "$PWD/.quickstart-home" \
-  --apply
-```
-
-It shows the install diff, installs `code-review-workflow`, runs strict doctor
-checks, replays a success task, and writes machine-readable evidence. Windows
-users can run the same command through `our-skills.cmd`.
+The first command above previews its writes, installs `code-review-workflow`
+into an isolated Codex home, runs strict diagnostics, replays hash-bound
+evidence, and writes a machine-readable run record. See the
+[Five-Minute Quickstart](docs/quickstart.md) for expected output and cleanup.
 
 ## Reusable GitHub Action
 
-Another repository can add one pinned step to validate its own `skills.json`
-and `SKILL.md` files, then produce a deterministic zip, manifest, checksum, and
-gate report:
+Another repository can validate its own `skills.json` and `SKILL.md` files and
+produce a deterministic archive, manifest, checksum, and gate report:
 
 ```yaml
 - uses: 2702207741-dev/agent-skills-pipeline@<FULL_COMMIT_SHA>
@@ -74,288 +61,96 @@ gate report:
     mode: all
 ```
 
-See the [Action contract](docs/github-action.md) and the
-[verified Python-library consumer](examples/external-repos/python-library/).
-The Action rejects path traversal, symlinks, secret-like material, unsafe
-commands, metadata drift, and archive tampering.
+Production users should pin a reviewed commit SHA. The
+[Action contract](docs/github-action.md) documents inputs and outputs; the
+[Python-library fixture](examples/external-repos/python-library/) exercises the
+same interface against traversal, tampering, and nondeterministic-build cases.
 
 ## Issue-to-Release Demo
 
+The third command in the review path reproduces a reported bug, reviews the
+patch and security surface, runs the fixed tests, and verifies the resulting
+release gate against a committed JSON oracle. The complete scenario lives in
+[`examples/end-to-end-maintenance/`](examples/end-to-end-maintenance/).
+
+## Evidence At A Glance
+
+| Claim | Checked evidence |
+|---|---|
+| Governed skill surface | `skills.json` owns names, paths, versions, owners, dependencies, and lifecycle state. |
+| Behavioral coverage | 42 traces cover success, failure, and boundary behavior for every active skill. |
+| Real maintenance work | 12 Git-pinned records cover PR review, issue triage, release, and security audits. |
+| Trusted distribution | CI emits checksum, SBOM, SLSA provenance, Sigstore identity bundle, and GitHub attestation. |
+| External adoption boundary | A clean consumer repository runs the public Action and deterministic release gate. |
+| Recoverable installation | Install and update default to dry-run; applied changes are audited and rollback-tested. |
+| Community readiness | MIT, contributing guide, security policy, code of conduct, CLA, templates, CODEOWNERS, and CI are present. |
+
+## Skill System
+
+The detailed registry is [skills.json](skills.json). The 14 active skills are
+grouped into three operating surfaces:
+
+| Surface | Skills |
+|---|---|
+| Build and govern | `skill-authoring-workflow`, `skill-review-workflow`, `skill-pipeline-orchestrator`, `agent-config-reference` |
+| Maintainer work | `code-review-workflow`, `systematic-debugging`, `test-design-workflow`, `requirements-clarifier`, `planning-workflow`, `observability-workflow`, `incident-retro-workflow` |
+| Trust and operations | `agent-security-guard`, `cross-model-verification`, `git-workflow-for-agents` |
+
+Every registry entry must match its `SKILL.md` frontmatter and retain fixture,
+replay, graph, platform, and ownership coverage.
+
+## Safe Installation
+
 ```bash
-./our-skills demo --check
+./our-skills list
+./our-skills install --platform codex --target-root ~
+./our-skills install --platform codex --target-root ~ --apply
+./our-skills rollback --platform codex --target-root ~ --skill skill-review-workflow --apply
 ```
 
-The runnable [end-to-end fixture](examples/end-to-end-maintenance/) confirms a
-reported bug before the patch, reviews the changed behavior and security
-surface, passes the fixed test suite, and finishes at a verified external
-release gate. Its checked-in JSON report is the regression oracle.
+The preview is the default. Writes require explicit `--apply`, updates create a
+backup, and every install, update, and rollback writes an audit event.
 
-## Why Maintainers Should Care
+## Release And Verification
 
-Coding agents are already asked to review pull requests, debug failures, design
-tests, clarify requirements, prepare releases, reason about incidents, and keep
-security-sensitive work inside guardrails. Those jobs need more than a good
-prompt. They need a repeatable operating layer:
-
-- a single registry of what skills exist and where they install;
-- trigger and formatting checks before a skill is trusted;
-- replayable evidence that each skill works on success, failure, and boundary
-  cases;
-- security regression tests for secrets, dangerous commands, and external-model
-  redaction;
-- identity-signed CI artifacts with manifest, checksum, SBOM, SLSA provenance,
-  Sigstore bundle, and GitHub artifact attestation;
-- dry-run-first installation, update, rollback, doctor checks, and audit logs;
-- contributor gates that let new skills enter the ecosystem without lowering the
-  bar;
-- a repository-independent composite Action and portable gate that let other
-  OSS projects keep ownership of their own skill registry.
-
-## Current Release
-
-**[v4.0.0](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0)** is the external-adoption release.
-
-It adds a unified CLI, five-minute quickstart, composite GitHub Action, external
-consumer fixture, deterministic portable release gate, complete maintenance
-demo, and ecosystem roadmap on top of the OIDC, Sigstore, CodeQL, and Scorecard
-trust baseline. Historical release files remain immutable.
-
-It includes:
-
-- 14 active first-party skills in `skills.json`;
-- 42 replayable RigorBench traces in `eval-runs/rigorbench-v1.3/traces.json`;
-- 12 replayable Codex maintenance records across review, triage, release, and
-  security workflows in `eval-runs/codex-maintenance/traces.json`;
-- public docs, task library, replay dataset, and third-party skill intake spec;
-- deterministic multi-model replay rows for Codex, Claude, Gemini, and a local
-  model adapter;
-- release artifacts in `releases/v4.0.0/` with manifest, checksum, SBOM,
-  provenance, legacy local-integrity `.sig`, marketplace index, quality
-  dashboard, skill graph, and model-eval sidecars;
-- a CI-built signed bundle that adds SLSA provenance, a Cosign
-  `.sigstore.json` identity bundle, and GitHub artifact attestation on every
-  accepted `main` build;
-- a self-tested composite Action that validates and packages a repository-owned
-  external skill registry without depending on internal project layout.
-
-For a compact reviewer path, see [OSS_REVIEW.md](OSS_REVIEW.md), then the
-[Codex for OSS Case Study](docs/codex-for-oss-case-study.md).
-
-## One-Command Verification
-
-Fresh clone, one command:
+From a fresh clone, the complete release gate is one command:
 
 ```bash
 ./our-skills verify
 ```
 
-That command runs the registry, skill format, fixture, security, supply-chain,
-external-adoption, skill and maintainer-workflow RigorBench replays, graph,
-platform, ecosystem, release archive, publication-readiness, packaging,
-artifact, marketplace, install/update/rollback, and review-bot gates.
+It checks registry and frontmatter sync, fixtures, security policy, supply-chain
+configuration, external adoption, RigorBench, the skill graph, generated
+reports, release archives, packaging, installation, update, rollback, and
+publication readiness.
 
-For a lighter public-upload check:
+The retained [v4.0.0 archive](releases/v4.0.0/) contains the zip, manifest,
+checksum, SBOM, provenance, integrity signature, marketplace index, quality
+dashboard, graph, and model-evaluation sidecars. Tagged GitHub builds add OIDC
+Sigstore identity and artifact attestation. See
+[SLSA Provenance](docs/slsa-provenance.md) and the
+[Threat Model](docs/threat-model.md).
 
-```bash
-python scripts/check_publication_ready.py
-```
+## Documentation
 
-## What Reviewers Can Verify Quickly
-
-| Claim | Evidence |
+| Need | Start here |
 |---|---|
-| Active skill system | `skills.json` lists 14 active skills. |
-| Real execution coverage | `eval-runs/rigorbench-v1.3/traces.json` has success, failure, and boundary traces for every skill. |
-| Replayable scoring | `scripts/run_rigorbench.py` checks trace evidence, stale skill hashes, and regression history. |
-| Real Codex maintenance | `eval-runs/codex-maintenance/traces.json` records 12 review, triage, release, and security tasks with Git blob provenance and replayed commands. |
-| Security posture | Custom command/redaction gates are backed by CodeQL, OpenSSF Scorecard, GitHub secret scanning, Dependabot, and a reviewed threat model. |
-| Trusted distribution | The `Supply Chain` workflow builds the zip, emits SLSA provenance, signs with GitHub OIDC through Cosign, creates a GitHub artifact attestation, and uploads only from an isolated release job. |
-| Safe installation | `scripts/marketplace.py` and `scripts/install.sh` default to dry-run and support auditable rollback. |
-| External adoption | The root composite Action is exercised against a clean consumer fixture; two isolated builds must produce the same digest and tampering must fail closed. |
-| End-to-end maintenance | `./our-skills demo --check` reproduces an issue, reviews the patch, passes fixed tests, and verifies the release artifact. |
-| Community readiness | MIT license, contributing guide, security policy, code of conduct, CLA, CI, review bot, issue templates, PR template, and CODEOWNERS are present. |
+| Understand the project | [Reviewer Brief](docs/oss-review.md) and [Codex for OSS Case Study](docs/codex-for-oss-case-study.md) |
+| Install and verify | [Quickstart](docs/quickstart.md) |
+| Adopt the Action | [GitHub Action Contract](docs/github-action.md) |
+| Operate maintenance flows | [Maintainer Workflows](docs/maintainer-workflows.md) |
+| Review security | [Threat Model](docs/threat-model.md) and [Security Checklist](docs/security-review-checklist.md) |
+| Contribute a skill | [Contributing](CONTRIBUTING.md) and [Third-Party Skill Spec](docs/third-party-skill-spec.md) |
+| Follow the ecosystem direction | [Roadmap to Ecosystem](docs/roadmap-to-ecosystem.md) |
 
-## Skill Registry
+The complete documentation index is in [`docs/`](docs/README.md).
 
-| # | Skill | Category | Maintainer Workflow |
-|---:|---|---|---|
-| 1 | `skill-authoring-workflow` | meta | Create or revise `SKILL.md` files from requirements. |
-| 2 | `skill-review-workflow` | review | Review finished skills with a checklist and quality scorecard. |
-| 3 | `agent-security-guard` | security | Gate secrets, risky commands, injection risks, and sensitive dispatch. |
-| 4 | `cross-model-verification` | testing | Run redacted second-opinion checks and degraded-mode handling. |
-| 5 | `skill-pipeline-orchestrator` | workflow | Coordinate authoring, review, security, verification, package, and deploy stages. |
-| 6 | `git-workflow-for-agents` | git | Standardize agent git workflows from status checks through PR creation. |
-| 7 | `agent-config-reference` | reference | Explain portable agent config, skill paths, migration, and troubleshooting. |
-| 8 | `code-review-workflow` | code review | Review code, diffs, patches, and PRs for bugs, risks, and missing tests. |
-| 9 | `systematic-debugging` | debugging | Reproduce, isolate, fix, and verify failures without guessing. |
-| 10 | `test-design-workflow` | testing | Design risk-based success, failure, boundary, and regression tests. |
-| 11 | `requirements-clarifier` | requirements | Turn vague requests into testable acceptance criteria. |
-| 12 | `planning-workflow` | planning | Plan migrations, refactors, releases, and risky multi-step work with validation gates. |
-| 13 | `observability-workflow` | observability | Design logs, metrics, traces, alerts, dashboards, and health checks around failure modes. |
-| 14 | `incident-retro-workflow` | incident retro | Create blameless retros with timelines, impact, root causes, and verified action items. |
+## Scope Boundaries
 
-## Evidence Model
-
-The project treats every skill like a small software component.
-
-1. **Registry contract**: `skills.json` is the source of truth for name, path,
-   version, category, owner, lifecycle status, and migration policy.
-2. **Static quality**: `scripts/validate-skill.py` checks frontmatter and
-   structural requirements across every `SKILL.md`.
-3. **Execution evidence**: RigorBench replay traces record input prompt,
-   triggered skill, resources read, execution steps, final output, score, and
-   the `SKILL.md` hash used by the trace.
-4. **Security evidence**: GitHub secret scanning, CodeQL, OpenSSF Scorecard,
-   dangerous-command policy, and redaction cases are checked together.
-5. **Graph evidence**: dependency reports check dead links, isolated skills,
-   hard cycles, and stage coverage.
-6. **Distribution evidence**: CI artifacts include manifest, checksum, SBOM,
-   SLSA provenance, a Cosign identity bundle, and GitHub artifact attestation.
-7. **Adoption evidence**: external fixtures run through the same public Action
-   interface a consumer uses, including deterministic release and negative
-   tamper cases.
-
-## Marketplace and Install Safety
-
-List available skills:
-
-```bash
-./our-skills list
-```
-
-Preview an install without writing:
-
-```bash
-./our-skills install --platform codex --target-root ~
-```
-
-Apply an install only after reviewing the diff:
-
-```bash
-./our-skills install --platform codex --target-root ~ --apply
-```
-
-Check installed state:
-
-```bash
-./our-skills doctor --platform codex --target-root ~ --strict
-```
-
-Rollback a skill:
-
-```bash
-./our-skills rollback --platform codex --target-root ~ --skill skill-review-workflow --apply
-```
-
-`scripts/install.sh` follows the same dry-run-first philosophy:
-
-```bash
-bash scripts/install.sh --dry-run
-bash scripts/install.sh --apply
-```
-
-## Release Policy
-
-The release version is defined by `skills.json` and
-`release_policy.current_release`. A release is considered publishable only when:
-
-1. every registered `SKILL.md` frontmatter version is synchronized with
-   `skills.json`;
-2. `python scripts/verify_release.py` passes;
-3. `scripts/create_release.py` writes the artifact, manifest, checksum, SBOM,
-   local provenance, backward-compatible integrity `.sig`, marketplace index,
-   quality dashboard, graph report, and model-eval report;
-4. `.github/workflows/supply-chain.yml` emits SLSA provenance, signs the zip
-   with a GitHub OIDC Sigstore identity, verifies that identity, and creates a
-   GitHub artifact attestation;
-5. the artifact can be installed, updated, and rolled back through the
-   marketplace flow;
-6. the official skill count matches the registry. v4.0.0 contains 14 active
-   first-party skills.
-
-Generate the retained release artifact:
-
-```bash
-python scripts/create_release.py --output ./releases/v4.0.0
-```
-
-## Repository Map
-
-```text
-our-skills/
-|-- skills.json                              # registry and release policy
-|-- action.yml                               # reusable external quality/release Action
-|-- our-skills / our-skills.cmd              # unified cross-platform CLI launchers
-|-- eval-runs/rigorbench-v1.3/traces.json    # replayable execution traces
-|-- eval-runs/codex-maintenance/             # replayable Codex maintenance evidence
-|-- benchmarks/                              # RigorBench config and regression history
-|-- fixtures/                                # static end-to-end task contracts
-|-- graphs/                                  # skill dependency graph
-|-- marketplace/                             # local marketplace metadata
-|-- platforms/                               # platform compatibility matrix
-|-- reports/                                 # quality, graph, and model-eval reports
-|-- docs/                                    # public docs and third-party skill spec
-|-- examples/                                # task library and replay dataset
-|   |-- external-repos/                      # verified consumer fixtures
-|   `-- end-to-end-maintenance/              # issue-to-review-to-release demo
-|-- evals/                                   # model replay matrix
-|-- releases/v4.0.0/                         # retained release artifact and sidecars
-|-- security/                                # command policy and redaction regressions
-|-- .github/workflows/                       # CI, CodeQL, Scorecard, OIDC signing and attestation
-|-- templates/third-party-skill/             # starter template and intake metadata
-|-- scripts/                                 # validators, maintainer evidence, release, marketplace, review bot
-|-- *-workflow/SKILL.md                      # first-party agent skills
-```
-
-## Codex for OSS Fit
-
-This repository is built around the maintenance work where Codex can help most:
-
-- PR and diff review with risk-first findings;
-- systematic debugging and test design;
-- issue and requirement clarification;
-- release planning and rollback readiness;
-- observability and incident review;
-- security checks before data leaves the local workspace;
-- repeatable packaging and verification for agent-facing assets.
-
-The project is intentionally small enough to inspect, but complete enough to
-show how an agent skill ecosystem can be governed like software instead of
-copied around as isolated prompts.
-
-## Roadmap
-
-| Milestone | Goal | Verification Signal |
-|---|---|---|
-| v1.1 | Baseline skill pipeline | 7 official skills, package/install scripts, validation. |
-| v1.3 | Real E2E harness | At least 3 replay traces per skill: success, failure, boundary. |
-| v1.5 | Security and supply chain hardening | Signed artifacts, SBOM, dry-run installer, redaction and command-policy regressions. |
-| v2.0 | Skill platform | Marketplace index, doctor, quality dashboard, graph report, lifecycle policy. |
-| v3.0 | Ecosystem entry | Docs site, third-party spec, review bot, multi-model replay, community gates. |
-| v3.1 | Reviewer confidence | Codex operating rules, maintainer workflows, evidence-led case study, and contribution templates. |
-| v3.2 | Real Codex maintenance evidence | Replayable records for PR review, issue triage, release, and security/code-quality work. |
-| v3.3 | Strong supply-chain assurance | OIDC provenance, standard OSS security tools, stronger signing, and a threat model. |
-| v4.0 | External adoption | Quickstart, unified CLI, external-repository fixture, reusable GitHub Action, deterministic portable release gate, and end-to-end maintainer demo. |
-
-## Limitations
-
-- The current multi-model report uses deterministic replay adapters, not live
-  API calls. That keeps CI reproducible and avoids requiring provider secrets.
-- The 42 skill-level RigorBench records are deterministic replay evidence, not
-  historical live model transcripts. The separate 12-record maintenance suite
-  pins real repository files, commands, outputs, and human adoption decisions.
-- The retained v3.0.0 `.sig` predates v3.3 and is local integrity evidence, not
-  identity signing. New `main` workflow artifacts add an OIDC-backed Cosign
-  bundle and GitHub attestation; no old release is retroactively relabeled.
-- GitHub-hosted runners, GitHub's attestation service, and Sigstore remain
-  external trust assumptions documented in the threat model.
-- The marketplace installer is local-first. Remote registry federation is a
-  future direction.
-- `examples/external-repos/` is verified integration evidence, not a claim of
-  independent adoption. Public adopters will be listed only with repository
-  evidence and maintainer consent.
-- The portable Action creates digest-verified release evidence but leaves OIDC
-  signing to the consuming repository's own trust and release policy.
+- Multi-model scoring is deterministic replay, not a claim of live provider API execution.
+- The external repository is a verified fixture, not an invented independent adopter.
+- The marketplace is local-first; remote registry federation remains roadmap work.
+- GitHub-hosted runners, GitHub attestations, and Sigstore are documented trust dependencies.
 
 ## License
 

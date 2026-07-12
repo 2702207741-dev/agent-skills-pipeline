@@ -2,7 +2,12 @@
 
 ## Unreleased
 
-No unreleased changes.
+### Changed
+
+- Reduced the root README from 361 lines to a focused reviewer, adoption,
+  evidence, installation, and release path without duplicating detailed docs.
+- Moved the OSS reviewer brief into `docs/` and added a compact documentation
+  index so GitHub navigation has one clear entry point.
 
 ## 4.0.0 - 2026-07-12
 
