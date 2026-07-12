@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "format": "our-skills-minimal-sbom",
+  "release": "v4.0.0",
+  "generated_at": "2026-07-12",
+  "dependency_policy": "No third-party runtime packages are required; Python scripts use the standard library and install.sh uses Bash/coreutils.",
+  "external_runtime_dependencies": [
+    {
+      "name": "python",
+      "minimum": "3.10",
+      "scope": "validation, release, marketplace, benchmark, graph"
+    },
+    {
+      "name": "bash",
+      "minimum": "4.x",
+      "scope": "scripts/install.sh only"
+    },
+    {
+      "name": "git",
+      "minimum": "2.x",
+      "scope": "optional provenance source metadata"
+    }
+  ],
+  "component_count": 41,
+  "components": [
+    {
+      "type": "skill",
+      "name": "skill-authoring-workflow",
+      "version": "1.5.0",
+      "path": "skill-authoring-workflow",
+      "sha256": "359eff11a9594e3afa3ff8afee4d976a1d55b13fdfd0a8ec5814eed9f0fcc050"
+    },
+    {
+      "type": "skill",
+      "name": "skill-review-workflow",
+      "version": "1.1.0",
+      "path": "skill-review-workflow",
+      "sha256": "3ab64b7955ba06aad3ba13025ac42093a94d816f87463fdac0ea74f58ea1390e"
+    },
+    {
+      "type": "skill",
+      "name": "agent-security-guard",
+      "version": "1.0.0",
+      "path": "agent-security-guard",
+      "sha256": "0350577db54d38cf674c80119c1924009edd96c008451bf4e8d843b87db59bf0"
+    },
+    {
+      "type": "skill",
+      "name": "cross-model-verification",
+      "version": "1.0.0",
+      "path": "cross-model-verification",
+      "sha256": "25d14e9946f98f68e7655f2ba27eb43607203619f9a6caa52befbd65bce38859"
+    },
+    {
+      "type": "skill",
+      "name": "skill-pipeline-orchestrator",
+      "version": "1.0.0",
+      "path": "skill-pipeline-orchestrator",
+      "sha256": "6be6ebf94a6f76054fe85e42f158a7834e39c4e28e27da344112e8967336fba3"
+    },
+    {
+      "type": "skill",
+      "name": "git-workflow-for-agents",
+      "version": "1.0.0",
+      "path": "git-workflow-for-agents",
+      "sha256": "1f484ef4760549d049ae28c0251ff0e05869584a7e213f3df5d372f3fe988aee"
+    },
+    {
+      "type": "skill",
+      "name": "agent-config-reference",
+      "version": "1.0.0",
+      "path": "agent-config-reference",
+      "sha256": "0200b3916767b3f599bac9f6cb16704cb2a1d9ff99288c1b4b9ce093e5006a5a"
+    },
+    {
+      "type": "skill",
+      "name": "code-review-workflow",
+      "version": "1.0.0",
+      "path": "code-review-workflow",
+      "sha256": "b8c5e4bbbdab8083c5b0f78041a41b553d5c3846c03929ccaad1368ea59c0a34"
+    },
+    {
+      "type": "skill",
+      "name": "systematic-debugging",
+      "version": "1.0.0",
+      "path": "systematic-debugging",
+      "sha256": "4ba644b4c2f1a403e66354d31938466cab783a9838c04995168364c2f42f1df7"
+    },
+    {
+      "type": "skill",
+      "name": "test-design-workflow",
+      "version": "1.0.0",
+      "path": "test-design-workflow",
+      "sha256": "aa63f816ff45addf96580955af7cb1f6aeae4780311c81e399cb47f478dba805"
+    },
+    {
+      "type": "skill",
+      "name": "requirements-clarifier",
+      "version": "1.0.0",
+      "path": "requirements-clarifier",
+      "sha256": "963b497a49d3e1e9dda03278c8d944e38705409b14f2a05933feea962abe0860"
+    },
+    {
+      "type": "skill",
+      "name": "planning-workflow",
+      "version": "1.0.0",
+      "path": "planning-workflow",
+      "sha256": "9593f91f30ce0ab156d8d5d78d93145fa5630bbf4a20dfedeb60ca1d0ca155d9"
+    },
+    {
+      "type": "skill",
+      "name": "observability-workflow",
+      "version": "1.0.0",
+      "path": "observability-workflow",
+      "sha256": "97db6c80497166ac07b35778808aa048be3e52433e03061bbbe5704d0788e72a"
+    },
+    {
+      "type": "skill",
+      "name": "incident-retro-workflow",
+      "version": "1.0.0",
+      "path": "incident-retro-workflow",
+      "sha256": "c2a7f29c61bdf88dba145ed88c15a82714f61cf9ccd44b612b5f1c5f3378f64f"
+    },
+    {
+      "type": "script",
+      "name": "check_ecosystem.py",
+      "path": "scripts/check_ecosystem.py",
+      "runtime": "python-stdlib",
+      "sha256": "c0e2885b8dc463fe9f60c19f3af9971770a2a539ddc4372fcdd2d20e0279c502"
+    },
+    {
+      "type": "script",
+      "name": "check_external_adoption.py",
+      "path": "scripts/check_external_adoption.py",
+      "runtime": "python-stdlib",
+      "sha256": "933891fb69712f8458fc33609d7f55214ba4e4021048e40acf837ec4b1775d6e"
+    },
+    {
+      "type": "script",
+      "name": "check_maintenance_evidence.py",
+      "path": "scripts/check_maintenance_evidence.py",
+      "runtime": "python-stdlib",
+      "sha256": "af933637c4d87e21d611cd4e08fb4ddaee1e212f3eb665ede199b99dab47e223"
+    },
+    {
+      "type": "script",
+      "name": "check_publication_ready.py",
+      "path": "scripts/check_publication_ready.py",
+      "runtime": "python-stdlib",
+      "sha256": "c5e513238657d801f3c56ebd4a0776fe9331240d9f69064a99b761c4de9e7122"
+    },
+    {
+      "type": "script",
+      "name": "check_registry.py",
+      "path": "scripts/check_registry.py",
+      "runtime": "python-stdlib",
+      "sha256": "882609ad376a88306f99f0124d750c33912a720ebcab59daa50f4327ce0811c2"
+    },
+    {
+      "type": "script",
+      "name": "check_release_archive.py",
+      "path": "scripts/check_release_archive.py",
+      "runtime": "python-stdlib",
+      "sha256": "048705079e654d174693e193f17d2ee08a3f3630bb535959b2c1e46d42c7f6c4"
+    },
+    {
+      "type": "script",
+      "name": "check_skill_graph.py",
+      "path": "scripts/check_skill_graph.py",
+      "runtime": "python-stdlib",
+      "sha256": "4752be28a8b6220131ca86d9937edb9d3d6c8f63d073eca0450d97b59f862a2a"
+    },
+    {
+      "type": "script",
+      "name": "check_supply_chain.py",
+      "path": "scripts/check_supply_chain.py",
+      "runtime": "python-stdlib",
+      "sha256": "8e58d3b10db43de2e34dbfd235f23bb2c343238db3e0e45216b46d4ad856cc1f"
+    },
+    {
+      "type": "script",
+      "name": "create_release.py",
+      "path": "scripts/create_release.py",
+      "runtime": "python-stdlib",
+      "sha256": "df5295cabd6198e3154163f6e4c308a38e0c581189ec48eeba23d17917b77ba8"
+    },
+    {
+      "type": "script",
+      "name": "external_repo_check.py",
+      "path": "scripts/external_repo_check.py",
+      "runtime": "python-stdlib",
+      "sha256": "c65367d1ae34c26b13ff8257913045105b7577db27fa567089a9d4381baee1f8"
+    },
+    {
+      "type": "script",
+      "name": "generate_example_dataset.py",
+      "path": "scripts/generate_example_dataset.py",
+      "runtime": "python-stdlib",
+      "sha256": "5ff3931304ffedf56d192e7ba7dfeb80f2817460e73010c78d3c37c36c7eea56"
+    },
+    {
+      "type": "script",
+      "name": "generate_platform_reports.py",
+      "path": "scripts/generate_platform_reports.py",
+      "runtime": "python-stdlib",
+      "sha256": "a2603c1474475e31c6da498c3f3a5cd3049df9f7e2c3d98f315e1f5bb2e701ce"
+    },
+    {
+      "type": "script",
+      "name": "generate_slsa_provenance.py",
+      "path": "scripts/generate_slsa_provenance.py",
+      "runtime": "python-stdlib",
+      "sha256": "5b60c09c5f6a6427908845ceb62871f8f3732ea70ac4bb30ca86c2eeaf865daf"
+    },
+    {
+      "type": "script",
+      "name": "install.sh",
+      "path": "scripts/install.sh",
+      "runtime": "bash",
+      "sha256": "1b6f9e267130ead0f2a9f4883affa42c8856b604deda959acb47f7ea9d98458f"
+    },
+    {
+      "type": "script",
+      "name": "marketplace.py",
+      "path": "scripts/marketplace.py",
+      "runtime": "python-stdlib",
+      "sha256": "ba07e00ed4a1d0d3e9ec181c0c1707315af1014607812ab1815cd032fd4f595e"
+    },
+    {
+      "type": "script",
+      "name": "our_skills.py",
+      "path": "scripts/our_skills.py",
+      "runtime": "python-stdlib",
+      "sha256": "182e3a15dd051724628cebc1c9c0dd381b5d1432304c966f866f3b2d4c8a0e7c"
+    },
+    {
+      "type": "script",
+      "name": "package_skill.py",
+      "path": "scripts/package_skill.py",
+      "runtime": "python-stdlib",
+      "sha256": "5100354965880355118898a8b42c22160217b3054ba41a49e77f2a89fa1488bb"
+    },
+    {
+      "type": "script",
+      "name": "platform_reports.py",
+      "path": "scripts/platform_reports.py",
+      "runtime": "python-stdlib",
+      "sha256": "6191a753a9453fb80e6bdc0948483b1260b4845dbfeb8ba077f412bd717b3732"
+    },
+    {
+      "type": "script",
+      "name": "review_bot.py",
+      "path": "scripts/review_bot.py",
+      "runtime": "python-stdlib",
+      "sha256": "0da590676187c0a7fbc7b8c12997d4eb702b119fd004edc24439cef51481abea"
+    },
+    {
+      "type": "script",
+      "name": "run_fixture_checks.py",
+      "path": "scripts/run_fixture_checks.py",
+      "runtime": "python-stdlib",
+      "sha256": "93d898df2cf4a2bd976eb6a376d9cc93df6e73b39cf154c4db93c36d8bb8f219"
+    },
+    {
+      "type": "script",
+      "name": "run_maintenance_demo.py",
+      "path": "scripts/run_maintenance_demo.py",
+      "runtime": "python-stdlib",
+      "sha256": "2f3a9659a0ae50ae070ab65d1746d619be99e1a708c27aceaecbc2daa2852fa4"
+    },
+    {
+      "type": "script",
+      "name": "run_model_eval.py",
+      "path": "scripts/run_model_eval.py",
+      "runtime": "python-stdlib",
+      "sha256": "b0d08129cab9463a92bb3a3c28ae27da8f384125ffa69ab1392cb27506e8d310"
+    },
+    {
+      "type": "script",
+      "name": "run_rigorbench.py",
+      "path": "scripts/run_rigorbench.py",
+      "runtime": "python-stdlib",
+      "sha256": "25fcc57c82ee2b1cbbd1fb710c187448e75ace0d538c9fd7f65f03eac0e11a69"
+    },
+    {
+      "type": "script",
+      "name": "security_scan.py",
+      "path": "scripts/security_scan.py",
+      "runtime": "python-stdlib",
+      "sha256": "d389b257a1b2abf5f5223bb8b2be6404c33f66814b629edb4d67699f8e4d0e3f"
+    },
+    {
+      "type": "script",
+      "name": "test_all.sh",
+      "path": "scripts/test_all.sh",
+      "runtime": "bash",
+      "sha256": "4e6003edfeff8660731db629e560641c45a69758529dca9c08a0bb4be405ccbf"
+    },
+    {
+      "type": "script",
+      "name": "validate-skill.py",
+      "path": "scripts/validate-skill.py",
+      "runtime": "python-stdlib",
+      "sha256": "1d8b64440e7e6c48e0073f604cd57669d9f015040645a2ac86f1226e34d8abd5"
+    },
+    {
+      "type": "script",
+      "name": "verify_release.py",
+      "path": "scripts/verify_release.py",
+      "runtime": "python-stdlib",
+      "sha256": "dea48c5e5f33377b2979d5a9cbc683f576fa70ed4c68f82565fd51dd2c3be02a"
+    }
+  ],
+  "source_file_count": 150,
+  "source_tree_sha256": "0590652c8396d2bbe3f34700a1e0855201be53fc2f9f1b7ff80c6c32842d16f1"
+}

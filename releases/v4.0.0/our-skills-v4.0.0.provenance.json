@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "predicate_type": "our-skills-release-provenance-v1",
+  "release": "v4.0.0",
+  "generated_at": "2026-07-12",
+  "subject": {
+    "artifact": "our-skills-v4.0.0.zip",
+    "artifact_sha256": "2f2163a54251974c8aa8bc4341e7fc2ad02ed9686ccb2ffef148ba34ad3dbb83",
+    "manifest": "our-skills-v4.0.0.manifest.json",
+    "manifest_sha256": "67db4d9c6bd2f2194da3c71a0eb26e33a829733e240a6d07704e662d5c7b2a72",
+    "checksum": "our-skills-v4.0.0.sha256",
+    "checksum_sha256": "75d39ea8f068424e8e2e1a0480cb458253c5d9fdbc11bb79dad4972e2fdc39c7",
+    "sbom": "our-skills-v4.0.0.sbom.json",
+    "sbom_sha256": "82a161a47ca13d8ce66b142680d0ba38453bce995b1a15775cd82e1f7181a481",
+    "reports": [
+      {
+        "name": "our-skills-v4.0.0.marketplace-index.json",
+        "sha256": "4ed204fec182a12782218674ba7c03c1b0d1248d47757cb828b2d76523dcc7fa"
+      },
+      {
+        "name": "our-skills-v4.0.0.model-eval-report.json",
+        "sha256": "49bf107b929bc214d69e6ec65e0b66b209ae0d674f2a7cabb3b17f2c70c58cb8"
+      },
+      {
+        "name": "our-skills-v4.0.0.quality-dashboard.json",
+        "sha256": "15303e92101d940afc3b0bc6c2429422f0509575baa42c84be02372f343bbcea"
+      },
+      {
+        "name": "our-skills-v4.0.0.skill-graph-report.json",
+        "sha256": "aaadd6d06107480e0d315326fecce0e93a33c90450bb231621fe8c6a52701b5d"
+      }
+    ]
+  },
+  "source": {
+    "project": "our-skills",
+    "version": "4.0.0",
+    "registry_sha256": "994a7a3ad76587ec7d8feafa457c0a8bd219037f52b2ecca257b3e37ac440fd6",
+    "git_commit": "ab4696c043517562e8448495d7e17a4321fb628f",
+    "git_tags_at_head": [],
+    "git_dirty": false,
+    "source_file_count": 150,
+    "source_tree_sha256": "0590652c8396d2bbe3f34700a1e0855201be53fc2f9f1b7ff80c6c32842d16f1"
+  },
+  "builder": {
+    "script": "scripts/create_release.py",
+    "script_sha256": "df5295cabd6198e3154163f6e4c308a38e0c581189ec48eeba23d17917b77ba8",
+    "python": "3.11.9"
+  }
+}
