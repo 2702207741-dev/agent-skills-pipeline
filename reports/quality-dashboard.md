@@ -1,4 +1,4 @@
-# Quality Dashboard: v3.0.0
+# Quality Dashboard: v4.0.0
 
 - Skills: 14
 - Average pass rate: 1.00

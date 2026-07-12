@@ -2,7 +2,7 @@
 
 This repository is an agent skill infrastructure project for Codex-style coding agents.
 
-## v4.0 Candidate Fast Path
+## v4.0 Release Fast Path
 
 In under a minute, a reviewer can establish the project scope and verify its
 maintenance posture:
@@ -17,7 +17,7 @@ maintenance posture:
 4. Run `./our-skills demo --check` and inspect the
    [verified external consumer](examples/external-repos/python-library/).
 5. Run `./our-skills verify`, then inspect the [Supply Chain workflow](.github/workflows/supply-chain.yml)
-   and [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).
+   and [v4.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0).
 
 ## Project in One Sentence
 
@@ -65,7 +65,7 @@ The project targets maintainer work that coding agents are already asked to help
 ## Fast Review Path
 
 1. Start with `README.md` for the project shape and the 14-skill registry.
-2. Open `releases/v3.0.0/RELEASE_NOTES.md` for the public release summary.
+2. Open `releases/v4.0.0/RELEASE_NOTES.md` for the public release summary.
 3. Inspect `eval-runs/rigorbench-v1.3/traces.json` to confirm every skill has
    success, failure, and boundary execution evidence.
 4. Inspect `eval-runs/codex-maintenance/traces.json` to confirm the four
@@ -77,7 +77,7 @@ The project targets maintainer work that coding agents are already asked to help
 ## Scope Boundaries
 
 - The deterministic model evaluation in `reports/model-eval-report.md` uses replay adapters, not live model API calls.
-- Public release publishing is intentionally explicit and now recorded for v3.0.0.
+- Public release publishing is intentionally explicit and recorded for v4.0.0.
 - The marketplace installer writes only after explicit `--apply` or `--yes`.
 - The v3.0.0 `.sig` is legacy local-integrity evidence; identity-backed signing
   begins with v3.3 workflow artifacts and does not rewrite the old release.

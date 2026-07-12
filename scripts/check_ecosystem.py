@@ -76,7 +76,6 @@ REQUIRED_MARKERS = {
         "### Three Evidence Links",
         "Codex for OSS Case Study",
         "12 replayable Codex maintainer workflow records",
-        "releases/tag/v3.0.0",
         "Five-Minute Quickstart",
         "Reusable GitHub Action",
         "Issue-to-Release Demo",
@@ -140,6 +139,7 @@ def main() -> int:
         return 1
 
     registry = load_json("skills.json")
+    current_release = registry["release_policy"]["current_release"]
     skills = {entry["name"] for entry in registry["skills"]}
     task_library = load_json("examples/task-library.json")
     replay_dataset = load_json("examples/replay-dataset.json")
@@ -182,6 +182,10 @@ def main() -> int:
         for marker in markers:
             if marker not in text:
                 failures.append(f"{rel} missing reviewer marker: {marker}")
+
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    if f"releases/tag/{current_release}" not in readme:
+        failures.append("README.md current release link does not match skills.json")
 
     if failures:
         for failure in failures:

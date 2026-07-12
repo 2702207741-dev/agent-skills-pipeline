@@ -1,4 +1,4 @@
-# Skill Graph Report: v3.0.0
+# Skill Graph Report: v4.0.0
 
 - Nodes: 14
 - Edges: 39

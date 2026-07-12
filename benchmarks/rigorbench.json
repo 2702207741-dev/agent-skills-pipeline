@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "suite": "our-skills-rigorbench",
-  "version": "3.0.0",
-  "description": "Replayable E2E evaluation suite for registered AI agent skills, real Codex maintenance workflows, public examples, and v3 multi-model replay evaluation.",
+  "version": "4.0.0",
+  "description": "Replayable E2E evaluation suite for registered AI agent skills, real Codex maintenance workflows, public examples, multi-model replay evaluation, and external-adoption gates.",
   "source_runs_file": "eval-runs/rigorbench-v1.3/traces.json",
   "maintainer_workflow_runs_file": "eval-runs/codex-maintenance/traces.json",
   "scoring": {

@@ -28,6 +28,11 @@
       "release": "v3.0.0",
       "expected_formal_skills": 14,
       "required_absent_paths": []
+    },
+    {
+      "release": "v4.0.0",
+      "expected_formal_skills": 14,
+      "required_absent_paths": []
     }
   ]
 }

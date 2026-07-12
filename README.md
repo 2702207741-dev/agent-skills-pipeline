@@ -4,7 +4,7 @@
 [![Supply Chain](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/supply-chain.yml/badge.svg?branch=main)](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/supply-chain.yml)
 [![CodeQL](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/2702207741-dev/agent-skills-pipeline/actions/workflows/codeql.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/2702207741-dev/agent-skills-pipeline/badge)](https://scorecard.dev/viewer/?uri=github.com/2702207741-dev/agent-skills-pipeline)
-[![Release](https://img.shields.io/badge/release-v3.0.0-blue)](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
+[![Release](https://img.shields.io/badge/release-v4.0.0-blue)](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 **Adoptable maintenance infrastructure for open-source coding agents.**
@@ -113,13 +113,12 @@ prompt. They need a repeatable operating layer:
 
 ## Current Release
 
-**[v3.0.0](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)** is the ecosystem-ready baseline.
+**[v4.0.0](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0)** is the external-adoption release.
 
-The current `main` branch is an unreleased v4.0 external-adoption candidate. It
-adds a unified CLI, five-minute quickstart, composite GitHub Action, external
+It adds a unified CLI, five-minute quickstart, composite GitHub Action, external
 consumer fixture, deterministic portable release gate, complete maintenance
-demo, and ecosystem roadmap on top of the v3.3 OIDC/Sigstore/CodeQL/Scorecard
-baseline. The existing v3.0.0 files remain immutable.
+demo, and ecosystem roadmap on top of the OIDC, Sigstore, CodeQL, and Scorecard
+trust baseline. Historical release files remain immutable.
 
 It includes:
 
@@ -130,7 +129,7 @@ It includes:
 - public docs, task library, replay dataset, and third-party skill intake spec;
 - deterministic multi-model replay rows for Codex, Claude, Gemini, and a local
   model adapter;
-- release artifacts in `releases/v3.0.0/` with manifest, checksum, SBOM,
+- release artifacts in `releases/v4.0.0/` with manifest, checksum, SBOM,
   provenance, legacy local-integrity `.sig`, marketplace index, quality
   dashboard, skill graph, and model-eval sidecars;
 - a CI-built signed bundle that adds SLSA provenance, a Cosign
@@ -271,13 +270,13 @@ The release version is defined by `skills.json` and
    GitHub artifact attestation;
 5. the artifact can be installed, updated, and rolled back through the
    marketplace flow;
-6. the official skill count matches the registry. v3.0.0 contains 14 active
+6. the official skill count matches the registry. v4.0.0 contains 14 active
    first-party skills.
 
 Generate the retained release artifact:
 
 ```bash
-python scripts/create_release.py --output ./releases/v3.0.0
+python scripts/create_release.py --output ./releases/v4.0.0
 ```
 
 ## Repository Map
@@ -300,7 +299,7 @@ our-skills/
 |   |-- external-repos/                      # verified consumer fixtures
 |   `-- end-to-end-maintenance/              # issue-to-review-to-release demo
 |-- evals/                                   # model replay matrix
-|-- releases/v3.0.0/                         # retained release artifact and sidecars
+|-- releases/v4.0.0/                         # retained release artifact and sidecars
 |-- security/                                # command policy and redaction regressions
 |-- .github/workflows/                       # CI, CodeQL, Scorecard, OIDC signing and attestation
 |-- templates/third-party-skill/             # starter template and intake metadata
@@ -336,7 +335,7 @@ copied around as isolated prompts.
 | v3.1 | Reviewer confidence | Codex operating rules, maintainer workflows, evidence-led case study, and contribution templates. |
 | v3.2 | Real Codex maintenance evidence | Replayable records for PR review, issue triage, release, and security/code-quality work. |
 | v3.3 | Strong supply-chain assurance | OIDC provenance, standard OSS security tools, stronger signing, and a threat model. |
-| v4.0 candidate | External adoption | Quickstart, unified CLI, external-repository fixture, reusable GitHub Action, deterministic portable release gate, and end-to-end maintainer demo. |
+| v4.0 | External adoption | Quickstart, unified CLI, external-repository fixture, reusable GitHub Action, deterministic portable release gate, and end-to-end maintainer demo. |
 
 ## Limitations
 

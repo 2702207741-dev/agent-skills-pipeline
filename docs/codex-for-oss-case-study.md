@@ -45,7 +45,7 @@ operating procedures.
 | Official skill surface is governed | [`skills.json`](../skills.json) registers 14 active first-party skills | Registry paths, owners, lifecycle fields, and frontmatter versions match |
 | Skill behavior has replay coverage | [`traces.json`](../eval-runs/rigorbench-v1.3/traces.json) contains 42 success, failure, and boundary records | Every active skill has three documented outcomes and a checked skill hash |
 | Codex is used for maintenance | [`codex-maintenance/traces.json`](../eval-runs/codex-maintenance/traces.json) contains 12 review, triage, release, and security records | Each record pins files to Git blobs, replays an allowlisted command, and records adoption evidence |
-| Release distribution is inspectable | [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0) plus the [`Supply Chain` workflow](../.github/workflows/supply-chain.yml) | Legacy sidecars remain immutable; new CI builds add SLSA provenance, a GitHub OIDC Cosign bundle, and GitHub artifact attestation |
+| Release distribution is inspectable | [v4.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0) plus the [`Supply Chain` workflow](../.github/workflows/supply-chain.yml) | Retained sidecars remain immutable; tagged builds add SLSA provenance, a GitHub OIDC Cosign bundle, and GitHub artifact attestation |
 | Safety rules are executable | [`security/`](../security/), [`scripts/security_scan.py`](../scripts/security_scan.py), and [`scripts/check_supply_chain.py`](../scripts/check_supply_chain.py) | Custom regressions, CodeQL, OpenSSF Scorecard, GitHub secret scanning, and full-SHA Action pins are checked in CI |
 | Installation can be recovered | [`scripts/marketplace.py`](../scripts/marketplace.py) and [`scripts/install.sh`](../scripts/install.sh) | Dry-run-first install, doctor, update, audit log, and rollback are exercised |
 | Another repository can adopt the gate | [`action.yml`](../action.yml) and the [`python-library` fixture](../examples/external-repos/python-library/) | A clean consumer workspace validates its own registry, emits deterministic release evidence, exposes Action outputs, and rejects tampering and traversal |
@@ -93,9 +93,9 @@ command replay. [`scripts/run_rigorbench.py`](../scripts/run_rigorbench.py)
 includes this suite, so missing or stale maintenance evidence fails CI and the
 one-command release gate.
 
-## External Adoption Candidate
+## External Adoption Release
 
-The v4.0 candidate turns the v3.3 trust baseline into a public interface: a
+The v4.0.0 release turns the strong supply-chain baseline into a public interface: a
 unified CLI, isolated quickstart, composite Action, repository-owned external
 registry, deterministic portable release gate, and complete issue-to-release
 demo. The technical portability claim is now executable. The remaining social
@@ -112,4 +112,4 @@ history.
 4. Inspect the [external consumer](../examples/external-repos/python-library/)
    and run `./our-skills demo --check`.
 5. Run `./our-skills verify`, then inspect the
-   [v3.0.0 release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).
+   [v4.0.0 release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0).

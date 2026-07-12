@@ -2,10 +2,10 @@
   "schema_version": 1,
   "kind": "our-skills-marketplace-index",
   "project": "our-skills",
-  "version": "3.0.0",
-  "release": "v3.0.0",
+  "version": "4.0.0",
+  "release": "v4.0.0",
   "source_registry": "skills.json",
-  "source_registry_sha256": "4596be935d1f6ab0d8ec5db05f2bed89e0ed2c9a1f5ad9951dc7e1e6e2cca977",
+  "source_registry_sha256": "649c41eb2cee2b9257cc2c02d9ddd486c66a7ce98cd4153ca2807f9af6c455f8",
   "platforms": [
     {
       "id": "hermes",

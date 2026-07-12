@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "release": "v4.0.0",
+  "semver": "4.0.0",
+  "date": "2026-07-12",
+  "artifact_name": "our-skills-v4.0.0.zip",
+  "release_type": "major-external-adoption-milestone",
+  "public_publish": true,
+  "public_publish_requires_explicit_request": false,
+  "public_publish_request": "Maintainer requested public GitHub and Marketplace publication on 2026-07-12.",
+  "summary": "Turns the governed first-party skill pipeline into reusable OSS maintenance infrastructure through a unified CLI, five-minute quickstart, composite GitHub Action, external consumer fixture, deterministic release gate, and executable issue-to-release workflow.",
+  "includes": [
+    "our-skills and our-skills.cmd unified CLI launchers",
+    "docs/quickstart.md",
+    "action.yml reusable composite GitHub Action",
+    "docs/github-action.md",
+    "schemas/external-skills.schema.json",
+    "examples/external-repos/python-library",
+    "examples/end-to-end-maintenance",
+    "scripts/check_external_adoption.py",
+    "scripts/external_repo_check.py",
+    "scripts/run_maintenance_demo.py",
+    "docs/roadmap-to-ecosystem.md",
+    "GitHub OIDC and Sigstore supply-chain workflow",
+    "CodeQL, OpenSSF Scorecard, Dependabot, and secret-scanning configuration",
+    "releases/v4.0.0/RELEASE_NOTES.md"
+  ],
+  "gates": [
+    "./our-skills verify",
+    "./our-skills doctor",
+    "./our-skills demo --check",
+    "python scripts/check_external_adoption.py",
+    "python scripts/check_supply_chain.py",
+    "python scripts/check_release_archive.py"
+  ]
+}

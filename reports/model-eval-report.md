@@ -1,4 +1,4 @@
-# Multi-Model Evaluation: v3.0.0
+# Multi-Model Evaluation: v4.0.0
 
 - Dataset: `examples/replay-dataset.json`
 - Mode: deterministic replay of recorded agent traces

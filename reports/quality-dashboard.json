@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "kind": "our-skills-quality-dashboard",
-  "version": "3.0.0",
-  "release": "v3.0.0",
+  "version": "4.0.0",
+  "release": "v4.0.0",
   "summary": {
     "skill_count": 14,
     "average_pass_rate": 1.0,

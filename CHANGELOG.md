@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+No unreleased changes.
+
+## 4.0.0 - 2026-07-12
+
 ### Added
 
 - Root composite GitHub Action for repository-independent skill quality and

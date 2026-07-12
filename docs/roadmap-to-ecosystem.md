@@ -8,7 +8,7 @@ software. The intended ecosystem is not a central prompt dump. It is a set of
 portable contracts for discovery, quality evidence, distribution, policy,
 installation, lifecycle, and trust.
 
-The v4.0 candidate proves the first external-adoption boundary:
+The v4.0.0 release proves the first external-adoption boundary:
 
 - another repository owns its registry and skill files;
 - a pinned GitHub Action validates and packages them;

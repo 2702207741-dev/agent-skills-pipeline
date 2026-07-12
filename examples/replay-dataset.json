@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "our-skills-replay-dataset",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "source_traces": "eval-runs/rigorbench-v1.3/traces.json",
   "model_eval_entrypoint": "python scripts/run_model_eval.py",
   "cases": [

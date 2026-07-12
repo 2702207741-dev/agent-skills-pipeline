@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "project": "our-skills",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "AI agent skill system covering skill engineering plus general agent workflows for review, debugging, testing, requirements, planning, observability, incident retros, git, security, verification, and configuration.",
   "release_policy": {
     "versioning": "semver",
     "artifact_prefix": "our-skills",
-    "current_release": "v3.0.0",
-    "publish_policy": "v3.0.0 is the first ecosystem-ready public release. Public tags and GitHub Releases are created only after an explicit maintainer request."
+    "current_release": "v4.0.0",
+    "publish_policy": "v4.0.0 is the external-adoption release. Public tags and GitHub Releases are created only after an explicit maintainer request; the maintainer requested publication on 2026-07-12."
   },
   "skills": [
     {
