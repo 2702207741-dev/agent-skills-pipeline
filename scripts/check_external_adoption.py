@@ -169,8 +169,8 @@ def check_static_contracts(failures: list[str]) -> None:
                 failures.append(f"docs/roadmap-to-ecosystem.md missing marker: {marker}")
 
     launcher = ROOT / "our-skills"
-    if launcher.is_file() and not launcher.read_text(encoding="utf-8").startswith("#!/usr/bin/env python3"):
-        failures.append("our-skills launcher must have a portable Python shebang")
+    if launcher.is_file() and not launcher.read_text(encoding="utf-8").startswith("#!/usr/bin/env sh"):
+        failures.append("our-skills launcher must have a portable POSIX shell shebang")
 
     schema_path = ROOT / "schemas" / "external-skills.schema.json"
     if schema_path.is_file():

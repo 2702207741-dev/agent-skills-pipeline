@@ -45,3 +45,6 @@ jobs:
           test -f "$ARTIFACT_PATH"
           test -f "$MANIFEST_PATH"
           test -f "$CHECKSUM_PATH"
+
+      - name: Verify unified POSIX launcher
+        run: ./our-skills --version

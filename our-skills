@@ -1,8 +1,15 @@
-#!/usr/bin/env python3
-"""Repository launcher for the unified our-skills CLI."""
+#!/usr/bin/env sh
+set -eu
 
-from pathlib import Path
-import runpy
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
+if command -v python3 >/dev/null 2>&1; then
+  exec python3 "$SCRIPT_DIR/scripts/our_skills.py" "$@"
+fi
 
-runpy.run_path(str(Path(__file__).resolve().parent / "scripts" / "our_skills.py"), run_name="__main__")
+if command -v python >/dev/null 2>&1; then
+  exec python "$SCRIPT_DIR/scripts/our_skills.py" "$@"
+fi
+
+echo "Python 3.10 or newer is required." >&2
+exit 1
