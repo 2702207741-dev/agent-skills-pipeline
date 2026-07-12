@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,7 +33,10 @@ jobs:
       - name: Security scan
         run: python scripts/security_scan.py
 
-      - name: Replay RigorBench E2E traces
+      - name: Validate Codex maintenance evidence format and coverage
+        run: python scripts/check_maintenance_evidence.py --no-replay
+
+      - name: Replay RigorBench E2E and maintainer workflows
         run: python scripts/run_rigorbench.py
 
       - name: Check skill graph

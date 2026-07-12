@@ -44,6 +44,7 @@ operating procedures.
 |---|---|---|
 | Official skill surface is governed | [`skills.json`](../skills.json) registers 14 active first-party skills | Registry paths, owners, lifecycle fields, and frontmatter versions match |
 | Skill behavior has replay coverage | [`traces.json`](../eval-runs/rigorbench-v1.3/traces.json) contains 42 success, failure, and boundary records | Every active skill has three documented outcomes and a checked skill hash |
+| Codex is used for maintenance | [`codex-maintenance/traces.json`](../eval-runs/codex-maintenance/traces.json) contains 12 review, triage, release, and security records | Each record pins files to Git blobs, replays an allowlisted command, and records adoption evidence |
 | Release distribution is inspectable | [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0) includes artifact and trust sidecars | Manifest, checksum, SBOM, provenance, signature, and report sidecars are retained |
 | Safety rules are executable | [`security/`](../security/) and [`scripts/security_scan.py`](../scripts/security_scan.py) | Redaction and dangerous-command regressions are checked in CI |
 | Installation can be recovered | [`scripts/marketplace.py`](../scripts/marketplace.py) and [`scripts/install.sh`](../scripts/install.sh) | Dry-run-first install, doctor, update, audit log, and rollback are exercised |
@@ -55,43 +56,53 @@ The fastest reproducible check is:
 python scripts/verify_release.py
 ```
 
-It runs the registry, format, fixture, security, RigorBench, graph, platform,
-ecosystem, release archive, publication, packaging, marketplace, rollback, and
-review-bot gates in one command.
+It runs the registry, format, fixture, security, skill and maintainer-workflow
+RigorBench, graph, platform, ecosystem, release archive, publication, packaging,
+marketplace, rollback, and review-bot gates in one command.
 
 ## What Is Deliberately Not Claimed Yet
 
-The current RigorBench and multi-model data are deterministic replay evidence.
-They are valuable because CI can reproduce them without provider credentials,
-but they are not presented as historical live Codex sessions or proof of broad
-external adoption. The v3.0.0 provenance signature is a deterministic SHA-256
+The current skill RigorBench and multi-model data are deterministic replay
+evidence. The maintenance suite adds real repository-history and live-command
+evidence, but it is not a claim of broad external adoption. Older direct-push
+changes are explicitly labeled as PR-style reviews rather than assigned invented
+GitHub PR numbers. The v3.0.0 provenance signature is a deterministic SHA-256
 check over canonical provenance, not a Sigstore identity.
 
 Those limits are documented so a reviewer can distinguish measured capability
 from future work.
 
-## Next: Real Maintenance Evidence
+## Real Codex Maintenance Evidence
 
-The next milestone, v3.2, will record at least 12 actual Codex-assisted
-maintenance tasks: three each for PR review, issue triage, release workflow,
-and security or code-quality audit. Each record will retain:
+The v3.2 maintenance suite records 12 Codex-assisted repository tasks: three
+each for PR-style review, issue triage, release workflow, and security or
+code-quality audit. Each record retains:
 
-- the task and safe input context;
-- skills triggered and resources read;
-- commands and agent steps taken;
-- output and verification result;
-- a maintainer's adoption, revision, or rejection decision.
+- the task and prompt provenance;
+- skills used, agent behavior, and Git-pinned files read;
+- an allowlisted command, recorded output excerpt, and replay marker;
+- final output plus a transparent maintainer conclusion and adoption status.
 
-This turns the project from replayable skill contracts into a longitudinal,
-auditable record of how Codex helps maintain a real OSS repository without
-removing human ownership.
+[`scripts/check_maintenance_evidence.py`](../scripts/check_maintenance_evidence.py)
+checks structure, coverage, Git ancestry, blob identities, conclusions, and
+command replay. [`scripts/run_rigorbench.py`](../scripts/run_rigorbench.py)
+includes this suite, so missing or stale maintenance evidence fails CI and the
+one-command release gate.
+
+## Next: Stronger Supply-Chain Evidence
+
+The next trust milestone is identity-backed build provenance and signing. The
+current source and artifact evidence remains inspectable, while future work can
+add OIDC provenance, Sigstore-grade signatures, and external adopter evidence.
 
 ## Reviewer Path
 
 1. Start from the [README](../README.md) for the three commands and three
    evidence links.
 2. Read [AGENTS.md](../AGENTS.md) for review, release, and security behavior.
-3. Use [Maintainer Workflows](maintainer-workflows.md) to inspect the four
+3. Inspect [Codex Maintenance Evidence](../eval-runs/codex-maintenance/README.md)
+   and replay `python scripts/check_maintenance_evidence.py`.
+4. Use [Maintainer Workflows](maintainer-workflows.md) to inspect the four
    operational flows.
-4. Run `python scripts/verify_release.py` and inspect the
+5. Run `python scripts/verify_release.py` and inspect the
    [v3.0.0 release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).

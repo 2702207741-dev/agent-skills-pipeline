@@ -161,7 +161,9 @@ def build_all_reports() -> dict[str, Any]:
     registry = load_json(REGISTRY)
     graph = load_json(GRAPH)
     platforms = load_json(PLATFORMS)
-    benchmark = run_benchmark()
+    # Platform reports consume per-skill quality only. Keeping the maintenance
+    # suite outside this helper prevents a report check from recursively replaying itself.
+    benchmark = run_benchmark(include_maintenance=False)
     edges_from = graph_edges_by_source(graph)
     edges_to = graph_edges_by_target(graph)
     registered = {entry["name"] for entry in registry["skills"]}

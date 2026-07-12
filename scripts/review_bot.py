@@ -43,6 +43,7 @@ def build_report() -> dict[str, Any]:
         ("skill-format", [PYTHON, "scripts/validate-skill.py", *registry_skill_paths()]),
         ("fixtures", [PYTHON, "scripts/run_fixture_checks.py"]),
         ("security", [PYTHON, "scripts/security_scan.py"]),
+        ("maintenance-evidence", [PYTHON, "scripts/check_maintenance_evidence.py", "--no-replay"]),
         ("rigorbench", [PYTHON, "scripts/run_rigorbench.py"]),
         ("graph", [PYTHON, "scripts/check_skill_graph.py"]),
         ("platform-reports", [PYTHON, "scripts/generate_platform_reports.py", "--check"]),

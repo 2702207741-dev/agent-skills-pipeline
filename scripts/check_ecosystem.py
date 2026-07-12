@@ -21,6 +21,8 @@ REQUIRED_FILES = [
     "docs/review-checklist.md",
     "docs/codex-for-oss-case-study.md",
     "docs/maintainer-workflows.md",
+    "eval-runs/codex-maintenance/README.md",
+    "eval-runs/codex-maintenance/traces.json",
     "CONTRIBUTING.md",
     "CLA.md",
     "SECURITY.md",
@@ -35,6 +37,7 @@ REQUIRED_FILES = [
     "evals/model_matrix.json",
     "reports/model-eval-report.json",
     "reports/model-eval-report.md",
+    "scripts/check_maintenance_evidence.py",
 ]
 
 
@@ -44,6 +47,7 @@ REQUIRED_MARKERS = {
         "### Three Commands",
         "### Three Evidence Links",
         "Codex for OSS Case Study",
+        "12 replayable Codex maintainer workflow records",
         "releases/tag/v3.0.0",
     ),
     "AGENTS.md": (
@@ -55,13 +59,14 @@ REQUIRED_MARKERS = {
         "## The Maintainer Problem",
         "## Why Codex Fits",
         "## Evidence Already in This Repository",
-        "## Next: Real Maintenance Evidence",
+        "## Real Codex Maintenance Evidence",
     ),
     "docs/maintainer-workflows.md": (
         "## Pull Request Review",
         "## Issue Triage",
         "## Release Workflow",
         "## Security Audit",
+        "## Evidence Replay",
     ),
 }
 

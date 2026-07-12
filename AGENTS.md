@@ -16,6 +16,8 @@ turn a plausible result into an unsupported claim.
 - Each registered `SKILL.md` is the behavioral contract for that skill.
 - `eval-runs/rigorbench-v1.3/traces.json` and `benchmarks/` hold replay
   evidence and regression data.
+- `eval-runs/codex-maintenance/traces.json` holds Git-pinned evidence for real
+  Codex review, triage, release, and security work.
 - `security/` holds the dangerous-command and redaction policies.
 - `releases/` holds retained, immutable release evidence.
 
@@ -34,6 +36,9 @@ tree changes and never reset or discard a maintainer's work.
    conflict with this agreement or an explicit maintainer request.
 5. An agent can prepare a recommendation; a maintainer owns merge, publish,
    secret-handling, and irreversible operational decisions.
+6. When a maintenance action is retained as evidence, record its prompt
+   provenance, files read, fixed safe commands, output, conclusion, and whether
+   repository history proves adoption. Do not invent PR ids or human dialogue.
 
 ## Review Behavior
 
@@ -93,6 +98,9 @@ For a pull request, diff, or patch:
   publication checks plus whitespace validation.
 - For skill, script, security, marketplace, registry, or release changes, run
   the full release verification gate unless the maintainer narrows the scope.
+- For a retained review, triage, release, or security record, run
+  `python scripts/check_maintenance_evidence.py`; its coverage and provenance
+  rules are part of the RigorBench and CI contract.
 - A handoff records changed files, commands run, results, remaining risk, and
   whether any human decision is still required.
 

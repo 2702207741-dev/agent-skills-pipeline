@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Full v1.0-v3.0 regression suite
+# Full v1.0-v3.2 regression suite
 # Usage: bash scripts/test_all.sh
 set -euo pipefail
 export PYTHONDONTWRITEBYTECODE=1
@@ -20,7 +20,7 @@ pass() { echo "  [PASS] $1"; PASS=$((PASS + 1)); }
 fail() { echo "  [FAIL] $1"; FAIL=$((FAIL + 1)); }
 
 echo "============================================"
-echo " our-skills Full Test Suite (v1.0 - v3.0)"
+echo " our-skills Full Test Suite (v1.0 - v3.2)"
 echo "============================================"
 EXPECTED_SKILLS=$("$PYTHON" -c "import json; print(len(json.load(open('skills.json'))['skills']))")
 RELEASE=$("$PYTHON" -c "import json; print('v' + json.load(open('skills.json'))['version'])")
@@ -109,6 +109,12 @@ if "$PYTHON" scripts/security_scan.py; then
     pass "security_scan.py"
 else
     fail "security_scan.py"
+fi
+
+if "$PYTHON" scripts/check_maintenance_evidence.py; then
+    pass "check_maintenance_evidence.py (12 records, four workflows)"
+else
+    fail "check_maintenance_evidence.py"
 fi
 
 # ── 4. RigorBench E2E ─────────────────────────
@@ -283,6 +289,23 @@ else
     fail "RigorBench did NOT detect stale skill_sha256"
 fi
 rm -f "$TMP_TRACE"
+
+# 10b: tampered maintenance Git blob
+TMP_MAINTENANCE=$("$PYTHON" -c "import tempfile; f = tempfile.NamedTemporaryFile(prefix='maintenance-', suffix='.json', delete=False); print(f.name.replace('\\\\', '/')); f.close()")
+"$PYTHON" -c "
+import json
+with open('eval-runs/codex-maintenance/traces.json') as f:
+    data = json.load(f)
+data['records'][0]['files_read'][0]['git_blob'] = '0000000000000000000000000000000000000000'
+with open('$TMP_MAINTENANCE', 'w') as f:
+    json.dump(data, f)
+"
+if ! "$PYTHON" scripts/check_maintenance_evidence.py --runs-file "$TMP_MAINTENANCE" > /dev/null 2>&1; then
+    pass "maintenance evidence detects stale Git blob"
+else
+    fail "maintenance evidence did NOT detect stale Git blob"
+fi
+rm -f "$TMP_MAINTENANCE"
 
 # ── Summary ────────────────────────────────────
 echo ""

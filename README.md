@@ -33,8 +33,8 @@ is a dry run: it previews installation and does not write without `--apply`.
 ### Three Evidence Links
 
 - [42 replayable RigorBench traces](eval-runs/rigorbench-v1.3/traces.json)
-- [v3.0.0 release artifact, manifest, checksum, SBOM, provenance, and signature](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
-- [CI validation workflow](.github/workflows/ci.yml)
+- [12 replayable Codex maintainer workflow records](eval-runs/codex-maintenance/README.md)
+- [CI validation workflow](.github/workflows/ci.yml) and the [v3.0.0 release artifact, manifest, checksum, SBOM, provenance, and signature](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0)
 
 For the reviewer narrative, read the [Codex for OSS Case Study](docs/codex-for-oss-case-study.md).
 For the operating rules, read [AGENTS.md](AGENTS.md) and the
@@ -66,6 +66,8 @@ It includes:
 
 - 14 active first-party skills in `skills.json`;
 - 42 replayable RigorBench traces in `eval-runs/rigorbench-v1.3/traces.json`;
+- 12 replayable Codex maintenance records across review, triage, release, and
+  security workflows in `eval-runs/codex-maintenance/traces.json`;
 - public docs, task library, replay dataset, and third-party skill intake spec;
 - deterministic multi-model replay rows for Codex, Claude, Gemini, and a local
   model adapter;
@@ -84,9 +86,10 @@ Fresh clone, one command:
 python scripts/verify_release.py
 ```
 
-That command runs the registry, skill format, fixture, security, RigorBench,
-graph, platform, ecosystem, release archive, publication-readiness, packaging,
-artifact, marketplace, install/update/rollback, and review-bot gates.
+That command runs the registry, skill format, fixture, security, skill and
+maintainer-workflow RigorBench replays, graph, platform, ecosystem, release
+archive, publication-readiness, packaging, artifact, marketplace,
+install/update/rollback, and review-bot gates.
 
 For a lighter public-upload check:
 
@@ -101,6 +104,7 @@ python scripts/check_publication_ready.py
 | Active skill system | `skills.json` lists 14 active skills. |
 | Real execution coverage | `eval-runs/rigorbench-v1.3/traces.json` has success, failure, and boundary traces for every skill. |
 | Replayable scoring | `scripts/run_rigorbench.py` checks trace evidence, stale skill hashes, and regression history. |
+| Real Codex maintenance | `eval-runs/codex-maintenance/traces.json` records 12 review, triage, release, and security tasks with Git blob provenance and replayed commands. |
 | Security posture | `scripts/security_scan.py`, `security/dangerous-command-policy.json`, and redaction regression cases are included. |
 | Trusted distribution | `releases/v3.0.0/` includes zip, manifest, checksum, SBOM, provenance, signature, and ecosystem sidecars. |
 | Safe installation | `scripts/marketplace.py` and `scripts/install.sh` default to dry-run and support auditable rollback. |
@@ -210,6 +214,7 @@ python scripts/create_release.py --output ./releases/v3.0.0
 our-skills/
 |-- skills.json                              # registry and release policy
 |-- eval-runs/rigorbench-v1.3/traces.json    # replayable execution traces
+|-- eval-runs/codex-maintenance/             # replayable Codex maintenance evidence
 |-- benchmarks/                              # RigorBench config and regression history
 |-- fixtures/                                # static end-to-end task contracts
 |-- graphs/                                  # skill dependency graph
@@ -222,7 +227,7 @@ our-skills/
 |-- releases/v3.0.0/                         # retained release artifact and sidecars
 |-- security/                                # command policy and redaction regressions
 |-- templates/third-party-skill/             # starter template and intake metadata
-|-- scripts/                                 # validators, release, marketplace, review bot
+|-- scripts/                                 # validators, maintainer evidence, release, marketplace, review bot
 |-- *-workflow/SKILL.md                      # first-party agent skills
 ```
 

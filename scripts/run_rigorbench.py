@@ -11,6 +11,10 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
+sys.dont_write_bytecode = True
+
+from check_maintenance_evidence import REQUIRED_WORKFLOWS, run_maintenance_evidence
+
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "skills.json"
@@ -25,6 +29,7 @@ OUTPUT_DECISIONS = {
     "boundary": {"completed_with_caveat", "degraded"},
 }
 STEP_STATUSES = {"pass", "warn", "blocked"}
+MAINTENANCE_RUNS_FILE = "eval-runs/codex-maintenance/traces.json"
 
 
 def load_json(path: Path) -> Any:
@@ -158,11 +163,13 @@ def load_runs_file(bench: dict[str, Any], override: str | None) -> tuple[Path, d
     return path, data
 
 
-def run_benchmark(runs_file: str | None = None) -> dict[str, Any]:
+def run_benchmark(runs_file: str | None = None, include_maintenance: bool = True) -> dict[str, Any]:
     registry = load_json(REGISTRY)
     bench = load_json(BENCH)
     history = load_json(HISTORY)
     source_path, runs = load_runs_file(bench, runs_file)
+    if bench.get("maintainer_workflow_runs_file") != MAINTENANCE_RUNS_FILE:
+        raise AssertionError("rigorbench maintainer_workflow_runs_file is not configured")
 
     registered = {entry["name"]: entry for entry in registry["skills"]}
     by_skill: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -211,12 +218,26 @@ def run_benchmark(runs_file: str | None = None) -> dict[str, Any]:
         if result["pass_rate"] < baseline["pass_rate"]:
             regressions.append(f"{skill}: pass rate {result['pass_rate']} < baseline {baseline['pass_rate']}")
 
+    maintenance = (
+        run_maintenance_evidence(replay=True)
+        if include_maintenance
+        else {
+            "suite": "our-skills-maintainer-rigorbench",
+            "replay": False,
+            "workflows": {},
+            "record_count": 0,
+            "failures": [],
+            "passed": True,
+            "skipped": "platform report generation only consumes per-skill replay results",
+        }
+    )
     return {
         "suite": bench["suite"],
         "release": registry["release_policy"]["current_release"],
         "source_runs_file": display_path(source_path),
         "results": results,
         "regressions": regressions,
+        "maintainer_workflows": maintenance,
     }
 
 
@@ -234,10 +255,12 @@ def main() -> int:
 
     has_trace_failures = any(result["failures"] for result in report["results"].values())
     has_regressions = bool(report["regressions"])
+    maintenance = report["maintainer_workflows"]
+    has_maintenance_failures = not maintenance["passed"]
 
     if args.json:
         print(json.dumps(report, indent=2, ensure_ascii=False))
-        if has_trace_failures or has_regressions:
+        if has_trace_failures or has_regressions or has_maintenance_failures:
             return 1
     else:
         for skill, result in report["results"].items():
@@ -256,7 +279,15 @@ def main() -> int:
             for regression in report["regressions"]:
                 print(f"  - {regression}")
             return 1
-        print(f"[OK] RigorBench replayed {report['source_runs_file']} with no regressions")
+        for workflow in REQUIRED_WORKFLOWS:
+            result = maintenance["workflows"].get(workflow, {"passed": 0, "total": 0})
+            print(f"maintainer/{workflow}: {result['passed']}/{result['total']} passing")
+        if has_maintenance_failures:
+            print("[FAIL] Maintainer workflow replay failures:")
+            for failure in maintenance["failures"]:
+                print(f"  - {failure}")
+            return 1
+        print(f"[OK] RigorBench replayed {report['source_runs_file']} and Codex maintainer workflows with no regressions")
     return 0
 
 

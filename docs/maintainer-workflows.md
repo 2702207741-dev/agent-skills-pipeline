@@ -94,10 +94,21 @@ Suggested skills: `agent-security-guard`, `cross-model-verification`,
 **Done means:** a policy hit is either remediated, documented as a reviewed safe
 example, or escalated. It is never silently ignored to make a pipeline green.
 
-## Evidence Format for v3.2
+## Evidence Replay
 
-v3.1 defines the operating contract. v3.2 will add replayable records under
-`eval-runs/codex-maintenance/` for these four flows. Each record must include
-the task, inputs, skill use, resources read, commands, output, validation,
-human conclusion, and whether the recommendation was adopted. This keeps the
-future claim of real Codex maintenance evidence concrete and auditable.
+v3.2 records these four flows in
+[`eval-runs/codex-maintenance/`](../eval-runs/codex-maintenance/). The suite has
+three records for each workflow and every record includes the task, input
+provenance, skills used, agent behavior, Git-pinned files read, fixed safe
+commands, recorded output, final output, human conclusion, and adoption status.
+
+Run the full replay with:
+
+```bash
+python scripts/check_maintenance_evidence.py
+```
+
+The checker validates commit ancestry and blob identity, then replays a small
+allowlisted command set. `scripts/run_rigorbench.py`, CI, and
+`python scripts/verify_release.py` all include this gate, so deleting evidence
+or reducing any workflow below three passing records blocks the repository.

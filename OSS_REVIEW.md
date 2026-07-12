@@ -2,7 +2,7 @@
 
 This repository is an agent skill infrastructure project for Codex-style coding agents.
 
-## v3.1 Fast Path
+## v3.2 Fast Path
 
 In under a minute, a reviewer can establish the project scope and verify its
 maintenance posture:
@@ -12,7 +12,9 @@ maintenance posture:
 2. Inspect [AGENTS.md](AGENTS.md) and the
    [Maintainer Workflows](docs/maintainer-workflows.md) for explicit Codex
    review, release, and security behavior.
-3. Run `python scripts/verify_release.py`, then inspect the
+3. Replay [Codex Maintenance Evidence](eval-runs/codex-maintenance/README.md)
+   with `python scripts/check_maintenance_evidence.py`.
+4. Run `python scripts/verify_release.py`, then inspect the
    [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).
 
 ## Project in One Sentence
@@ -39,6 +41,7 @@ The project targets maintainer work that coding agents are already asked to help
 | Active skill system | `skills.json` lists 14 active skills. |
 | Real execution coverage | `eval-runs/rigorbench-v1.3/traces.json` has 42 traces: success, failure, and boundary for every skill. |
 | Replayable scoring | `scripts/run_rigorbench.py` checks trace evidence and regression history. |
+| Real Codex maintenance | `eval-runs/codex-maintenance/traces.json` has 12 Git-pinned review, triage, release, and security records with replayed commands. |
 | One-command validation | `python scripts/verify_release.py` runs the full verification gate. |
 | Security posture | `scripts/security_scan.py`, `security/dangerous-command-policy.json`, and redaction regression cases are included. |
 | Trusted distribution | `releases/v3.0.0/` includes manifest, checksum, SBOM, provenance, signature, marketplace index, dashboard, graph, and model-eval sidecars. |
@@ -59,8 +62,10 @@ python scripts/review_bot.py --all --check
 2. Open `releases/v3.0.0/RELEASE_NOTES.md` for the public release summary.
 3. Inspect `eval-runs/rigorbench-v1.3/traces.json` to confirm every skill has
    success, failure, and boundary execution evidence.
-4. Run `python scripts/verify_release.py` to reproduce the complete gate.
-5. Check the GitHub Actions `CI / validate` workflow on `main`.
+4. Inspect `eval-runs/codex-maintenance/traces.json` to confirm the four
+   maintainer workflows each have three replayable records.
+5. Run `python scripts/verify_release.py` to reproduce the complete gate.
+6. Check the GitHub Actions `CI / validate` workflow on `main`.
 
 ## Scope Boundaries
 

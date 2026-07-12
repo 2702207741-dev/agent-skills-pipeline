@@ -30,9 +30,12 @@ REQUIRED_FILES = [
     ".github/workflows/skill-review-bot.yml",
     "scripts/verify_release.py",
     "scripts/review_bot.py",
+    "scripts/check_maintenance_evidence.py",
     "scripts/check_release_archive.py",
     "docs/codex-for-oss-case-study.md",
     "docs/maintainer-workflows.md",
+    "eval-runs/codex-maintenance/README.md",
+    "eval-runs/codex-maintenance/traces.json",
 ]
 
 FORBIDDEN_NAMES = {

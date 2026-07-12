@@ -1,0 +1,714 @@
+{
+  "schema_version": 1,
+  "suite": "our-skills-maintainer-rigorbench",
+  "recorded_at": "2026-07-10",
+  "capture_policy": {
+    "purpose": "Replayable maintenance evidence captured from real repository history and commands executed in a clean worktree.",
+    "prompt_rule": "Historical prompts are labeled commit_derived_reconstruction unless a verbatim maintainer request is available.",
+    "adoption_rule": "Adoption means a reachable main-history commit, release tag, or passing repository gate; it is not presented as a fabricated human conversation."
+  },
+  "coverage_requirements": {
+    "pr_review": 3,
+    "issue_triage": 3,
+    "release_workflow": 3,
+    "security_audit": 3
+  },
+  "records": [
+    {
+      "id": "pr-review-v3-1-maintainer-narrative",
+      "workflow": "pr_review",
+      "recorded_at": "2026-07-09",
+      "source": {
+        "commit": "0add069510043d73d5a5b352c999ea3c52afcb54",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/0add069510043d73d5a5b352c999ea3c52afcb54",
+        "workflow_context": "pull_request_style_review",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Review the v3.1 reviewer narrative, contributor templates, and Codex maintainer guidance before integration.",
+      "input": {
+        "prompt": "Review the v3.1 repository narrative and maintainer-facing documents for accuracy, traceability, and sustainable contribution workflow coverage.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "code-review-workflow", "role": "Assess the change set and its reviewer-facing contract."},
+        {"name": "requirements-clarifier", "role": "Check that public claims map to verifiable repository evidence."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the README, AGENTS guidance, and case study as the public review surface."},
+        {"kind": "inspect_history", "detail": "Inspected the commit scope to distinguish documentation, templates, and validation changes."},
+        {"kind": "run_command", "detail": "Ran the ecosystem gate that checks the reviewer-facing assets and required markers."},
+        {"kind": "produce_output", "detail": "Returned an acceptance decision tied to the passing ecosystem gate and adopted commit."}
+      ],
+      "files_read": [
+        {"path": "README.md", "git_blob": "c0389463efcce05fd5138609e38270a1c2eb34f4", "purpose": "Verify the 60-second public reviewer path."},
+        {"path": "AGENTS.md", "git_blob": "25221b3302cb7d048490a8e40c2a9e04654656fe", "purpose": "Verify Codex review, release, and security behavior."},
+        {"path": "docs/codex-for-oss-case-study.md", "git_blob": "681019a0588d6641f941add29eb33d3d5272301b", "purpose": "Verify that the application narrative cites evidence instead of promises."}
+      ],
+      "commands": [
+        {
+          "id": "check_ecosystem",
+          "command": "python scripts/check_ecosystem.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Ecosystem assets are complete",
+          "replay_markers": ["[OK] Ecosystem assets are complete"],
+          "interpretation": "The public review and governance assets passed their repository contract."
+        }
+      ],
+      "final_output": {
+        "decision": "accepted",
+        "summary": "The reviewer narrative was accepted because its public claims, maintainer rules, and contribution surfaces were all covered by an executable ecosystem check."
+      },
+      "human_conclusion": {
+        "status": "adopted_on_main",
+        "adopted": true,
+        "adoption_commit": "0add069510043d73d5a5b352c999ea3c52afcb54",
+        "summary": "Repository adoption is evidenced by this reviewed change being reachable from main; no separate human-chat transcript is claimed."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The record keeps the task, behavior, immutable source files, replayed gate, output excerpt, and adoption evidence together."
+      }
+    },
+    {
+      "id": "pr-review-v3-0-release-public-surface",
+      "workflow": "pr_review",
+      "recorded_at": "2026-07-08",
+      "source": {
+        "commit": "22b84f2349d0662cce9dbe62e1a4bd3fdd8c24f5",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/22b84f2349d0662cce9dbe62e1a4bd3fdd8c24f5",
+        "workflow_context": "pull_request_style_review",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Review the v3.0 public release surface for changelog, release-note, and artifact consistency before publishing.",
+      "input": {
+        "prompt": "Review the v3.0 release-facing change set and confirm that public documentation, release notes, and retained artifacts tell the same story.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "code-review-workflow", "role": "Review release-facing changes for consistency and risk."},
+        {"name": "skill-pipeline-orchestrator", "role": "Connect the review decision to release artifact verification."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the public README, changelog, and retained v3.0 release notes."},
+        {"kind": "inspect_history", "detail": "Inspected the release publication commit and its tag relationship."},
+        {"kind": "run_command", "detail": "Ran the release-archive gate that verifies artifacts and their trust sidecars."},
+        {"kind": "produce_output", "detail": "Returned an acceptance decision linked to the tagged release and archive evidence."}
+      ],
+      "files_read": [
+        {"path": "README.md", "git_blob": "f4ff0d41766d8168722ab6636140eec5c1844366", "purpose": "Confirm the public release framing."},
+        {"path": "CHANGELOG.md", "git_blob": "60ec78fe0b7df49439151b65c9aa32dba7acce15", "purpose": "Confirm released behavior is recorded for maintainers."},
+        {"path": "releases/v3.0.0/RELEASE_NOTES.md", "git_blob": "27c9dd570e765520353ce6e89c85050050633596", "purpose": "Confirm release notes point to real artifacts and verification."}
+      ],
+      "commands": [
+        {
+          "id": "check_release_archive",
+          "command": "python scripts/check_release_archive.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] v3.0.0: 14 skills, artifact and sidecars consistent\n[OK] Release archive is internally consistent",
+          "replay_markers": ["[OK] v3.0.0: 14 skills, artifact and sidecars consistent", "[OK] Release archive is internally consistent"],
+          "interpretation": "The retained v3.0 archive has matching artifacts, manifests, and provenance sidecars."
+        }
+      ],
+      "final_output": {
+        "decision": "accepted",
+        "summary": "The v3.0 public release surface was accepted because the release archive check connects documentation claims to a consistent stored artifact set."
+      },
+      "human_conclusion": {
+        "status": "accepted_by_release",
+        "adopted": true,
+        "adoption_commit": "22b84f2349d0662cce9dbe62e1a4bd3fdd8c24f5",
+        "summary": "The v3.0.0 tag and reachable publication commit are the repository evidence that this reviewed release decision was adopted."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "This review ties release-facing source files to an immutable commit and a replayed archive gate."
+      }
+    },
+    {
+      "id": "pr-review-ci-portability-change-set",
+      "workflow": "pr_review",
+      "recorded_at": "2026-07-08",
+      "source": {
+        "commit": "4bc4746160af89d8e85dcfbbfaefafd5a5d41049",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/4bc4746160af89d8e85dcfbbfaefafd5a5d41049",
+        "workflow_context": "pull_request_style_review",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Review the CI portability fix that changed release archive checks and full-release verification behavior.",
+      "input": {
+        "prompt": "Review the CI portability fix for cross-platform artifact verification and make sure the release gate remains readable and safe to merge.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "code-review-workflow", "role": "Review correctness and regression risk in CI-facing code."},
+        {"name": "test-design-workflow", "role": "Check that portability claims have an executable verification path."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the archive verifier, release verifier, and generated provenance sidecar."},
+        {"kind": "inspect_history", "detail": "Inspected the portability commit scope before evaluating merge readiness."},
+        {"kind": "run_command", "detail": "Ran Git whitespace validation for the reviewed change-set contract."},
+        {"kind": "produce_output", "detail": "Returned a merge-ready decision with the cleanliness gate as evidence."}
+      ],
+      "files_read": [
+        {"path": "scripts/check_release_archive.py", "git_blob": "cfb429475c54736293560c497543fb2a1e0abc51", "purpose": "Inspect archive consistency checks changed by the portability fix."},
+        {"path": "scripts/verify_release.py", "git_blob": "a3951b0f815136782d3b5aae3bb58db6314b4dc2", "purpose": "Inspect the one-command verification contract."},
+        {"path": "releases/v3.0.0/our-skills-v3.0.0.provenance.json", "git_blob": "a4cab20030b5edf8afde421ec504aa8a0ef51534", "purpose": "Inspect the release provenance affected by portability normalization."}
+      ],
+      "commands": [
+        {
+          "id": "git_diff_check",
+          "command": "git diff --check",
+          "exit_code": 0,
+          "recorded_output_excerpt": "",
+          "replay_markers": [],
+          "interpretation": "Git reported no whitespace errors, preserving the reviewed diff cleanliness contract."
+        }
+      ],
+      "final_output": {
+        "decision": "accepted",
+        "summary": "The portability change-set was accepted after its release verification paths were read and the diff cleanliness gate produced no errors."
+      },
+      "human_conclusion": {
+        "status": "adopted_on_main",
+        "adopted": true,
+        "adoption_commit": "4bc4746160af89d8e85dcfbbfaefafd5a5d41049",
+        "summary": "The reachable main-history commit is the adoption evidence for this PR-style review; no fabricated remote pull request number is used."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The change-set review is reproducible from immutable files, a fixed command, and a main-history adoption record."
+      }
+    },
+    {
+      "id": "issue-triage-generated-output-dates",
+      "workflow": "issue_triage",
+      "recorded_at": "2026-07-09",
+      "source": {
+        "commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "workflow_context": "ci_incident_triage",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Triage a CI failure caused by generated verification outputs that depended on the local calendar date.",
+      "input": {
+        "prompt": "Investigate why generated reports pass locally but fail in CI after a date boundary, then identify the smallest deterministic fix.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "systematic-debugging", "role": "Reproduce and isolate the non-deterministic report behavior."},
+        {"name": "observability-workflow", "role": "Use generated report checks as the observable regression signal."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the report generators and release builder that emitted calendar-sensitive metadata."},
+        {"kind": "inspect_history", "detail": "Inspected the follow-up fix that removed volatile verification output fields."},
+        {"kind": "run_command", "detail": "Ran the platform report freshness check after the deterministic-output repair."},
+        {"kind": "produce_output", "detail": "Reported the root cause, deterministic remediation, and passing verification marker."}
+      ],
+      "files_read": [
+        {"path": "scripts/platform_reports.py", "git_blob": "54836bbcd2959b6a4bf1a7741a2ad57ffc892c82", "purpose": "Inspect generated platform report metadata."},
+        {"path": "scripts/generate_example_dataset.py", "git_blob": "e22914d10effa90658d64b02bb0727fb15a5114b", "purpose": "Inspect generated example dataset metadata."},
+        {"path": "scripts/create_release.py", "git_blob": "364fbb496e238fa7f52e733b577446fc257353e4", "purpose": "Inspect release-side date normalization."}
+      ],
+      "commands": [
+        {
+          "id": "platform_reports",
+          "command": "python scripts/generate_platform_reports.py --check",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Platform reports are current",
+          "replay_markers": ["[OK] Platform reports are current"],
+          "interpretation": "The deterministic report check now succeeds without rewriting committed outputs."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The incident was resolved by removing volatile generated fields from checked-in outputs while keeping release metadata intentionally time-based."
+      },
+      "human_conclusion": {
+        "status": "adopted_on_main",
+        "adopted": true,
+        "adoption_commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "summary": "The deterministic-output repair is adopted on main and is tied to the public CI recovery commit."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "This triage record preserves the incident task, source fix, replayable check, and adopted remediation."
+      }
+    },
+    {
+      "id": "issue-triage-workspace-cleanliness",
+      "workflow": "issue_triage",
+      "recorded_at": "2026-07-08",
+      "source": {
+        "commit": "a0b1e138fd9d2a4ea1ad667565f83337744d55c3",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/a0b1e138fd9d2a4ea1ad667565f83337744d55c3",
+        "workflow_context": "ci_incident_triage",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Triage a one-command CI verification failure caused by workspace cleanliness and release sidecar drift.",
+      "input": {
+        "prompt": "Find why the one-command release verification does not leave CI clean, then verify the release sidecars still agree after the fix.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "systematic-debugging", "role": "Trace the failing verification path to its workspace-state cause."},
+        {"name": "git-workflow-for-agents", "role": "Validate the clean-tree and commit-sidecar contract."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the CI workflow, full verification script, and release manifest involved in the failure."},
+        {"kind": "inspect_history", "detail": "Inspected the cleanliness fix and the exact release-sidecar changes it introduced."},
+        {"kind": "run_command", "detail": "Ran the archive consistency gate after workspace and sidecar normalization."},
+        {"kind": "produce_output", "detail": "Reported that the follow-up commit makes the one-command path compatible with a clean CI checkout."}
+      ],
+      "files_read": [
+        {"path": ".github/workflows/ci.yml", "git_blob": "bf59f8eb5b0b07dd8215d55ce2695388cf708b19", "purpose": "Inspect CI execution order and clean-tree expectations."},
+        {"path": "scripts/verify_release.py", "git_blob": "a3951b0f815136782d3b5aae3bb58db6314b4dc2", "purpose": "Inspect the one-command release verification behavior."},
+        {"path": "releases/v3.0.0/our-skills-v3.0.0.manifest.json", "git_blob": "9ebe66f641f9082d73979b6c31e7427210a3658c", "purpose": "Inspect the repaired release manifest sidecar."}
+      ],
+      "commands": [
+        {
+          "id": "check_release_archive",
+          "command": "python scripts/check_release_archive.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Release archive is internally consistent",
+          "replay_markers": ["[OK] Release archive is internally consistent"],
+          "interpretation": "The retained release artifacts remain internally consistent after the CI cleanliness repair."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The issue triage found a clean-workspace mismatch and verified that the resulting sidecar updates preserve the release archive contract."
+      },
+      "human_conclusion": {
+        "status": "adopted_on_main",
+        "adopted": true,
+        "adoption_commit": "a0b1e138fd9d2a4ea1ad667565f83337744d55c3",
+        "summary": "The main-history cleanup commit is the adoption evidence for this CI triage and its artifact-sidecar repair."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The record makes the CI incident, examined sources, command evidence, and adopted resolution independently inspectable."
+      }
+    },
+    {
+      "id": "issue-triage-platform-hash-portability",
+      "workflow": "issue_triage",
+      "recorded_at": "2026-07-08",
+      "source": {
+        "commit": "140e5fc035efb026e482413e37c154222a34633d",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/140e5fc035efb026e482413e37c154222a34633d",
+        "workflow_context": "ci_incident_triage",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Triage platform-report hash portability so artifacts produced on different systems verify consistently in CI.",
+      "input": {
+        "prompt": "Investigate platform-report hash differences across environments and confirm that the generated index and release sidecars stay reproducible.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "systematic-debugging", "role": "Isolate the platform-dependent hash behavior."},
+        {"name": "cross-model-verification", "role": "Require a second reproducibility signal instead of accepting a local-only result."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the platform report generator, marketplace index, and affected release manifest."},
+        {"kind": "inspect_history", "detail": "Inspected the hash-portability patch and associated regenerated sidecars."},
+        {"kind": "run_command", "detail": "Ran the platform report currentness check as the replayable portability signal."},
+        {"kind": "produce_output", "detail": "Reported the portability root cause and the passing deterministic verification result."}
+      ],
+      "files_read": [
+        {"path": "scripts/platform_reports.py", "git_blob": "d83d6265e3355d481026d516c068dab9ef259550", "purpose": "Inspect the platform-specific hashing behavior."},
+        {"path": "marketplace/index.json", "git_blob": "f332346c2761c8755571118d7389059cb265760b", "purpose": "Inspect the generated index affected by hash normalization."},
+        {"path": "releases/v3.0.0/our-skills-v3.0.0.manifest.json", "git_blob": "0f50ad801b588cbe9232383db716c3cabf20ded9", "purpose": "Inspect the regenerated release manifest."}
+      ],
+      "commands": [
+        {
+          "id": "platform_reports",
+          "command": "python scripts/generate_platform_reports.py --check",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Platform reports are current",
+          "replay_markers": ["[OK] Platform reports are current"],
+          "interpretation": "The current report check confirms that portability normalization no longer rewrites committed output."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The portability triage resolved platform-dependent hash drift and retained a check that exposes future report regressions before merge."
+      },
+      "human_conclusion": {
+        "status": "adopted_on_main",
+        "adopted": true,
+        "adoption_commit": "140e5fc035efb026e482413e37c154222a34633d",
+        "summary": "The reachable main-history portability commit is the adoption evidence for the report hash remediation."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The record connects a specific reproducibility incident to immutable implementation artifacts and a replayed report gate."
+      }
+    },
+    {
+      "id": "release-v3-0-artifact-audit",
+      "workflow": "release_workflow",
+      "recorded_at": "2026-07-08",
+      "source": {
+        "commit": "22b84f2349d0662cce9dbe62e1a4bd3fdd8c24f5",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/22b84f2349d0662cce9dbe62e1a4bd3fdd8c24f5",
+        "workflow_context": "release_gate",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Audit the v3.0 release artifact, checksum, manifest, and provenance before treating the tag as trustworthy.",
+      "input": {
+        "prompt": "Validate the v3.0 artifact set before release acceptance, including manifest, checksum, provenance, and retained package consistency.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "skill-pipeline-orchestrator", "role": "Coordinate release verification stages and evidence handoff."},
+        {"name": "agent-security-guard", "role": "Check trust sidecars and release integrity assumptions."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the v3.0 manifest, checksum, and provenance sidecars retained with the release."},
+        {"kind": "inspect_history", "detail": "Inspected the tagged publication commit before accepting the release evidence."},
+        {"kind": "run_command", "detail": "Ran the release archive consistency gate against every retained release."},
+        {"kind": "produce_output", "detail": "Returned an artifact-audit result that identifies the v3.0 trust sidecars as consistent."}
+      ],
+      "files_read": [
+        {"path": "releases/v3.0.0/our-skills-v3.0.0.manifest.json", "git_blob": "4a934ac88da182ac90229614978a235a72fa1985", "purpose": "Verify artifact identity and manifest structure."},
+        {"path": "releases/v3.0.0/our-skills-v3.0.0.sha256", "git_blob": "1ae47ebf53ce0feeb46bd10cc2033bc64376af0b", "purpose": "Verify the stored artifact checksum."},
+        {"path": "releases/v3.0.0/our-skills-v3.0.0.provenance.json", "git_blob": "cba3f09058c8bb428a40d8375d30c27fa6693cf4", "purpose": "Verify retained build and source provenance."}
+      ],
+      "commands": [
+        {
+          "id": "check_release_archive",
+          "command": "python scripts/check_release_archive.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] v3.0.0: 14 skills, artifact and sidecars consistent\n[OK] Release archive is internally consistent",
+          "replay_markers": ["[OK] v3.0.0: 14 skills, artifact and sidecars consistent", "[OK] Release archive is internally consistent"],
+          "interpretation": "The archive verifier confirms the artifact and trust sidecars remain mutually consistent."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The v3.0 release audit verified that the retained artifact, checksum, manifest, and provenance sidecars form a consistent release record."
+      },
+      "human_conclusion": {
+        "status": "accepted_by_release",
+        "adopted": true,
+        "adoption_commit": "22b84f2349d0662cce9dbe62e1a4bd3fdd8c24f5",
+        "summary": "The v3.0.0 tag and publication commit show that the verified artifact set was accepted as the project release baseline."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The release record makes the concrete artifact sidecars and archive validation available for independent replay."
+      }
+    },
+    {
+      "id": "release-marketplace-inventory-gate",
+      "workflow": "release_workflow",
+      "recorded_at": "2026-07-09",
+      "source": {
+        "commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "workflow_context": "release_gate",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Check the marketplace release inventory before an installation, update, or rollback workflow is offered to maintainers.",
+      "input": {
+        "prompt": "Confirm that the published marketplace inventory is complete and aligns with the release verifier before exercising install and rollback flows.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "skill-pipeline-orchestrator", "role": "Coordinate the marketplace and release verification stages."},
+        {"name": "agent-config-reference", "role": "Check the Codex marketplace installation target contract."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read marketplace operations, full release verification, and the v3.0 manifest contract."},
+        {"kind": "inspect_history", "detail": "Inspected the current main commit that made generated verification output deterministic."},
+        {"kind": "run_command", "detail": "Listed the live marketplace inventory as a release gate input."},
+        {"kind": "produce_output", "detail": "Reported that all fourteen registered skills are visible to the marketplace release surface."}
+      ],
+      "files_read": [
+        {"path": "scripts/marketplace.py", "git_blob": "f8d98f27cb2eaf3e6e195eec11e055789d1bbee4", "purpose": "Inspect supported marketplace list, install, update, and rollback actions."},
+        {"path": "scripts/verify_release.py", "git_blob": "a3951b0f815136782d3b5aae3bb58db6314b4dc2", "purpose": "Inspect the end-to-end release and rollback verification sequence."},
+        {"path": "releases/v3.0.0/our-skills-v3.0.0.manifest.json", "git_blob": "4a934ac88da182ac90229614978a235a72fa1985", "purpose": "Inspect the published release inventory baseline."}
+      ],
+      "commands": [
+        {
+          "id": "marketplace_list",
+          "command": "python scripts/marketplace.py list",
+          "exit_code": 0,
+          "recorded_output_excerpt": "our-skills 3.0.0\ncode-review-workflow\t1.0.0\tcode-review\tactive\t100",
+          "replay_markers": ["our-skills 3.0.0", "code-review-workflow"],
+          "interpretation": "The marketplace lists the published release and its active maintenance workflow inventory."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The marketplace inventory gate verified that the published release exposes the expected active skills before downstream install and rollback operations."
+      },
+      "human_conclusion": {
+        "status": "accepted_by_gate",
+        "adopted": true,
+        "adoption_commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "summary": "The reachable main commit and passing inventory gate are the repository evidence for accepting this release workflow result."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The record connects marketplace inventory output to the scripts and manifest that define the release workflow."
+      }
+    },
+    {
+      "id": "release-publication-readiness-gate",
+      "workflow": "release_workflow",
+      "recorded_at": "2026-07-09",
+      "source": {
+        "commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "workflow_context": "release_gate",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Run the public-upload readiness gate before presenting the project as a maintainable open-source release.",
+      "input": {
+        "prompt": "Check public repository readiness for the release surface, including governance files, CI entry points, and reviewer documentation.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "skill-pipeline-orchestrator", "role": "Coordinate publication-gate evidence across repository surfaces."},
+        {"name": "git-workflow-for-agents", "role": "Check public upload and clean repository conventions."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the publication readiness checker, CI workflow, and public README entry point."},
+        {"kind": "inspect_history", "detail": "Inspected the adopted main state used for public repository verification."},
+        {"kind": "run_command", "detail": "Ran the publication readiness command and retained its success marker."},
+        {"kind": "produce_output", "detail": "Reported that the public repository surface meets the configured publication contract."}
+      ],
+      "files_read": [
+        {"path": "scripts/check_publication_ready.py", "git_blob": "ab8a7eaf209a1c086deabd0d9866e45ce208a3a3", "purpose": "Inspect required public files and forbidden upload material checks."},
+        {"path": ".github/workflows/ci.yml", "git_blob": "bf59f8eb5b0b07dd8215d55ce2695388cf708b19", "purpose": "Inspect the public CI verification entry point."},
+        {"path": "README.md", "git_blob": "c0389463efcce05fd5138609e38270a1c2eb34f4", "purpose": "Inspect the public quickstart and evidence links."}
+      ],
+      "commands": [
+        {
+          "id": "publication_ready",
+          "command": "python scripts/check_publication_ready.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Publication-ready check passed across 136 public files",
+          "replay_markers": ["[OK] Publication-ready check passed across"],
+          "interpretation": "The repository met its configured public-upload and governance-file requirements."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The public readiness gate passed, demonstrating that the release is supported by governance, CI, and reviewer-facing documentation rather than code alone."
+      },
+      "human_conclusion": {
+        "status": "accepted_by_gate",
+        "adopted": true,
+        "adoption_commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "summary": "The current main history and passing publication gate are the repository evidence for accepting this release readiness result."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "This release gate preserves the exact public files inspected and an independently replayable publication command."
+      }
+    },
+    {
+      "id": "security-audit-redaction-regressions",
+      "workflow": "security_audit",
+      "recorded_at": "2026-07-09",
+      "source": {
+        "commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "workflow_context": "security_or_code_quality_audit",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Audit secret-redaction coverage and scan the repository for material that should never be committed or forwarded.",
+      "input": {
+        "prompt": "Run the repository security scan and review its redaction regression cases to confirm that example data cannot silently normalize unsafe secret handling.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "agent-security-guard", "role": "Gate secret exposure and risky repository content."},
+        {"name": "cross-model-verification", "role": "Require explicit evidence for security conclusions."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the security scanner, redaction regression cases, and security skill guidance."},
+        {"kind": "inspect_history", "detail": "Inspected the main commit used as the security audit source snapshot."},
+        {"kind": "run_command", "detail": "Ran the repository security scan and captured its passing output marker."},
+        {"kind": "produce_output", "detail": "Reported that the scanner and redaction cases passed without a new security finding."}
+      ],
+      "files_read": [
+        {"path": "scripts/security_scan.py", "git_blob": "c16973fb1889eeb505742c8776ecac5905c98dc0", "purpose": "Inspect the repository secret and unsafe-content scanning implementation."},
+        {"path": "security/redaction-regression-cases.json", "git_blob": "ceb45d3ebda993a8fc7076a32eebdc0e10066878", "purpose": "Inspect regression cases for outbound-data redaction behavior."},
+        {"path": "agent-security-guard/SKILL.md", "git_blob": "44513e7dd84b59d3a2afbf5955886c7d5b46a685", "purpose": "Inspect the agent-facing safety workflow used for the audit."}
+      ],
+      "commands": [
+        {
+          "id": "security_scan",
+          "command": "python scripts/security_scan.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Security scan passed across 117 text files",
+          "replay_markers": ["[OK] Security scan passed across"],
+          "interpretation": "The security scanner found no prohibited secrets or unsafe content in the audited source tree."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The redaction and secret-exposure audit passed with concrete scanner output and immutable regression-case provenance."
+      },
+      "human_conclusion": {
+        "status": "accepted_by_gate",
+        "adopted": true,
+        "adoption_commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "summary": "The passing security gate and reachable main snapshot are the evidence for accepting this security audit conclusion."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The audit record keeps security-specific source files, command evidence, and an explicit no-finding conclusion together."
+      }
+    },
+    {
+      "id": "security-audit-dangerous-command-policy",
+      "workflow": "security_audit",
+      "recorded_at": "2026-07-09",
+      "source": {
+        "commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "workflow_context": "security_or_code_quality_audit",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Audit the dangerous-command policy and its agent-facing guard before relying on automated maintenance actions.",
+      "input": {
+        "prompt": "Review the dangerous-command policy, its regression cases, and the agent safety guard; verify the repository gate still rejects unsafe patterns.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "agent-security-guard", "role": "Interpret dangerous-command and data-handling constraints."},
+        {"name": "code-review-workflow", "role": "Review policy behavior and enforcement coverage."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the dangerous-command policy, scanner implementation, and agent safety skill."},
+        {"kind": "inspect_history", "detail": "Inspected the stable main snapshot used for policy verification."},
+        {"kind": "run_command", "detail": "Ran the repository security scan that enforces policy and redaction checks."},
+        {"kind": "produce_output", "detail": "Reported that the dangerous-command policy remained enforced by a passing security gate."}
+      ],
+      "files_read": [
+        {"path": "security/dangerous-command-policy.json", "git_blob": "b19cbbee3b6d50b5093dab3469903040f3215d35", "purpose": "Inspect the explicit allowlist and denylist policy contract."},
+        {"path": "scripts/security_scan.py", "git_blob": "c16973fb1889eeb505742c8776ecac5905c98dc0", "purpose": "Inspect policy enforcement and unsafe-content scan behavior."},
+        {"path": "agent-security-guard/SKILL.md", "git_blob": "44513e7dd84b59d3a2afbf5955886c7d5b46a685", "purpose": "Inspect the agent workflow that consumes the safety policy."}
+      ],
+      "commands": [
+        {
+          "id": "security_scan",
+          "command": "python scripts/security_scan.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Security scan passed across 117 text files",
+          "replay_markers": ["[OK] Security scan passed across"],
+          "interpretation": "The policy enforcement gate completed successfully across the audited repository text files."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The dangerous-command policy audit verified that the published policy and agent guard remain connected to an executable security gate."
+      },
+      "human_conclusion": {
+        "status": "accepted_by_gate",
+        "adopted": true,
+        "adoption_commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "summary": "The main-history source snapshot and passing security gate are the evidence for accepting this policy audit result."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The audit traces the policy, enforcement code, and agent guidance to a single replayed security signal."
+      }
+    },
+    {
+      "id": "security-audit-code-quality-graph",
+      "workflow": "security_audit",
+      "recorded_at": "2026-07-09",
+      "source": {
+        "commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "commit_url": "https://github.com/2702207741-dev/agent-skills-pipeline/commit/0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "workflow_context": "security_or_code_quality_audit",
+        "prompt_provenance": "commit_derived_reconstruction"
+      },
+      "task": "Audit skill dependency quality and review-bot policy coverage before accepting a broad maintainer workflow change.",
+      "input": {
+        "prompt": "Run a code-quality audit of skill dependencies and review automation, then flag isolated skills, unsafe cycles, or missing workflow stages.",
+        "source": "commit_derived_reconstruction"
+      },
+      "skills_used": [
+        {"name": "code-review-workflow", "role": "Assess code-quality and graph-level maintenance risks."},
+        {"name": "observability-workflow", "role": "Use graph and bot outputs as maintained quality signals."}
+      ],
+      "agent_behavior": [
+        {"kind": "read_file", "detail": "Read the skill graph checker, review bot workflow, and code review skill guidance."},
+        {"kind": "inspect_history", "detail": "Inspected the main snapshot that defines the audited skill dependency graph."},
+        {"kind": "run_command", "detail": "Ran the skill graph quality check and captured its coverage and edge-count output."},
+        {"kind": "produce_output", "detail": "Reported that the graph has full registered-skill coverage with no isolated workflow nodes."}
+      ],
+      "files_read": [
+        {"path": "scripts/check_skill_graph.py", "git_blob": "6e9f35b8abf6b85d90aee37de5a08fbbee6e4a72", "purpose": "Inspect dependency graph quality and stage coverage checks."},
+        {"path": ".github/workflows/skill-review-bot.yml", "git_blob": "31c042cc2eb2df493fc7d9451f4d01f83db88b86", "purpose": "Inspect the automated code-quality review entry point."},
+        {"path": "code-review-workflow/SKILL.md", "git_blob": "873e7cd965ca4f2e460ad78c46ceb31740f3b11e", "purpose": "Inspect the maintainer-facing code review procedure."}
+      ],
+      "commands": [
+        {
+          "id": "skill_graph",
+          "command": "python scripts/check_skill_graph.py",
+          "exit_code": 0,
+          "recorded_output_excerpt": "[OK] Skill graph covers 14 skills, 39 edges, and 15 stages",
+          "replay_markers": ["[OK] Skill graph covers 14 skills", "15 stages"],
+          "interpretation": "The quality graph covers every registered skill and exposes dependency or stage regressions as CI failures."
+        }
+      ],
+      "final_output": {
+        "decision": "verified",
+        "summary": "The code-quality audit found complete skill graph coverage and preserved a replayable gate for future isolated-node or stage-coverage regressions."
+      },
+      "human_conclusion": {
+        "status": "accepted_by_gate",
+        "adopted": true,
+        "adoption_commit": "0b30435bb3321ea06e4a1c5f90cdbfd048453d7e",
+        "summary": "The reachable main snapshot and passing graph gate are the repository evidence for accepting this code-quality audit conclusion."
+      },
+      "score": {
+        "points": 6,
+        "max_points": 6,
+        "passed": true,
+        "dimensions": {"task": true, "agent_behavior": true, "file_provenance": true, "command_replay": true, "output_record": true, "human_conclusion": true},
+        "rationale": "The audit provides concrete graph-check code, workflow automation, skill guidance, and a replayed quality result."
+      }
+    }
+  ]
+}
