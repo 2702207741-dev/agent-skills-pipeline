@@ -39,6 +39,9 @@ trust boundaries in [`docs/threat-model.md`](docs/threat-model.md).
   security scanner still checks that file and CI rejects broader exclusions.
 - **Sigstore and GitHub artifact attestations** bind CI-built release zips to the
   expected GitHub OIDC workflow identity, source commit, and subject digest.
+- **External adoption gate** confines the consumer workspace to its repository,
+  rejects traversal and symlinks, scans registry and skill text, and verifies
+  every archive entry against a deterministic manifest.
 
 These tools supplement rather than replace the project-specific dangerous
 command, redaction, replay, installer, rollback, and release checks.
@@ -72,6 +75,18 @@ External-model evaluation must pass redaction gates and must not send private
 repository context unless the data classification allows it and the maintainer
 explicitly approves the named destination and data. Prohibited or unredactable
 content remains local.
+
+## Consumer Action Boundary
+
+The root composite Action treats its inputs and the caller's repository as
+untrusted. `workspace`, `registry`, output, and report paths must remain inside
+`GITHUB_WORKSPACE`. The portable gate does not execute commands from consumer
+files, follow symlinks, fetch dependencies, or use consumer secrets. Its
+release bundle contains only the registry and registered skill files.
+
+Consumers should pin this Action to a reviewed full commit SHA, grant only
+`contents: read`, and attach their own OIDC signing policy when promoting the
+portable zip to a public release.
 
 ## Response
 

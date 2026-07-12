@@ -1,0 +1,47 @@
+name: External Action Self-Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-consumer:
+    name: Validate external consumer fixture
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Run local composite Action as an external consumer
+        id: our-skills
+        uses: ./
+        with:
+          workspace: examples/external-repos/python-library
+          registry: skills.json
+          mode: all
+          output-directory: .our-skills-dist
+          artifact-name: external-python-library-release
+
+      - name: Verify Action outputs
+        env:
+          GATE_STATUS: ${{ steps.our-skills.outputs.status }}
+          SKILL_COUNT: ${{ steps.our-skills.outputs.skill-count }}
+          REPORT_PATH: ${{ steps.our-skills.outputs.report-path }}
+          ARTIFACT_PATH: ${{ steps.our-skills.outputs.artifact-path }}
+          MANIFEST_PATH: ${{ steps.our-skills.outputs.manifest-path }}
+          CHECKSUM_PATH: ${{ steps.our-skills.outputs.checksum-path }}
+        run: |
+          test "$GATE_STATUS" = "pass"
+          test "$SKILL_COUNT" = "1"
+          test -f "$REPORT_PATH"
+          test -f "$ARTIFACT_PATH"
+          test -f "$MANIFEST_PATH"
+          test -f "$CHECKSUM_PATH"

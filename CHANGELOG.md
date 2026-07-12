@@ -4,6 +4,18 @@
 
 ### Added
 
+- Root composite GitHub Action for repository-independent skill quality and
+  deterministic release verification, with pinned dependencies and documented
+  inputs/outputs.
+- Cross-platform `our-skills` CLI with doctor, verify, marketplace, replay,
+  quickstart, and maintenance-demo commands.
+- Five-minute isolated quickstart, verified external Python repository fixture,
+  and a complete issue-to-PR-review-to-release-gate executable scenario.
+- External-adoption regression gate covering deterministic builds, Action
+  outputs, path traversal, tampered metadata, installation, replay, and demo.
+- Ecosystem roadmap for repository conformance, signed registry federation,
+  transactional marketplace behavior, evidence exchange, and governance.
+
 - GitHub OIDC supply-chain workflow with Cosign keyless blob signing, immediate
   identity verification, GitHub artifact attestation, and release-only upload
   authority.
@@ -21,6 +33,8 @@
   `.sigstore.json` plus GitHub attestation for identity-backed assurance.
 - Added supply-chain assurance to CI, one-command release verification, review
   bot, ecosystem, publication, and full regression gates.
+- Added external adoption to CI, review bot, one-command verification,
+  publication checks, and the public documentation entry point.
 
 - Reworked the public README into an English, reviewer-oriented project entry
   point with CI badge, release status, one-command verification, evidence map,

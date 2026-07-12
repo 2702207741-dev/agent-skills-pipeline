@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "project": "sample-python-library-skills",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "python-library-review",
+      "path": "skills/python-library-review",
+      "version": "1.0.0",
+      "description": "Review changes to a small Python library with API compatibility, test coverage, and release safety checks."
+    }
+  ]
+}

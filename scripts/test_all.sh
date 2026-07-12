@@ -117,6 +117,12 @@ else
     fail "check_supply_chain.py"
 fi
 
+if "$PYTHON" scripts/check_external_adoption.py; then
+    pass "check_external_adoption.py (Action, CLI, quickstart, external release, demo)"
+else
+    fail "check_external_adoption.py"
+fi
+
 if "$PYTHON" scripts/check_maintenance_evidence.py; then
     pass "check_maintenance_evidence.py (12 records, four workflows)"
 else

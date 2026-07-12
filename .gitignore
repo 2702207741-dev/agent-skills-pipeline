@@ -17,6 +17,10 @@ Thumbs.db
 dist/
 dist-smoke/
 dist-release/
+.our-skills-dist/
+.our-skills-quickstart/
+.quickstart-home/
+demo-report.json
 
 # Temp
 temp/

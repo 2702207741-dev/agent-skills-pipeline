@@ -9,9 +9,9 @@
   <body>
     <header class="site-header">
       <div>
-        <p class="eyebrow">our-skills v3.0 ecosystem entry</p>
-        <h1>Portable agent skills with quality, safety, and replay evidence.</h1>
-        <p class="lede">List, install, update, rollback, diagnose, review, and evaluate skills without learning the repository layout first.</p>
+        <p class="eyebrow">our-skills v4.0 external-adoption candidate</p>
+        <h1>Portable agent maintenance infrastructure another repository can adopt.</h1>
+        <p class="lede">Install and replay one skill in five minutes, gate repository-owned skills with one Action, and verify a complete issue-to-release workflow.</p>
       </div>
       <img src="assets/ecosystem-map.svg" alt="our-skills ecosystem map">
     </header>
@@ -20,16 +20,41 @@
       <section id="marketplace">
         <h2>Marketplace</h2>
         <p>The local marketplace index exposes every skill with version, platform paths, dependencies, status, owner, and quality score.</p>
-        <pre><code>python scripts/marketplace.py list
-python scripts/marketplace.py install --platform codex --target-root ~/.tmp --apply
-python scripts/marketplace.py update --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply
-python scripts/marketplace.py rollback --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply</code></pre>
+        <pre><code>./our-skills list
+./our-skills install --platform codex --target-root ~/.tmp --apply
+./our-skills update --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply
+./our-skills rollback --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply</code></pre>
       </section>
 
       <section id="doctor">
         <h2>Doctor</h2>
-        <p>The doctor checks registry and index sync, source metadata, dependencies, platform paths, trigger metadata, and installed versions.</p>
-        <pre><code>python scripts/marketplace.py doctor --platform codex --target-root ~/.tmp --strict</code></pre>
+        <p>The unified doctor checks repository health, external adoption contracts, registry and index sync, security, dependencies, and installed state.</p>
+        <pre><code>./our-skills doctor
+./our-skills doctor --platform codex --target-root ~/.tmp --strict</code></pre>
+      </section>
+
+      <section id="quickstart">
+        <h2>Five-Minute Quickstart</h2>
+        <p>Use an isolated target to preview installation, apply one skill, diagnose it, and replay a hash-bound execution record.</p>
+        <pre><code>./our-skills quickstart --platform codex --target-root "$PWD/.quickstart-home" --apply</code></pre>
+        <p><a href="quickstart.md">Quickstart details and Windows command</a></p>
+      </section>
+
+      <section id="action">
+        <h2>Reusable Action</h2>
+        <p>Another OSS repository can validate its own registry and skills, reject unsafe input, and produce a deterministic release zip, manifest, checksum, and report.</p>
+        <ul>
+          <li><a href="../action.yml">Composite Action metadata</a></li>
+          <li><a href="github-action.md">Consumer contract</a></li>
+          <li><a href="../examples/external-repos/python-library/">Verified external fixture</a></li>
+        </ul>
+      </section>
+
+      <section id="demo">
+        <h2>Issue-to-Release Demo</h2>
+        <p>The executable scenario reproduces an issue, reviews a patch, runs fixed tests, and verifies the release gate.</p>
+        <pre><code>./our-skills demo --check</code></pre>
+        <p><a href="../examples/end-to-end-maintenance/">Inspect the scenario and expected report</a></p>
       </section>
 
       <section id="quality">
@@ -58,6 +83,12 @@ python scripts/verify_release.py</code></pre>
           <li><a href="review-checklist.md">Review checklist</a></li>
           <li><a href="../CONTRIBUTING.md">Contribution guide</a></li>
         </ul>
+      </section>
+
+      <section id="ecosystem">
+        <h2>Ecosystem Roadmap</h2>
+        <p>The roadmap defines repository conformance, signed registry exchange, transactional marketplace behavior, evidence federation, and governance boundaries.</p>
+        <p><a href="roadmap-to-ecosystem.md">Roadmap to an agent skill registry and marketplace infrastructure layer</a></p>
       </section>
     </main>
   </body>

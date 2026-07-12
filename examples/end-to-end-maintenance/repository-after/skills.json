@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "project": "release-notes-maintenance",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "release-notes-review",
+      "path": "skills/release-notes-review",
+      "version": "1.0.0",
+      "description": "Review release-note behavior, regression evidence, and package readiness for this repository."
+    }
+  ]
+}

@@ -95,6 +95,23 @@ Suggested skills: `agent-security-guard`, `cross-model-verification`,
 **Done means:** a policy hit is either remediated, documented as a reviewed safe
 example, or escalated. It is never silently ignored to make a pipeline green.
 
+## External Repository Adoption
+
+**Use when:** another OSS repository wants to govern and package its own agent
+skills without copying first-party scripts.
+
+| Stage | Codex action | Evidence or handoff |
+|---|---|---|
+| Contract | Add a repository-owned `skills.json` and synchronized `SKILL.md` files | Registry path, versions, and behavioral sections |
+| Local gate | Run `./our-skills doctor --workspace <repo>` and `./our-skills verify --workspace <repo>` | Quality report plus deterministic zip, manifest, and checksum |
+| CI gate | Pin the root composite Action and checkout dependencies to full commit SHAs | Workflow diff, least-privilege token, and Action outputs |
+| Negative proof | Tamper metadata and attempt path traversal in an isolated copy | Both cases fail closed without packaging outside files |
+| Adoption decision | Record owner, compatibility, release signing policy, and rollback | Maintainer approval and public evidence link |
+
+**Done means:** the consumer owns its source and registry, the gate runs from a
+clean external workspace, release evidence verifies, and the project does not
+claim adoption without maintainer consent.
+
 ## Evidence Replay
 
 v3.2 records these four flows in

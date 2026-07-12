@@ -2,7 +2,7 @@
 
 This repository is an agent skill infrastructure project for Codex-style coding agents.
 
-## v3.3 Fast Path
+## v4.0 Candidate Fast Path
 
 In under a minute, a reviewer can establish the project scope and verify its
 maintenance posture:
@@ -12,16 +12,18 @@ maintenance posture:
 2. Inspect [AGENTS.md](AGENTS.md) and the
    [Maintainer Workflows](docs/maintainer-workflows.md) for explicit Codex
    review, release, and security behavior.
-3. Replay [Codex Maintenance Evidence](eval-runs/codex-maintenance/README.md)
-   with `python scripts/check_maintenance_evidence.py`.
-4. Run `python scripts/verify_release.py`, then inspect the
-   [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).
-5. Inspect the [Supply Chain workflow](.github/workflows/supply-chain.yml),
-   [threat model](docs/threat-model.md), and latest signed workflow artifact.
+3. Run the [Five-Minute Quickstart](docs/quickstart.md) with
+   `./our-skills quickstart --target-root "$PWD/.quickstart-home" --apply`.
+4. Run `./our-skills demo --check` and inspect the
+   [verified external consumer](examples/external-repos/python-library/).
+5. Run `./our-skills verify`, then inspect the [Supply Chain workflow](.github/workflows/supply-chain.yml)
+   and [v3.0.0 GitHub Release](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v3.0.0).
 
 ## Project in One Sentence
 
-`our-skills` makes agent workflows reviewable and repeatable by combining a skill registry, replayable execution traces, security gates, release evidence, marketplace-style installation, and contributor review automation.
+`our-skills` is an adoptable maintenance layer that combines repository-owned
+skill registries, replayable execution, security and release evidence, safe
+installation, and a reusable gate for other OSS projects.
 
 ## Why It Fits Codex for Open Source
 
@@ -48,14 +50,16 @@ The project targets maintainer work that coding agents are already asked to help
 | Security posture | CodeQL, OpenSSF Scorecard, GitHub secret scanning, Dependabot, custom policy gates, and a threat model are checked together. |
 | Trusted distribution | Every accepted `main` build emits SLSA provenance, a GitHub OIDC Cosign bundle, and a GitHub artifact attestation; release upload authority is isolated. |
 | Install safety | `scripts/marketplace.py` and `scripts/install.sh` default to dry-run and support auditable rollback. |
+| External adoption | `action.yml` runs against a clean consumer fixture, emits deterministic release evidence, exposes checked outputs, and rejects tampering and traversal. |
+| Complete workflow | `./our-skills demo --check` reproduces an issue, reviews the fix, runs tests, and reaches a verified release gate. |
 | Community readiness | MIT license, contributing guide, security policy, code of conduct, CLA, CI, review bot, issue templates, PR template, and CODEOWNERS are present. |
 
 ## Recommended First Commands
 
 ```bash
-python scripts/check_publication_ready.py
-python scripts/check_supply_chain.py
-python scripts/verify_release.py
+./our-skills quickstart --target-root "$PWD/.quickstart-home" --apply
+./our-skills doctor
+./our-skills demo --check
 ```
 
 ## Fast Review Path
@@ -66,9 +70,9 @@ python scripts/verify_release.py
    success, failure, and boundary execution evidence.
 4. Inspect `eval-runs/codex-maintenance/traces.json` to confirm the four
    maintainer workflows each have three replayable records.
-5. Run `python scripts/verify_release.py` to reproduce the complete gate.
-6. Check the `CI`, `Supply Chain`, `CodeQL`, and `OpenSSF Scorecard` workflows
-   on `main`.
+5. Run `./our-skills verify` to reproduce the complete gate.
+6. Check `External Action Self-Test`, `CI`, `Supply Chain`, `CodeQL`, and
+   `OpenSSF Scorecard` on `main`.
 
 ## Scope Boundaries
 
@@ -77,3 +81,5 @@ python scripts/verify_release.py
 - The marketplace installer writes only after explicit `--apply` or `--yes`.
 - The v3.0.0 `.sig` is legacy local-integrity evidence; identity-backed signing
   begins with v3.3 workflow artifacts and does not rewrite the old release.
+- The external repository is a verified fixture, not a fabricated independent
+  adopter. The next social proof is a consented public third-party workflow.

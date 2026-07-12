@@ -44,6 +44,7 @@ def build_report() -> dict[str, Any]:
         ("fixtures", [PYTHON, "scripts/run_fixture_checks.py"]),
         ("security", [PYTHON, "scripts/security_scan.py"]),
         ("supply-chain", [PYTHON, "scripts/check_supply_chain.py"]),
+        ("external-adoption", [PYTHON, "scripts/check_external_adoption.py"]),
         ("maintenance-evidence", [PYTHON, "scripts/check_maintenance_evidence.py", "--no-replay"]),
         ("rigorbench", [PYTHON, "scripts/run_rigorbench.py"]),
         ("graph", [PYTHON, "scripts/check_skill_graph.py"]),

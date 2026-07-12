@@ -1,0 +1,91 @@
+name: Our Skills Quality and Release Gate
+description: Validate agent skills in any repository and produce a verified release bundle.
+author: our-skills contributors
+
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  workspace:
+    description: Repository-relative directory containing the skill registry.
+    required: false
+    default: "."
+  registry:
+    description: Registry path relative to workspace.
+    required: false
+    default: skills.json
+  mode:
+    description: "Gate mode: quality, release, or all."
+    required: false
+    default: all
+  output-directory:
+    description: Release output directory relative to workspace.
+    required: false
+    default: .our-skills-dist
+  upload-artifact:
+    description: Upload the verified release bundle as a workflow artifact.
+    required: false
+    default: "true"
+  artifact-name:
+    description: GitHub Actions artifact name.
+    required: false
+    default: our-skills-release
+
+outputs:
+  status:
+    description: Gate status.
+    value: ${{ steps.gate.outputs.status }}
+  skill-count:
+    description: Number of validated skills.
+    value: ${{ steps.gate.outputs.skill-count }}
+  report-path:
+    description: Absolute path to the JSON gate report.
+    value: ${{ steps.gate.outputs.report-path }}
+  artifact-path:
+    description: Absolute path to the verified release zip.
+    value: ${{ steps.gate.outputs.artifact-path }}
+  manifest-path:
+    description: Absolute path to the release manifest.
+    value: ${{ steps.gate.outputs.manifest-path }}
+  checksum-path:
+    description: Absolute path to the checksum sidecar.
+    value: ${{ steps.gate.outputs.checksum-path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      with:
+        python-version: "3.x"
+
+    - name: Run external repository gate
+      id: gate
+      shell: bash
+      env:
+        OUR_SKILLS_WORKSPACE: ${{ inputs.workspace }}
+        OUR_SKILLS_REGISTRY: ${{ inputs.registry }}
+        OUR_SKILLS_MODE: ${{ inputs.mode }}
+        OUR_SKILLS_OUTPUT: ${{ inputs.output-directory }}
+      run: |
+        python "$GITHUB_ACTION_PATH/scripts/external_repo_check.py" \
+          --workspace "$GITHUB_WORKSPACE/$OUR_SKILLS_WORKSPACE" \
+          --repository-root "$GITHUB_WORKSPACE" \
+          --registry "$OUR_SKILLS_REGISTRY" \
+          --mode "$OUR_SKILLS_MODE" \
+          --output "$OUR_SKILLS_OUTPUT" \
+          --report "$OUR_SKILLS_OUTPUT/gate-report.json"
+
+    - name: Upload verified release bundle
+      if: ${{ inputs.upload-artifact == 'true' && inputs.mode != 'quality' }}
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: |
+          ${{ steps.gate.outputs.artifact-path }}
+          ${{ steps.gate.outputs.manifest-path }}
+          ${{ steps.gate.outputs.checksum-path }}
+          ${{ steps.gate.outputs.report-path }}
+        if-no-files-found: error
+        retention-days: 14

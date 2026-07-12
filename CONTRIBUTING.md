@@ -14,9 +14,23 @@ Contributions are welcome when they preserve portability, safety, and replayable
 ## Required Local Checks
 
 ```bash
-python scripts/review_bot.py --all --check
-python scripts/verify_release.py
+./our-skills doctor
+./our-skills verify
 ```
+
+## Improve External Adoption
+
+Changes to `action.yml`, the unified CLI, quickstart, consumer examples, or the
+maintenance demo must also pass:
+
+```bash
+python scripts/check_external_adoption.py
+```
+
+Consumer fixtures stay repository-independent: they own their own `skills.json`
+under `schemas/external-skills.schema.json`, must work from a fresh temporary
+copy, and may not import project-internal Python modules. Do not add an adopter
+claim without a public workflow and maintainer consent.
 
 ## Pull Request Expectations
 
@@ -24,6 +38,8 @@ python scripts/verify_release.py
 - Link replay evidence.
 - Declare platform compatibility.
 - Include security notes for secrets, destructive actions, external network use, and data classification.
+- For public-interface changes, document compatibility, immutable Action pins,
+  deterministic artifact evidence, and a negative failure case.
 - Confirm CLA acceptance.
 
 ## Review Standard

@@ -22,6 +22,10 @@ turn a plausible result into an unsupported claim.
 - `releases/` holds retained, immutable release evidence.
 - `.github/workflows/supply-chain.yml` is the identity-backed build, signing,
   attestation, and release-upload contract.
+- `action.yml` and `scripts/external_repo_check.py` are the public external
+  adoption contract. They must not depend on this repository being the consumer.
+- `our-skills`, `our-skills.cmd`, and `scripts/our_skills.py` are the unified
+  maintainer and adopter entry points.
 
 Read the relevant source before proposing an edit. Preserve unrelated working
 tree changes and never reset or discard a maintainer's work.
@@ -105,12 +109,29 @@ For a pull request, diff, or patch:
 6. Apply `docs/security-review-checklist.md` to outbound data, dangerous
    commands, installation writes, rollback, and supply-chain poisoning.
 
+## External Adoption Behavior
+
+1. Treat consumer repositories as untrusted input. Resolve registry, skill, and
+   output paths inside the declared consumer workspace; reject traversal and
+   symlinks rather than following them.
+2. Keep the public Action independent of first-party `skills.json`, retained
+   releases, and project-only reports. A consumer owns its registry and source.
+3. Pin every Action dependency to a full commit SHA. Consumer examples must pin
+   this Action to a commit that actually contains the documented interface.
+4. Test adoption by copying the fixture into a fresh temporary directory,
+   producing deterministic release evidence twice, and proving tampering fails.
+5. Never label a fixture as an adopter. Add a public adopter only with a
+   verifiable repository workflow and maintainer consent.
+
 ## Validation and Handoff
 
 - For documentation or contributor-workflow changes, run the ecosystem and
   publication checks plus whitespace validation.
 - For skill, script, security, marketplace, registry, or release changes, run
   the full release verification gate unless the maintainer narrows the scope.
+- For Action, CLI, quickstart, external example, or demo changes, run
+  `python scripts/check_external_adoption.py`; the root Action self-test must
+  also pass on GitHub.
 - For a retained review, triage, release, or security record, run
   `python scripts/check_maintenance_evidence.py`; its coverage and provenance
   rules are part of the RigorBench and CI contract.

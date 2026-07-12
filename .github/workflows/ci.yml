@@ -40,6 +40,9 @@ jobs:
       - name: Check supply-chain assurance
         run: python scripts/check_supply_chain.py
 
+      - name: Check external adoption interfaces
+        run: python scripts/check_external_adoption.py
+
       - name: Validate Codex maintenance evidence format and coverage
         run: python scripts/check_maintenance_evidence.py --no-replay
 

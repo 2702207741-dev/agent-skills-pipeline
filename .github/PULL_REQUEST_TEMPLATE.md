@@ -11,6 +11,7 @@
 - [ ] Documentation or governance only
 - [ ] Security-sensitive behavior
 - [ ] Release metadata or retained artifact
+- [ ] Public Action, unified CLI, external adoption, or maintenance demo
 
 ## Evidence
 
@@ -20,6 +21,7 @@ fixture, replay record, report, or manual validation that proves the change.
 - [ ] `python scripts/review_bot.py --all --check`
 - [ ] `python scripts/verify_release.py`
 - [ ] `python scripts/check_supply_chain.py` when workflows, dependencies, signing, provenance, or release behavior changed
+- [ ] `python scripts/check_external_adoption.py` when Action, CLI, quickstart, examples, or demo behavior changed
 - [ ] Success, failure, and boundary evidence updated when skill behavior changed
 - [ ] Graph, platform, dataset, and model-eval reports refreshed when applicable
 - [ ] Marketplace doctor checked when install behavior changed
@@ -49,6 +51,7 @@ fixture, replay record, report, or manual validation that proves the change.
 - [ ] Installation writes are dry-run-first, explicit, and audited
 - [ ] Rollback behavior and retained recovery data are tested
 - [ ] Supply-chain changes keep full-SHA Action pins, least privilege, provenance, and identity verification
+- [ ] Consumer-controlled paths remain inside the external workspace and tampering fails closed
 - [ ] `security/dangerous-command-policy.json` was followed or the change is not applicable
 
 ## Release Impact

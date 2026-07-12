@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "kind": "our-skills-maintenance-demo-report",
+  "scenario": "issue-to-pr-review-to-release-gate",
+  "status": "pass",
+  "stages": [
+    {
+      "id": "issue-triage",
+      "status": "pass",
+      "evidence": {
+        "issue": "OSS-17",
+        "classification": "bug",
+        "severity": "medium",
+        "acceptance_criteria": 3,
+        "reproduction": "expected IndexError confirmed"
+      }
+    },
+    {
+      "id": "pr-review",
+      "status": "pass",
+      "evidence": {
+        "changed_files": [
+          "skills.json",
+          "skills/release-notes-review/SKILL.md",
+          "src/release_notes.py"
+        ],
+        "before_tests": "expected failure",
+        "after_tests": "pass",
+        "security_findings": 0,
+        "recommendation": "approve"
+      }
+    },
+    {
+      "id": "release-gate",
+      "status": "pass",
+      "evidence": {
+        "quality_status": "pass",
+        "skill_count": 1,
+        "artifact_verified": true,
+        "sidecars": [
+          "manifest",
+          "sha256"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "OSS-17",
+  "title": "Empty release notes crash the release summary",
+  "type": "bug",
+  "severity": "medium",
+  "report": "Calling release_heading([]) raises IndexError during a no-change release.",
+  "acceptance_criteria": [
+    "An empty change list returns a stable no-changes heading.",
+    "A non-empty change list preserves the first normalized entry.",
+    "The regression suite passes without network access."
+  ]
+}
