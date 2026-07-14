@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "suite": "our-skills-live-maintainer-evidence",
+  "capture_policy": {
+    "purpose": "Store redacted evidence captured from actual maintainer agent sessions without treating reconstructed history as live execution.",
+    "privacy_rule": "Only explicitly redacted transcripts may be committed; raw private sessions and credentials remain outside the repository.",
+    "replay_rule": "Required CI replays only allowlisted local commands and never calls an external model provider."
+  },
+  "coverage_requirements": {
+    "pr_review": [
+      "success",
+      "failure",
+      "boundary"
+    ],
+    "issue_triage": [
+      "success",
+      "failure",
+      "boundary"
+    ],
+    "release_workflow": [
+      "success",
+      "failure",
+      "boundary"
+    ],
+    "security_audit": [
+      "success",
+      "failure",
+      "boundary"
+    ]
+  },
+  "records": []
+}

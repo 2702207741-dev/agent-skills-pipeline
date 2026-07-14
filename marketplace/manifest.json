@@ -20,15 +20,22 @@
     ],
     "dry_run": true,
     "backup_before_update": true,
+    "transactional_apply": true,
+    "content_bound_plans": true,
+    "transaction_rollback": true,
     "apply_required_for_writes": true,
-    "audit_log": ".our-skills-audit/events.jsonl"
+    "audit_log": ".our-skills-audit/events.jsonl",
+    "audit_hash_chain": true
   },
   "one_command_examples": [
     "python scripts/marketplace.py list",
     "python scripts/marketplace.py install --platform codex --target-root ~",
+    "python scripts/marketplace.py install --platform codex --target-root ~ --plan-output install-plan.json",
+    "python scripts/marketplace.py install --platform codex --target-root ~ --apply-plan install-plan.json",
     "python scripts/marketplace.py install --platform codex --target-root ~ --apply",
     "python scripts/marketplace.py update --platform codex --target-root ~ --skill skill-review-workflow --apply",
     "python scripts/marketplace.py rollback --platform codex --skill skill-review-workflow --target-root ~ --apply",
+    "python scripts/marketplace.py rollback --platform codex --transaction <TRANSACTION_ID> --target-root ~ --apply",
     "python scripts/marketplace.py doctor --platform codex --target-root ~",
     "python scripts/review_bot.py --all --check",
     "python scripts/run_model_eval.py --check"

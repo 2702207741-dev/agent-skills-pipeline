@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "project": "sample-javascript-library-skills",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "javascript-library-review",
+      "path": "skills/javascript-library-review",
+      "version": "1.0.0",
+      "description": "Review a JavaScript library for ESM compatibility, tests, public API changes, and release safety."
+    }
+  ]
+}

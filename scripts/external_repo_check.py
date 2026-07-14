@@ -135,9 +135,12 @@ def scan_text(path: str, content: str) -> list[dict[str, str]]:
 
 def validate_registry(registry: dict[str, Any]) -> list[dict[str, str]]:
     problems: list[dict[str, str]] = []
+    schema_version = registry.get("schema_version", 1)
     project = registry.get("project")
     version = registry.get("version")
     skills = registry.get("skills")
+    if schema_version != 1:
+        problems.append(issue("registry-schema", "skills.json", "schema_version must be 1 when present"))
     if not isinstance(project, str) or not PROJECT_RE.fullmatch(project):
         problems.append(issue("registry-project", "skills.json", "project must be a portable slug"))
     if not isinstance(version, str) or not SEMVER_RE.fullmatch(version):
@@ -339,6 +342,7 @@ def main() -> int:
 
         report = {
             "schema_version": 1,
+            "interface_version": 1,
             "kind": "our-skills-external-gate-report",
             "mode": args.mode,
             "status": "pass" if not problems else "fail",
@@ -365,6 +369,7 @@ def main() -> int:
             report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
         values = {
+            "interface-version": "1",
             "status": report["status"],
             "skill-count": str(report["skill_count"]),
             "report-path": str(report_path or ""),
@@ -385,7 +390,17 @@ def main() -> int:
         return 0
     except Exception as exc:
         print(f"[FAIL] {exc}")
-        github_output({"status": "fail", "skill-count": "0", "report-path": "", "artifact-path": "", "manifest-path": "", "checksum-path": ""})
+        github_output(
+            {
+                "interface-version": "1",
+                "status": "fail",
+                "skill-count": "0",
+                "report-path": "",
+                "artifact-path": "",
+                "manifest-path": "",
+                "checksum-path": "",
+            }
+        )
         return 1
 
 

@@ -65,8 +65,11 @@ marketplace, rollback, and review-bot gates in one command.
 ## What Is Deliberately Not Claimed Yet
 
 The current skill RigorBench and multi-model data are deterministic replay
-evidence. The maintenance suite adds real repository-history and live-command
-evidence. The external fixture proves interface portability, but it is not a
+evidence. The v3.2 maintenance suite reconstructs tasks from reachable
+repository history and replays allowlisted commands; it is not a transcript of
+the original agent session. The v2 live-evidence channel is deliberately counted
+separately and does not claim coverage until redacted sessions exist. The
+external fixture proves interface portability, but it is not a
 claim that an unrelated maintainer has adopted the project. Older direct-push
 changes are explicitly labeled as PR-style reviews rather than assigned invented
 GitHub PR numbers. The v3.0.0 `.sig` is a deterministic SHA-256 integrity check
@@ -76,11 +79,11 @@ rewrite that release; it creates new identity-backed evidence for its own build.
 Those limits are documented so a reviewer can distinguish measured capability
 from future work.
 
-## Real Codex Maintenance Evidence
+## Codex Maintenance Evidence Classes
 
-The v3.2 maintenance suite records 12 Codex-assisted repository tasks: three
+The v3.2 maintenance suite retains 12 Git-pinned task reconstructions: three
 each for PR-style review, issue triage, release workflow, and security or
-code-quality audit. Each record retains:
+code-quality audit. Each reconstructed record retains:
 
 - the task and prompt provenance;
 - skills used, agent behavior, and Git-pinned files read;
@@ -92,6 +95,13 @@ checks structure, coverage, Git ancestry, blob identities, conclusions, and
 command replay. [`scripts/run_rigorbench.py`](../scripts/run_rigorbench.py)
 includes this suite, so missing or stale maintenance evidence fails CI and the
 one-command release gate.
+
+`live-traces.json` uses schema v2 for redacted, observed Codex or Claude Code
+sessions. `scripts/capture_maintenance_evidence.py` is dry-run by default,
+rejects secret-like transcript content, hashes outputs, and appends only after
+validation. `scripts/check_live_maintenance_evidence.py --require-coverage`
+becomes the release gate only after all four workflows have success, failure,
+and boundary records; until then the dashboard reports the exact missing cells.
 
 ## External Adoption Release
 

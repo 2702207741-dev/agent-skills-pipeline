@@ -42,6 +42,9 @@ trust boundaries in [`docs/threat-model.md`](docs/threat-model.md).
 - **External adoption gate** confines the consumer workspace to its repository,
   rejects traversal and symlinks, scans registry and skill text, and verifies
   every archive entry against a deterministic manifest.
+- **Transactional installation** binds preview and apply to a hashed plan,
+  stages on the target root, restores every touched destination after failure,
+  supports transaction-level rollback, and hash-chains audit events.
 
 These tools supplement rather than replace the project-specific dangerous
 command, redaction, replay, installer, rollback, and release checks.

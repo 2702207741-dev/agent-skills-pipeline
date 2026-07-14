@@ -19,11 +19,11 @@
     <main>
       <section id="marketplace">
         <h2>Marketplace</h2>
-        <p>The local marketplace index exposes every skill with version, platform paths, dependencies, status, owner, and quality score.</p>
+        <p>The local marketplace index exposes every skill with version, platform paths, dependencies, status, owner, and quality score. Content-bound plans, staged writes, and transaction rollback keep installation recoverable.</p>
         <pre><code>./our-skills list
-./our-skills install --platform codex --target-root ~/.tmp --apply
-./our-skills update --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply
-./our-skills rollback --platform codex --target-root ~/.tmp --skill skill-review-workflow --apply</code></pre>
+./our-skills install --platform codex --target-root ~/.tmp --plan-output install-plan.json
+./our-skills install --platform codex --target-root ~/.tmp --apply-plan install-plan.json
+./our-skills rollback --platform codex --target-root ~/.tmp --transaction &lt;TRANSACTION_ID&gt; --apply</code></pre>
       </section>
 
       <section id="doctor">
@@ -46,7 +46,7 @@
         <ul>
           <li><a href="../action.yml">Composite Action metadata</a></li>
           <li><a href="github-action.md">Consumer contract</a></li>
-          <li><a href="../examples/external-repos/python-library/">Verified external fixture</a></li>
+          <li><a href="../examples/external-repos/">Cross-language, cross-platform fixture suite</a></li>
         </ul>
       </section>
 

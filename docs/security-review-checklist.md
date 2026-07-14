@@ -27,10 +27,10 @@ or a concrete follow-up for every item; an unchecked item is not evidence.
 - [ ] Dry-run is the default and shows source, destination, create/replace
   actions, and conflicts before writing.
 - [ ] `--apply` is explicit and cannot silently broaden the target root.
-- [ ] Existing files are preserved before replacement and partial failure leaves
-  a diagnosable state.
+- [ ] Existing files are preserved before replacement and partial failure
+  restores every touched destination in reverse order.
 - [ ] Doctor checks validate the exact installed content after apply.
-- [ ] Install and update events are appended to the audit log.
+- [ ] Install, update, failure, and rollback events extend the audit hash chain.
 
 ## Rollback
 

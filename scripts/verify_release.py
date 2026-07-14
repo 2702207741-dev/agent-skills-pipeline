@@ -187,29 +187,30 @@ def verify_artifact_install_and_rollback(artifact: Path, tmp: Path) -> None:
     with zipfile.ZipFile(artifact) as zipf:
         zipf.extractall(extracted)
 
-    market_home = tmp / "market-home"
-    run([PYTHON, "scripts/marketplace.py", "install", "--platform", "codex", "--target-root", str(market_home), "--apply"], cwd=extracted)
-    run([PYTHON, "scripts/marketplace.py", "doctor", "--platform", "codex", "--target-root", str(market_home), "--strict"], cwd=extracted)
-    installed = market_home / ".codex" / "skills" / "skill-review-workflow" / "SKILL.md"
-    if not installed.exists():
-        raise AssertionError("artifact install did not place skill-review-workflow")
+    for platform in ("codex", "claude-code", "cursor", "hermes"):
+        market_home = tmp / f"market-home-{platform}"
+        run([PYTHON, "scripts/marketplace.py", "install", "--platform", platform, "--target-root", str(market_home), "--apply"], cwd=extracted)
+        run([PYTHON, "scripts/marketplace.py", "doctor", "--platform", platform, "--target-root", str(market_home), "--strict"], cwd=extracted)
+        installed = list(market_home.rglob("skill-review-workflow/SKILL.md"))
+        if len(installed) != 1:
+            raise AssertionError(f"artifact install did not place skill-review-workflow for {platform}")
 
-    fresh_install_target = market_home / ".codex" / "skills" / "agent-security-guard"
-    if not fresh_install_target.exists():
-        raise AssertionError("artifact install did not place agent-security-guard")
-    run([PYTHON, "scripts/marketplace.py", "rollback", "--platform", "codex", "--target-root", str(market_home), "--skill", "agent-security-guard", "--apply"], cwd=extracted)
-    if fresh_install_target.exists():
-        raise AssertionError("fresh-install rollback did not remove created agent-security-guard target")
+        fresh_install_target = list(market_home.rglob("agent-security-guard/SKILL.md"))
+        if len(fresh_install_target) != 1:
+            raise AssertionError(f"artifact install did not place agent-security-guard for {platform}")
+        run([PYTHON, "scripts/marketplace.py", "rollback", "--platform", platform, "--target-root", str(market_home), "--skill", "agent-security-guard", "--apply"], cwd=extracted)
+        if list(market_home.rglob("agent-security-guard/SKILL.md")):
+            raise AssertionError(f"fresh-install rollback did not remove agent-security-guard for {platform}")
 
-    run([PYTHON, "scripts/marketplace.py", "update", "--platform", "codex", "--target-root", str(market_home), "--skill", "skill-review-workflow", "--apply"], cwd=extracted)
-    run([PYTHON, "scripts/marketplace.py", "rollback", "--platform", "codex", "--target-root", str(market_home), "--skill", "skill-review-workflow", "--apply"], cwd=extracted)
-    audit_log = market_home / ".our-skills-audit" / "events.jsonl"
-    if not audit_log.exists():
-        raise AssertionError("marketplace install/update/rollback did not create an audit log")
-    audit_actions = [json.loads(line)["action"] for line in audit_log.read_text(encoding="utf-8").splitlines() if line.strip()]
-    for action in ("install", "update", "rollback"):
-        if action not in audit_actions:
-            raise AssertionError(f"marketplace audit log missing action: {action}")
+        run([PYTHON, "scripts/marketplace.py", "update", "--platform", platform, "--target-root", str(market_home), "--skill", "skill-review-workflow", "--apply"], cwd=extracted)
+        run([PYTHON, "scripts/marketplace.py", "rollback", "--platform", platform, "--target-root", str(market_home), "--skill", "skill-review-workflow", "--apply"], cwd=extracted)
+        audit_log = market_home / ".our-skills-audit" / "events.jsonl"
+        if not audit_log.exists():
+            raise AssertionError(f"marketplace lifecycle did not create an audit log for {platform}")
+        audit_actions = [json.loads(line)["action"] for line in audit_log.read_text(encoding="utf-8").splitlines() if line.strip()]
+        for action in ("install", "update", "rollback"):
+            if action not in audit_actions:
+                raise AssertionError(f"marketplace audit log missing {action} for {platform}")
 
 
 def main() -> int:
@@ -221,6 +222,8 @@ def main() -> int:
         run([PYTHON, "scripts/security_scan.py"])
         run([PYTHON, "scripts/check_supply_chain.py"])
         run([PYTHON, "scripts/check_external_adoption.py"])
+        run([PYTHON, "-m", "unittest", "discover", "-s", "tests", "-v"])
+        run([PYTHON, "scripts/check_live_maintenance_evidence.py", "--no-replay"])
         run([PYTHON, "scripts/run_rigorbench.py"])
         run([PYTHON, "scripts/check_skill_graph.py"])
         run([PYTHON, "scripts/generate_platform_reports.py", "--check"])

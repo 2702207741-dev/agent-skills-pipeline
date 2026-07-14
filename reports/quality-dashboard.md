@@ -5,6 +5,14 @@
 - Regression count: 0
 - High-risk skills: none
 
+## Evidence Classes
+
+| Class | Records | Validated | Coverage Met |
+|---|---:|---:|---|
+| Deterministic skill replay | 42 | 42 | True |
+| Commit-derived maintenance reconstruction | 12 | 12 | True |
+| Redacted live agent sessions | 0 | 0 | False |
+
 | Skill | Owner | Status | Pass Rate | Regressions | Last Updated | Risk |
 |---|---|---|---:|---:|---|---|
 | skill-authoring-workflow | core-platform | active | 1.00 | 0 | 2026-07-06 | low |

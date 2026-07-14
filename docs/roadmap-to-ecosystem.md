@@ -26,7 +26,7 @@ The v4.0.0 release proves the first external-adoption boundary:
 | Quality | Static validation, fixtures, replay, maintenance evidence | Pluggable evaluators with comparable evidence envelopes |
 | Security | Policy regressions, CodeQL, Scorecard, secret scanning | Shared policy packs, trust roots, revocation, and transparency feeds |
 | Distribution | Deterministic archive, manifest, checksum, SBOM, provenance | Sigstore-attested registry objects and content-addressed mirrors |
-| Installation | Dry-run, doctor, update, rollback, audit log | Resolver API with dependency constraints and transactional installs |
+| Installation | Hashed plans, staged transactions, doctor, transaction rollback, hash-chained audit | Resolver API with dependency constraints and portable transactions |
 | Lifecycle | Owner, status, deprecation, replacement, migration | Cross-registry advisories and automated migration proposals |
 | Adoption | External fixture and reusable Action | Verified adopter catalog and conformance badges |
 
@@ -52,8 +52,8 @@ A registry record should minimally bind:
 
 - Stabilize the external `skills.json` schema.
 - Publish immutable Action releases and a compatibility policy.
-- Exercise Python, JavaScript, and documentation-only consumer fixtures.
-- Add conformance tests for GitHub-hosted Linux, Windows, and macOS runners.
+- Keep Python, JavaScript, and documentation-only consumer fixtures green.
+- Keep conformance tests green on GitHub-hosted Linux, Windows, and macOS runners.
 
 **Exit:** three unrelated repositories can adopt the gate without copying
 project-internal scripts.
@@ -70,8 +70,9 @@ registry transport.
 
 ### Phase 3: Transactional Marketplace
 
-- Resolve dependencies and compatibility constraints before writing.
-- Stage complete install plans, show diffs, and apply atomically.
+- Keep resolving dependencies and compatibility constraints before writing.
+- Extend the implemented hashed plan and staged transaction model to remote
+  packages.
 - Make rollback and audit records portable across machines.
 - Publish security advisories and deprecation migrations.
 
@@ -101,17 +102,19 @@ which repositories have independently exercised it.
 
 ## Near-Term Work
 
-1. Run the composite Action in real third-party OSS pull requests.
-2. Publish a versioned external registry JSON Schema.
-3. Add a JavaScript service fixture and multi-OS Action matrix.
+1. Capture 12 redacted observed Codex maintenance sessions across the four
+   workflow families and three outcome classes.
+2. Run the composite Action in consented real third-party OSS pull requests.
+3. Publish a versioned external registry JSON Schema and compatibility policy.
 4. Add optional GitHub OIDC attestation for consumer-built release bundles.
 5. Define signed remote index snapshots and a read-only discovery prototype.
 
 ## Codex for OSS Narrative
 
 The project does not merely use Codex to edit files. It turns Codex-relevant
-maintenance behavior into reviewable contracts, preserves real maintenance
-evidence, and gives other OSS repositories a low-cost quality and release gate.
+maintenance behavior into reviewable contracts, preserves observed and
+reconstructed maintenance evidence as distinct classes, and gives other OSS
+repositories a low-cost quality and release gate.
 The infrastructure claim is therefore testable: clone, run the quickstart,
 execute the maintenance demo, or consume the pinned Action from another
 repository and inspect the resulting evidence.
