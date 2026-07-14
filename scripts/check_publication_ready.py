@@ -15,6 +15,7 @@ REQUIRED_FILES = [
     "docs/README.md",
     "docs/oss-review.md",
     "AGENTS.md",
+    "CLAUDE.md",
     "LICENSE",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
@@ -38,6 +39,8 @@ REQUIRED_FILES = [
     "scripts/verify_release.py",
     "scripts/review_bot.py",
     "scripts/check_maintenance_evidence.py",
+    "scripts/check_live_maintenance_evidence.py",
+    "scripts/capture_maintenance_evidence.py",
     "scripts/check_supply_chain.py",
     "scripts/check_external_adoption.py",
     "scripts/external_repo_check.py",
@@ -58,10 +61,16 @@ REQUIRED_FILES = [
     "docs/threat-model.md",
     "eval-runs/codex-maintenance/README.md",
     "eval-runs/codex-maintenance/traces.json",
+    "eval-runs/codex-maintenance/live-traces.json",
     "examples/external-repos/python-library/skills.json",
     "examples/external-repos/python-library/.github/workflows/our-skills.yml",
+    "examples/external-repos/javascript-library/skills.json",
+    "examples/external-repos/javascript-library/.github/workflows/our-skills.yml",
+    "examples/external-repos/documentation-site/skills.json",
+    "examples/external-repos/documentation-site/.github/workflows/our-skills.yml",
     "examples/end-to-end-maintenance/expected-report.json",
     "schemas/external-skills.schema.json",
+    "schemas/maintenance-evidence-v2.schema.json",
 ]
 
 FORBIDDEN_NAMES = {

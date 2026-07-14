@@ -29,8 +29,9 @@ jobs:
           mode: all
 ```
 
-Replace both placeholders with reviewed immutable commits. The verified fixture
-in `examples/external-repos/python-library` contains a working pinned version.
+Replace both placeholders with reviewed immutable commits. Verified Python,
+JavaScript, and documentation fixtures live in `examples/external-repos/` and
+run across Ubuntu, Windows, and macOS.
 
 ## Consumer Registry
 
@@ -57,6 +58,9 @@ character description, and contain `When to Use` and `Verification Checklist`
 sections. The gate rejects traversal, symlinks, oversized files, secret-like
 material, and unmarked dangerous-command examples.
 
+`schema_version` defaults to `1` when omitted for compatibility. Any explicit
+value other than `1` fails until a new version is documented and implemented.
+
 ## Inputs
 
 | Input | Default | Purpose |
@@ -70,6 +74,7 @@ material, and unmarked dangerous-command examples.
 
 ## Outputs
 
+- `interface-version` (`1` for this additive Action contract)
 - `status` and `skill-count`
 - `report-path`
 - `artifact-path`

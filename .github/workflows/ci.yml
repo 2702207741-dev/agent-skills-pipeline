@@ -11,7 +11,8 @@ permissions:
   contents: read
 
 jobs:
-  validate:
+  quality:
+    name: Quality contracts
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,104 +20,141 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
-          python-version: "3.x"
-
-      - name: Check registry
-        run: python scripts/check_registry.py
-
-      - name: Validate skills
-        run: python scripts/validate-skill.py */SKILL.md
-
-      - name: Check fixtures and matrix
-        run: python scripts/run_fixture_checks.py
-
-      - name: Security scan
-        run: python scripts/security_scan.py
-
-      - name: Check supply-chain assurance
-        run: python scripts/check_supply_chain.py
-
-      - name: Check external adoption interfaces
-        run: python scripts/check_external_adoption.py
-
-      - name: Validate Codex maintenance evidence format and coverage
-        run: python scripts/check_maintenance_evidence.py --no-replay
-
-      - name: Replay RigorBench E2E and maintainer workflows
-        run: python scripts/run_rigorbench.py
-
-      - name: Check skill graph
-        run: python scripts/check_skill_graph.py
-
-      - name: Check platform reports
-        run: python scripts/generate_platform_reports.py --check
-
-      - name: Check example datasets
-        run: python scripts/generate_example_dataset.py --check
-
-      - name: Check multi-model replay evaluation
-        run: python scripts/run_model_eval.py --check
-
-      - name: Check ecosystem assets
-        run: python scripts/check_ecosystem.py
-
-      - name: Check release archive
-        run: python scripts/check_release_archive.py
-
-      - name: Check publication readiness
-        run: python scripts/check_publication_ready.py
-
-      - name: Run review bot
-        run: python scripts/review_bot.py --all --check --output "$RUNNER_TEMP/review-bot-report.json"
-
-      - name: Check whitespace
-        run: git diff --check
-
-      - name: Package smoke test
+          python-version: "3.14"
+      - name: Validate repository contracts
         run: |
-          PKG_DIR="$RUNNER_TEMP/dist-smoke"
-          mkdir -p "$PKG_DIR"
-          python scripts/package_skill.py --all "$PKG_DIR"
-          EXPECTED="$(python -c 'import json; print(len(json.load(open("skills.json"))["skills"]))')"
-          test "$(find "$PKG_DIR" -name '*.zip' | wc -l)" -eq "$EXPECTED"
+          python scripts/check_registry.py
+          python scripts/validate-skill.py */SKILL.md
+          python scripts/run_fixture_checks.py
+          python scripts/check_skill_graph.py
+          python scripts/generate_platform_reports.py --check
+          python scripts/generate_example_dataset.py --check
+          python scripts/check_ecosystem.py
+          python scripts/check_publication_ready.py
+          git diff --check
 
-      - name: Release artifact smoke test
+  security:
+    name: Security contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+      - name: Run security and supply-chain gates
         run: |
-          RELEASE_DIR="$RUNNER_TEMP/dist-release"
-          mkdir -p "$RELEASE_DIR"
-          python scripts/create_release.py --output "$RELEASE_DIR"
-          RELEASE="$(python -c 'import json; print("v" + json.load(open("skills.json"))["version"])')"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.zip"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.manifest.json"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.sha256"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.sbom.json"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.provenance.json"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.sig"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.marketplace-index.json"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.quality-dashboard.json"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.skill-graph-report.json"
-          test -f "$RELEASE_DIR/our-skills-$RELEASE.model-eval-report.json"
+          python scripts/security_scan.py
+          python scripts/check_supply_chain.py
 
-      - name: Marketplace smoke test
+  evidence:
+    name: Evidence contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+      - name: Replay deterministic and observed evidence channels
         run: |
-          python scripts/marketplace.py list
-          export MARKET_HOME="$RUNNER_TEMP/marketplace-home"
-          python scripts/marketplace.py install --platform codex --target-root "$MARKET_HOME" --apply
-          python scripts/marketplace.py doctor --platform codex --target-root "$MARKET_HOME" --strict
-          test -f "$MARKET_HOME/.codex/skills/skill-review-workflow/SKILL.md"
-          python scripts/marketplace.py update --platform codex --target-root "$MARKET_HOME" --skill skill-review-workflow --apply
-          python scripts/marketplace.py rollback --platform codex --target-root "$MARKET_HOME" --skill skill-review-workflow --apply
-          test -f "$MARKET_HOME/.our-skills-audit/events.jsonl"
+          python scripts/check_maintenance_evidence.py --no-replay
+          python scripts/check_live_maintenance_evidence.py --no-replay
+          python scripts/run_rigorbench.py
+          python scripts/run_model_eval.py --check
 
-      - name: One-command release verification
-        run: python scripts/verify_release.py
+  compatibility:
+    name: Python ${{ matrix.python }} on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.14"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run standard-library unit tests
+        run: python -m unittest discover -s tests -v
 
-      - name: Install dry-run
+  lifecycle:
+    name: ${{ matrix.platform }} lifecycle on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        platform: [codex, claude-code, cursor, hermes]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+      - name: Install, diagnose, update, and roll back
         run: |
-          export HOME="$RUNNER_TEMP/home"
-          mkdir -p "$HOME/.codex/skills"
-          bash scripts/install.sh --dry-run
+          python scripts/marketplace.py install --platform ${{ matrix.platform }} --target-root "${{ runner.temp }}/market-home" --apply
+          python scripts/marketplace.py doctor --platform ${{ matrix.platform }} --target-root "${{ runner.temp }}/market-home" --strict
+          python scripts/marketplace.py update --platform ${{ matrix.platform }} --target-root "${{ runner.temp }}/market-home" --skill skill-review-workflow --apply
+          python scripts/marketplace.py rollback --platform ${{ matrix.platform }} --target-root "${{ runner.temp }}/market-home" --skill skill-review-workflow --apply
+
+  release:
+    name: Release contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+      - name: Verify release and external adoption contracts
+        run: |
+          python scripts/check_external_adoption.py
+          python scripts/check_release_archive.py
+          python scripts/verify_release.py
+
+  validate:
+    name: validate
+    if: ${{ always() }}
+    needs: [quality, security, evidence, compatibility, lifecycle, release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every independent CI surface
+        env:
+          QUALITY: ${{ needs.quality.result }}
+          SECURITY: ${{ needs.security.result }}
+          EVIDENCE: ${{ needs.evidence.result }}
+          COMPATIBILITY: ${{ needs.compatibility.result }}
+          LIFECYCLE: ${{ needs.lifecycle.result }}
+          RELEASE: ${{ needs.release.result }}
+        run: |
+          test "$QUALITY" = "success"
+          test "$SECURITY" = "success"
+          test "$EVIDENCE" = "success"
+          test "$COMPATIBILITY" = "success"
+          test "$LIFECYCLE" = "success"
+          test "$RELEASE" = "success"

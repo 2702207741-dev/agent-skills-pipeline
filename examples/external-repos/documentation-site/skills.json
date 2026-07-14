@@ -1,0 +1,12 @@
+{
+  "project": "sample-documentation-site-skills",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "documentation-release-review",
+      "path": "skills/documentation-release-review",
+      "version": "1.0.0",
+      "description": "Review documentation releases for navigation, command accuracy, evidence links, and compatibility notes."
+    }
+  ]
+}

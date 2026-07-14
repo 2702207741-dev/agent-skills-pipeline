@@ -11,9 +11,14 @@ permissions:
   contents: read
 
 jobs:
-  external-consumer:
-    name: Validate external consumer fixture
-    runs-on: ubuntu-latest
+  external-consumer-matrix:
+    name: Validate ${{ matrix.fixture }} on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        fixture: [python-library, javascript-library, documentation-site]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -24,14 +29,28 @@ jobs:
         id: our-skills
         uses: ./
         with:
-          workspace: examples/external-repos/python-library
+          workspace: examples/external-repos/${{ matrix.fixture }}
           registry: skills.json
           mode: all
           output-directory: .our-skills-dist
-          artifact-name: external-python-library-release
+          upload-artifact: "false"
+
+      - name: Run fixture-owned test
+        shell: bash
+        env:
+          FIXTURE: ${{ matrix.fixture }}
+        run: |
+          cd "examples/external-repos/$FIXTURE"
+          case "$FIXTURE" in
+            python-library) python -m unittest discover -s tests -v ;;
+            javascript-library) node --test ;;
+            documentation-site) test -f docs/release-checklist.md ;;
+          esac
 
       - name: Verify Action outputs
+        shell: bash
         env:
+          INTERFACE_VERSION: ${{ steps.our-skills.outputs.interface-version }}
           GATE_STATUS: ${{ steps.our-skills.outputs.status }}
           SKILL_COUNT: ${{ steps.our-skills.outputs.skill-count }}
           REPORT_PATH: ${{ steps.our-skills.outputs.report-path }}
@@ -39,6 +58,7 @@ jobs:
           MANIFEST_PATH: ${{ steps.our-skills.outputs.manifest-path }}
           CHECKSUM_PATH: ${{ steps.our-skills.outputs.checksum-path }}
         run: |
+          test "$INTERFACE_VERSION" = "1"
           test "$GATE_STATUS" = "pass"
           test "$SKILL_COUNT" = "1"
           test -f "$REPORT_PATH"
@@ -47,7 +67,24 @@ jobs:
           test -f "$CHECKSUM_PATH"
 
       - name: Verify unified POSIX launcher
+        if: ${{ matrix.os != 'windows-latest' }}
         run: ./our-skills --version
+
+      - name: Verify unified Windows launcher
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: pwsh
+        run: .\our-skills.cmd --version
+
+  external-consumer:
+    name: Validate external consumer fixture
+    if: ${{ always() }}
+    needs: external-consumer-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the complete portability matrix
+        env:
+          MATRIX_RESULT: ${{ needs.external-consumer-matrix.result }}
+        run: test "$MATRIX_RESULT" = "success"
 
   pinned-external-reference:
     name: Validate pinned remote consumer interface

@@ -18,6 +18,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 PYTHON = sys.executable
 EXAMPLE = ROOT / "examples" / "external-repos" / "python-library"
+EXAMPLES = {
+    "python-library": EXAMPLE,
+    "javascript-library": ROOT / "examples" / "external-repos" / "javascript-library",
+    "documentation-site": ROOT / "examples" / "external-repos" / "documentation-site",
+}
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
 REQUIRED_FILES = (
@@ -32,6 +37,14 @@ REQUIRED_FILES = (
     "examples/external-repos/python-library/skills.json",
     "examples/external-repos/python-library/skills/python-library-review/SKILL.md",
     "examples/external-repos/python-library/.github/workflows/our-skills.yml",
+    "examples/external-repos/javascript-library/README.md",
+    "examples/external-repos/javascript-library/skills.json",
+    "examples/external-repos/javascript-library/skills/javascript-library-review/SKILL.md",
+    "examples/external-repos/javascript-library/.github/workflows/our-skills.yml",
+    "examples/external-repos/documentation-site/README.md",
+    "examples/external-repos/documentation-site/skills.json",
+    "examples/external-repos/documentation-site/skills/documentation-release-review/SKILL.md",
+    "examples/external-repos/documentation-site/.github/workflows/our-skills.yml",
     "examples/end-to-end-maintenance/README.md",
     "examples/end-to-end-maintenance/expected-report.json",
     "scripts/external_repo_check.py",
@@ -42,6 +55,7 @@ REQUIRED_FILES = (
 
 ACTION_MARKERS = (
     "using: composite",
+    "interface-version:",
     "Run external repository gate",
     "Upload verified release bundle",
     "artifact-path:",
@@ -55,9 +69,9 @@ ACTION_MARKERS = (
 SELF_TEST_MARKERS = (
     "Run local composite Action as an external consumer",
     "Run immutable external Action reference",
-    "8f7976636bb44899ea54e97d01884c4509f00b00",
     "external-python-library-pinned-release",
 )
+SELF_ACTION_REPOSITORY = "2702207741-dev/agent-skills-pipeline"
 
 QUICKSTART_MARKERS = (
     "# Five-Minute Quickstart",
@@ -122,6 +136,23 @@ def parse_github_output(path: Path) -> dict[str, str]:
     return values
 
 
+def validate_self_test_reference(path: Path) -> list[str]:
+    """Validate the immutable self-reference without coupling to one old commit."""
+    failures: list[str] = []
+    refs = [(name, ref) for name, ref in action_references(path) if name == SELF_ACTION_REPOSITORY]
+    if len(refs) != 1:
+        return [f"action self-test must contain exactly one {SELF_ACTION_REPOSITORY} reference"]
+
+    _, ref = refs[0]
+    if not SHA_RE.fullmatch(ref):
+        return [f"action self-test reference is not pinned to a full commit SHA: {SELF_ACTION_REPOSITORY}@{ref}"]
+
+    result = run(["git", "cat-file", "-e", f"{ref}:action.yml"])
+    if result.returncode != 0:
+        failures.append(f"action self-test pins a commit that does not contain action.yml: {ref}")
+    return failures
+
+
 def run_external_gate(workspace: Path, output_name: str, github_output: Path | None = None) -> tuple[dict[str, Any], dict[str, str]]:
     command = [
         PYTHON,
@@ -167,6 +198,7 @@ def check_static_contracts(failures: list[str]) -> None:
         for marker in SELF_TEST_MARKERS:
             if marker not in content:
                 failures.append(f"action self-test missing marker: {marker}")
+        failures.extend(validate_self_test_reference(self_test))
 
     quickstart = ROOT / "docs" / "quickstart.md"
     if quickstart.is_file():
@@ -197,21 +229,23 @@ def check_static_contracts(failures: list[str]) -> None:
         except json.JSONDecodeError:
             failures.append("schemas/external-skills.schema.json is not valid JSON")
 
-    consumer_workflow = EXAMPLE / ".github" / "workflows" / "our-skills.yml"
-    if consumer_workflow.is_file():
+    for fixture_name, fixture_root in EXAMPLES.items():
+        consumer_workflow = fixture_root / ".github" / "workflows" / "our-skills.yml"
+        if not consumer_workflow.is_file():
+            continue
         refs = action_references(consumer_workflow)
         bases = {"/".join(name.split("/")[:2]) for name, _ in refs}
         expected = {"actions/checkout", "2702207741-dev/agent-skills-pipeline"}
         if bases != expected:
-            failures.append(f"external consumer workflow action set is invalid: {sorted(bases ^ expected)}")
+            failures.append(f"{fixture_name} workflow action set is invalid: {sorted(bases ^ expected)}")
         for name, ref in refs:
             if not SHA_RE.fullmatch(ref):
-                failures.append(f"external consumer dependency is not pinned to a full commit SHA: {name}@{ref}")
+                failures.append(f"{fixture_name} dependency is not pinned to a full commit SHA: {name}@{ref}")
                 continue
             if name == "2702207741-dev/agent-skills-pipeline":
                 result = run(["git", "cat-file", "-e", f"{ref}:action.yml"])
                 if result.returncode != 0:
-                    failures.append("external consumer pins a commit that does not contain action.yml")
+                    failures.append(f"{fixture_name} pins a commit that does not contain action.yml")
 
 
 def check_runtime_contracts(failures: list[str]) -> None:
@@ -236,12 +270,34 @@ def check_runtime_contracts(failures: list[str]) -> None:
         if second_report.get("status") != "pass":
             failures.append("second external gate run did not pass")
 
+        for fixture_name, fixture in EXAMPLES.items():
+            if fixture_name == "python-library":
+                continue
+            consumer = tmp / f"consumer-{fixture_name}"
+            shutil.copytree(fixture, consumer)
+            report, _ = run_external_gate(consumer, ".gate")
+            if report.get("status") != "pass" or report.get("skill_count") != 1:
+                failures.append(f"external {fixture_name} gate did not prove one passing skill")
+
         first_artifact = first / first_report["release"]["artifact"]
         second_artifact = second / second_report["release"]["artifact"]
         if file_sha(first_artifact) != file_sha(second_artifact):
             failures.append("external release artifact is not deterministic across clean workspaces")
-        required_outputs = {"status", "skill-count", "report-path", "artifact-path", "manifest-path", "checksum-path"}
-        if set(outputs) != required_outputs or outputs.get("status") != "pass" or outputs.get("skill-count") != "1":
+        required_outputs = {
+            "interface-version",
+            "status",
+            "skill-count",
+            "report-path",
+            "artifact-path",
+            "manifest-path",
+            "checksum-path",
+        }
+        if (
+            set(outputs) != required_outputs
+            or outputs.get("interface-version") != "1"
+            or outputs.get("status") != "pass"
+            or outputs.get("skill-count") != "1"
+        ):
             failures.append("GitHub Action output contract is incomplete")
         for key in ("report-path", "artifact-path", "manifest-path", "checksum-path"):
             if not Path(outputs.get(key, "")).is_file():

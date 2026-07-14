@@ -2,12 +2,37 @@
 
 ## Unreleased
 
+### Added
+
+- Schema v2 observed-maintenance evidence channel, redacted capture tool, replay
+  validator, and honest coverage reporting kept separate from the 12 historical
+  commit-derived reconstructions.
+- JavaScript and documentation-only external consumer fixtures, plus a
+  three-operating-system Action self-test matrix and a read-only
+  `interface-version` output.
+- Standard-library regression tests for external adoption, maintenance
+  evidence, security policy, content-bound install plans, failure recovery,
+  transaction rollback, and audit-log integrity.
+- `CLAUDE.md` thin import of the shared repository rules and declared Python
+  3.10-3.14 compatibility coverage for Codex, Claude Code, Cursor, and Hermes.
+
 ### Changed
 
 - Reduced the root README from 361 lines to a focused reviewer, adoption,
   evidence, installation, and release path without duplicating detailed docs.
 - Moved the OSS reviewer brief into `docs/` and added a compact documentation
   index so GitHub navigation has one clear entry point.
+- Reworked marketplace writes around content-bound plans, same-target staging,
+  automatic reverse restoration, transaction-level rollback, and hash-chained
+  audit events while preserving the existing `--apply` interface.
+- Split CI into parallel quality, security, evidence, compatibility, lifecycle,
+  and release jobs behind the stable `CI / validate` aggregate check.
+
+### Fixed
+
+- Replaced the external Action self-test's hard-coded expected commit with
+  validation of the repository name, a full 40-character pin, and `action.yml`
+  at the pinned commit.
 
 ## 4.0.0 - 2026-07-12
 

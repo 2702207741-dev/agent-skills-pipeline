@@ -8,7 +8,7 @@ configuration.
 ## Prerequisites
 
 - Git
-- Python 3.10 or newer
+- Python 3.10 through 3.14
 - macOS, Linux, or Windows PowerShell / Command Prompt
 
 ## 1. Clone
@@ -76,6 +76,16 @@ our-skills.cmd quickstart --platform codex --target-root .quickstart-home --appl
 ```
 
 The audit log is retained at `.quickstart-home/.our-skills-audit/events.jsonl`.
+
+For a production target, retain and inspect a content-bound plan before writing:
+
+```bash
+./our-skills install --platform codex --target-root ~ --plan-output install-plan.json
+./our-skills install --platform codex --target-root ~ --apply-plan install-plan.json
+```
+
+The apply step rejects altered or stale source, destination, platform, or target
+state. Its transaction ID can roll back every operation as one unit.
 
 ## Time Budget
 

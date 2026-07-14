@@ -10,6 +10,39 @@
     "high_risk_skills": [],
     "stale_skills": []
   },
+  "evidence": {
+    "deterministic_skill_replay": {
+      "record_count": 42,
+      "validated_count": 42,
+      "coverage_met": true
+    },
+    "reconstructed_maintenance": {
+      "record_count": 12,
+      "validated_count": 12,
+      "coverage_met": true,
+      "label": "commit-derived reconstruction"
+    },
+    "observed_maintenance": {
+      "record_count": 0,
+      "validated_count": 0,
+      "coverage_met": false,
+      "missing_coverage": [
+        "pr_review:success",
+        "pr_review:failure",
+        "pr_review:boundary",
+        "issue_triage:success",
+        "issue_triage:failure",
+        "issue_triage:boundary",
+        "release_workflow:success",
+        "release_workflow:failure",
+        "release_workflow:boundary",
+        "security_audit:success",
+        "security_audit:failure",
+        "security_audit:boundary"
+      ],
+      "label": "redacted live agent sessions"
+    }
+  },
   "skills": [
     {
       "name": "skill-authoring-workflow",

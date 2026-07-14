@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/2702207741-dev/agent-skills-pipeline/schemas/maintenance-evidence-v2.schema.json",
+  "title": "our-skills live maintainer evidence v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "suite",
+    "capture_policy",
+    "coverage_requirements",
+    "records"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "suite": {
+      "const": "our-skills-live-maintainer-evidence"
+    },
+    "capture_policy": {
+      "type": "object",
+      "required": [
+        "purpose",
+        "privacy_rule",
+        "replay_rule"
+      ]
+    },
+    "coverage_requirements": {
+      "type": "object"
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "record": {
+      "type": "object",
+      "required": [
+        "id",
+        "workflow",
+        "scenario",
+        "capture_kind",
+        "started_at",
+        "finished_at",
+        "agent",
+        "source",
+        "input",
+        "transcript",
+        "files_read",
+        "commands",
+        "final_output",
+        "human_conclusion",
+        "redaction"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "workflow": {
+          "enum": [
+            "pr_review",
+            "issue_triage",
+            "release_workflow",
+            "security_audit"
+          ]
+        },
+        "scenario": {
+          "enum": [
+            "success",
+            "failure",
+            "boundary"
+          ]
+        },
+        "capture_kind": {
+          "const": "live_agent_session"
+        },
+        "agent": {
+          "type": "object",
+          "required": [
+            "provider",
+            "product",
+            "model",
+            "version"
+          ]
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "branch",
+            "head_before",
+            "session_id_sha256"
+          ],
+          "properties": {
+            "head_before": {
+              "$ref": "#/$defs/commit"
+            },
+            "head_after": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/commit"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "input": {
+          "type": "object",
+          "required": [
+            "source",
+            "prompt"
+          ],
+          "properties": {
+            "source": {
+              "const": "redacted_maintainer_request"
+            },
+            "prompt": {
+              "type": "string",
+              "minLength": 20
+            }
+          }
+        },
+        "transcript": {
+          "type": "object",
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "properties": {
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "files_read": {
+          "type": "array",
+          "minItems": 2
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1
+        },
+        "redaction": {
+          "type": "object",
+          "required": [
+            "status",
+            "scanner",
+            "findings"
+          ]
+        }
+      }
+    }
+  }
+}
