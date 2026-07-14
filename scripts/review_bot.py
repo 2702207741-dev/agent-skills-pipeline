@@ -46,6 +46,7 @@ def build_report() -> dict[str, Any]:
         ("supply-chain", [PYTHON, "scripts/check_supply_chain.py"]),
         ("external-adoption", [PYTHON, "scripts/check_external_adoption.py"]),
         ("maintenance-evidence", [PYTHON, "scripts/check_maintenance_evidence.py", "--no-replay"]),
+        ("observed-maintenance-evidence", [PYTHON, "scripts/check_live_maintenance_evidence.py", "--no-replay"]),
         ("rigorbench", [PYTHON, "scripts/run_rigorbench.py"]),
         ("graph", [PYTHON, "scripts/check_skill_graph.py"]),
         ("platform-reports", [PYTHON, "scripts/generate_platform_reports.py", "--check"]),

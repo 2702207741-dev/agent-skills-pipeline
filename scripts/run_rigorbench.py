@@ -14,6 +14,7 @@ from typing import Any
 sys.dont_write_bytecode = True
 
 from check_maintenance_evidence import REQUIRED_WORKFLOWS, run_maintenance_evidence
+from check_live_maintenance_evidence import run_live_maintenance_evidence
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,7 @@ OUTPUT_DECISIONS = {
 }
 STEP_STATUSES = {"pass", "warn", "blocked"}
 MAINTENANCE_RUNS_FILE = "eval-runs/codex-maintenance/traces.json"
+LIVE_MAINTENANCE_RUNS_FILE = "eval-runs/codex-maintenance/live-traces.json"
 
 
 def load_json(path: Path) -> Any:
@@ -170,6 +172,8 @@ def run_benchmark(runs_file: str | None = None, include_maintenance: bool = True
     source_path, runs = load_runs_file(bench, runs_file)
     if bench.get("maintainer_workflow_runs_file") != MAINTENANCE_RUNS_FILE:
         raise AssertionError("rigorbench maintainer_workflow_runs_file is not configured")
+    if bench.get("live_maintainer_workflow_runs_file") != LIVE_MAINTENANCE_RUNS_FILE:
+        raise AssertionError("rigorbench live_maintainer_workflow_runs_file is not configured")
 
     registered = {entry["name"]: entry for entry in registry["skills"]}
     by_skill: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -231,6 +235,22 @@ def run_benchmark(runs_file: str | None = None, include_maintenance: bool = True
             "skipped": "platform report generation only consumes per-skill replay results",
         }
     )
+    observed_maintenance = (
+        run_live_maintenance_evidence(replay=True, require_coverage=False)
+        if include_maintenance
+        else {
+            "suite": "our-skills-live-maintainer-evidence",
+            "replay": False,
+            "coverage": {},
+            "coverage_met": False,
+            "missing_coverage": [],
+            "record_count": 0,
+            "validated_count": 0,
+            "failures": [],
+            "passed": True,
+            "skipped": "platform report generation consumes evidence summaries separately",
+        }
+    )
     return {
         "suite": bench["suite"],
         "release": registry["release_policy"]["current_release"],
@@ -238,6 +258,7 @@ def run_benchmark(runs_file: str | None = None, include_maintenance: bool = True
         "results": results,
         "regressions": regressions,
         "maintainer_workflows": maintenance,
+        "observed_maintainer_workflows": observed_maintenance,
     }
 
 
@@ -257,10 +278,12 @@ def main() -> int:
     has_regressions = bool(report["regressions"])
     maintenance = report["maintainer_workflows"]
     has_maintenance_failures = not maintenance["passed"]
+    observed = report["observed_maintainer_workflows"]
+    has_observed_failures = not observed["passed"]
 
     if args.json:
         print(json.dumps(report, indent=2, ensure_ascii=False))
-        if has_trace_failures or has_regressions or has_maintenance_failures:
+        if has_trace_failures or has_regressions or has_maintenance_failures or has_observed_failures:
             return 1
     else:
         for skill, result in report["results"].items():
@@ -287,7 +310,19 @@ def main() -> int:
             for failure in maintenance["failures"]:
                 print(f"  - {failure}")
             return 1
-        print(f"[OK] RigorBench replayed {report['source_runs_file']} and Codex maintainer workflows with no regressions")
+        print(
+            f"observed-maintenance: {observed['validated_count']}/{observed['record_count']} validated "
+            f"coverage_met={str(observed['coverage_met']).lower()}"
+        )
+        if has_observed_failures:
+            print("[FAIL] Observed maintainer evidence failures:")
+            for failure in observed["failures"]:
+                print(f"  - {failure}")
+            return 1
+        print(
+            f"[OK] RigorBench replayed {report['source_runs_file']}, reconstructed maintenance evidence, "
+            "and available observed evidence with no regressions"
+        )
     return 0
 
 

@@ -11,6 +11,8 @@ from pathlib import Path
 from typing import Any
 
 from run_rigorbench import run_benchmark
+from check_live_maintenance_evidence import run_live_maintenance_evidence
+from check_maintenance_evidence import run_maintenance_evidence
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -164,6 +166,8 @@ def build_all_reports() -> dict[str, Any]:
     # Platform reports consume per-skill quality only. Keeping the maintenance
     # suite outside this helper prevents a report check from recursively replaying itself.
     benchmark = run_benchmark(include_maintenance=False)
+    reconstructed_evidence = run_maintenance_evidence(replay=False)
+    observed_evidence = run_live_maintenance_evidence(replay=False, require_coverage=False)
     edges_from = graph_edges_by_source(graph)
     edges_to = graph_edges_by_target(graph)
     registered = {entry["name"] for entry in registry["skills"]}
@@ -262,6 +266,26 @@ def build_all_reports() -> dict[str, Any]:
             "high_risk_skills": high_risk,
             "stale_skills": stale,
         },
+        "evidence": {
+            "deterministic_skill_replay": {
+                "record_count": sum(result["total"] for result in benchmark["results"].values()),
+                "validated_count": sum(result["passed"] for result in benchmark["results"].values()),
+                "coverage_met": all(result["pass_rate"] == 1.0 for result in benchmark["results"].values()),
+            },
+            "reconstructed_maintenance": {
+                "record_count": reconstructed_evidence["record_count"],
+                "validated_count": sum(result["passed"] for result in reconstructed_evidence["workflows"].values()),
+                "coverage_met": reconstructed_evidence["passed"],
+                "label": "commit-derived reconstruction",
+            },
+            "observed_maintenance": {
+                "record_count": observed_evidence["record_count"],
+                "validated_count": observed_evidence["validated_count"],
+                "coverage_met": observed_evidence["coverage_met"],
+                "missing_coverage": observed_evidence["missing_coverage"],
+                "label": "redacted live agent sessions",
+            },
+        },
         "skills": [
             {
                 "name": skill["name"],
@@ -296,6 +320,20 @@ def quality_markdown(dashboard: dict[str, Any]) -> str:
         f"- Average pass rate: {dashboard['summary']['average_pass_rate']:.2f}",
         f"- Regression count: {dashboard['summary']['regression_count']}",
         f"- High-risk skills: {', '.join(dashboard['summary']['high_risk_skills']) or 'none'}",
+        "",
+        "## Evidence Classes",
+        "",
+        "| Class | Records | Validated | Coverage Met |",
+        "|---|---:|---:|---|",
+        "| Deterministic skill replay | {record_count} | {validated_count} | {coverage_met} |".format(
+            **dashboard["evidence"]["deterministic_skill_replay"]
+        ),
+        "| Commit-derived maintenance reconstruction | {record_count} | {validated_count} | {coverage_met} |".format(
+            **dashboard["evidence"]["reconstructed_maintenance"]
+        ),
+        "| Redacted live agent sessions | {record_count} | {validated_count} | {coverage_met} |".format(
+            **dashboard["evidence"]["observed_maintenance"]
+        ),
         "",
         "| Skill | Owner | Status | Pass Rate | Regressions | Last Updated | Risk |",
         "|---|---|---|---:|---:|---|---|",

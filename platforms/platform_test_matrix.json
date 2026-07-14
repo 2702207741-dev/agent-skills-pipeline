@@ -2,6 +2,27 @@
   "schema_version": 1,
   "purpose": "Cross-platform install and trigger verification matrix for every registered skill.",
   "coverage_policy": "Apply each platform row to all entries in skills.json; this matrix tests the platform adapter layer, not individual skill behavior.",
+  "runtime_support": {
+    "python": {
+      "minimum": "3.10",
+      "maximum": "3.14",
+      "ci_versions": [
+        "3.10",
+        "3.14"
+      ]
+    },
+    "operating_systems": [
+      "ubuntu-latest",
+      "windows-latest",
+      "macos-latest"
+    ],
+    "lifecycle_commands": [
+      "install",
+      "doctor",
+      "update",
+      "rollback"
+    ]
+  },
   "platforms": [
     {
       "id": "hermes",

@@ -16,8 +16,9 @@ turn a plausible result into an unsupported claim.
 - Each registered `SKILL.md` is the behavioral contract for that skill.
 - `eval-runs/rigorbench-v1.3/traces.json` and `benchmarks/` hold replay
   evidence and regression data.
-- `eval-runs/codex-maintenance/traces.json` holds Git-pinned evidence for real
-  Codex review, triage, release, and security work.
+- `eval-runs/codex-maintenance/traces.json` holds Git-pinned reconstructed
+  maintenance evidence; `live-traces.json` is the separate observed-session
+  channel and must never count reconstruction as live execution.
 - `security/` holds the dangerous-command and redaction policies.
 - `releases/` holds retained, immutable release evidence.
 - `.github/workflows/supply-chain.yml` is the identity-backed build, signing,
@@ -80,7 +81,8 @@ For a pull request, diff, or patch:
    provenance, local integrity sidecar, and marketplace reports. Also run
    `python scripts/check_supply_chain.py` to validate the identity-signing path.
 3. Validate install, update, doctor, and rollback with the marketplace flow.
-   Review the dry-run diff before any `--apply` operation.
+   Review the dry-run diff and hashed plan before any `--apply` or
+   `--apply-plan` operation.
 4. Do not tag, publish, overwrite a retained artifact, or modify `releases/v*/`
    unless a maintainer explicitly requests that release or recovery action.
 5. Report the exact version, artifact paths, verification result, rollback

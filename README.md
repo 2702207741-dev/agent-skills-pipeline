@@ -16,7 +16,8 @@ installation, and a reusable GitHub Action. It is maintenance infrastructure,
 not a prompt collection.
 
 Current release: **[v4.0.0](https://github.com/2702207741-dev/agent-skills-pipeline/releases/tag/v4.0.0)**
-with 14 active skills, 42 skill traces, and 12 Codex maintenance records.
+with 14 active skills, 42 deterministic skill traces, 12 Git-pinned
+maintenance reconstructions, and a separate v2 channel for observed sessions.
 
 ## 60-Second Review
 
@@ -35,7 +36,7 @@ Windows users can run the same commands through `our-skills.cmd`.
 ### Three Evidence Links
 
 - [42 replayable RigorBench traces](eval-runs/rigorbench-v1.3/traces.json)
-- [12 replayable Codex maintainer workflow records](eval-runs/codex-maintenance/README.md)
+- [12 Git-pinned reconstructed maintenance records and observed-session status](eval-runs/codex-maintenance/README.md)
 - [Reusable GitHub Action](action.yml), [external consumer fixture](examples/external-repos/python-library/), and [Issue-to-Release Demo](examples/end-to-end-maintenance/)
 
 Reviewer path: [OSS Reviewer Brief](docs/oss-review.md) |
@@ -63,8 +64,9 @@ produce a deterministic archive, manifest, checksum, and gate report:
 
 Production users should pin a reviewed commit SHA. The
 [Action contract](docs/github-action.md) documents inputs and outputs; the
-[Python-library fixture](examples/external-repos/python-library/) exercises the
-same interface against traversal, tampering, and nondeterministic-build cases.
+[external fixtures](examples/external-repos/) exercise Python, JavaScript, and
+documentation consumers against traversal, tampering, portability, and
+nondeterministic-build cases.
 
 ## Issue-to-Release Demo
 
@@ -79,7 +81,7 @@ release gate against a committed JSON oracle. The complete scenario lives in
 |---|---|
 | Governed skill surface | `skills.json` owns names, paths, versions, owners, dependencies, and lifecycle state. |
 | Behavioral coverage | 42 traces cover success, failure, and boundary behavior for every active skill. |
-| Real maintenance work | 12 Git-pinned records cover PR review, issue triage, release, and security audits. |
+| Maintenance evidence | 12 Git-pinned reconstructions remain reproducible; observed sessions are counted separately in `live-traces.json`. |
 | Trusted distribution | CI emits checksum, SBOM, SLSA provenance, Sigstore identity bundle, and GitHub attestation. |
 | External adoption boundary | A clean consumer repository runs the public Action and deterministic release gate. |
 | Recoverable installation | Install and update default to dry-run; applied changes are audited and rollback-tested. |
@@ -104,12 +106,21 @@ replay, graph, platform, and ownership coverage.
 ```bash
 ./our-skills list
 ./our-skills install --platform codex --target-root ~
+./our-skills install --platform codex --target-root ~ --plan-output install-plan.json
+./our-skills install --platform codex --target-root ~ --apply-plan install-plan.json
 ./our-skills install --platform codex --target-root ~ --apply
 ./our-skills rollback --platform codex --target-root ~ --skill skill-review-workflow --apply
+./our-skills rollback --platform codex --target-root ~ --transaction <TRANSACTION_ID> --apply
 ```
 
-The preview is the default. Writes require explicit `--apply`, updates create a
-backup, and every install, update, and rollback writes an audit event.
+Install and update preflight every selected skill, bind the preview to a SHA-256
+plan, stage files under the target root, and restore all touched destinations if
+any operation fails. Audit events form a hash chain. Existing `--apply` remains
+supported and internally applies a freshly validated transaction plan.
+
+The preview is the default. Writes require explicit `--apply` or a matching
+`--apply-plan`; updates create backups, transactions restore partial failures,
+and every lifecycle event extends the audit hash chain.
 
 ## Release And Verification
 

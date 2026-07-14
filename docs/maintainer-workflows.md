@@ -114,11 +114,15 @@ claim adoption without maintainer consent.
 
 ## Evidence Replay
 
-v3.2 records these four flows in
+v3.2 reconstructs these four flows from repository history in
 [`eval-runs/codex-maintenance/`](../eval-runs/codex-maintenance/). The suite has
 three records for each workflow and every record includes the task, input
 provenance, skills used, agent behavior, Git-pinned files read, fixed safe
 commands, recorded output, final output, human conclusion, and adoption status.
+
+Observed agent sessions use `live-traces.json` schema v2 and remain a separate
+coverage matrix. A reconstructed record never satisfies an observed-session
+success, failure, or boundary cell.
 
 Run the full replay with:
 

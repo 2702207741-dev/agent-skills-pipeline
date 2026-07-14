@@ -150,6 +150,12 @@ def marketplace_args(command: str, args: argparse.Namespace) -> list[str]:
         values.append("--dry-run")
     if getattr(args, "apply", False):
         values.append("--apply")
+    if getattr(args, "plan_output", None):
+        values.extend(["--plan-output", args.plan_output])
+    if getattr(args, "apply_plan", None):
+        values.extend(["--apply-plan", args.apply_plan])
+    if getattr(args, "transaction", None):
+        values.extend(["--transaction", args.transaction])
     return values
 
 
@@ -265,12 +271,17 @@ def command_demo(args: argparse.Namespace) -> int:
     return run_command(command).returncode
 
 
-def add_marketplace_options(parser: argparse.ArgumentParser, skill_required: bool = False) -> None:
+def add_marketplace_options(parser: argparse.ArgumentParser, rollback: bool = False) -> None:
     parser.add_argument("--platform", required=True, choices=PLATFORMS)
     parser.add_argument("--target-root", default=str(Path.home()))
-    parser.add_argument("--skill", required=skill_required)
+    parser.add_argument("--skill")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--apply", action="store_true")
+    if rollback:
+        parser.add_argument("--transaction")
+    else:
+        parser.add_argument("--plan-output")
+        parser.add_argument("--apply-plan")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -299,8 +310,8 @@ def build_parser() -> argparse.ArgumentParser:
     for command in ("install", "update"):
         child = sub.add_parser(command, help=f"{command} one or all first-party skills")
         add_marketplace_options(child)
-    rollback = sub.add_parser("rollback", help="Roll back one installed skill")
-    add_marketplace_options(rollback, skill_required=True)
+    rollback = sub.add_parser("rollback", help="Roll back one skill or a complete transaction")
+    add_marketplace_options(rollback, rollback=True)
 
     run_parser = sub.add_parser("run", help="Replay one recorded skill execution with hash-bound evidence")
     run_parser.add_argument("--skill", required=True)

@@ -33,6 +33,9 @@ inputs:
     default: our-skills-release
 
 outputs:
+  interface-version:
+    description: Stable public Action interface version.
+    value: ${{ steps.gate.outputs.interface-version }}
   status:
     description: Gate status.
     value: ${{ steps.gate.outputs.status }}
