@@ -97,7 +97,7 @@ jobs:
 
       - name: Run immutable external Action reference
         id: our-skills
-        uses: 2702207741-dev/agent-skills-pipeline@acae5e5c41c232050bcad96c233acff44662fc4c
+        uses: 2702207741-dev/agent-skills-pipeline@d62571b5d6ce0ba1e36c94d074575aef4c7c19c3
         with:
           workspace: examples/external-repos/python-library
           registry: skills.json
