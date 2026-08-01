@@ -33,6 +33,10 @@
 - Replaced the external Action self-test's hard-coded expected commit with
   validation of the repository name, a full 40-character pin, and `action.yml`
   at the pinned commit.
+- `doctor`/`verify` no longer misreport pinned commits as missing `action.yml`
+  when the repository is not its own git work tree (source archive, or nested
+  inside an unrelated work tree): git-pinned content checks are skipped with a
+  clear note, and resolver failures now include the underlying detail.
 
 ## 4.0.0 - 2026-07-12
 

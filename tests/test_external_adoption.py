@@ -31,7 +31,10 @@ class SelfReferenceValidationTests(unittest.TestCase):
     def test_accepts_any_reachable_full_sha(self) -> None:
         path = self.workflow(f"{REPOSITORY}@{VALID_SHA}")
         completed = subprocess.CompletedProcess([], 0, "", "")
-        with mock.patch.object(check_external_adoption, "run", return_value=completed) as runner:
+        with (
+            mock.patch.object(check_external_adoption, "repository_git_history_available", return_value=True),
+            mock.patch.object(check_external_adoption, "run", return_value=completed) as runner,
+        ):
             failures = check_external_adoption.validate_self_test_reference(path)
 
         self.assertEqual(failures, [])
@@ -56,11 +59,37 @@ class SelfReferenceValidationTests(unittest.TestCase):
     def test_rejects_commit_without_action_contract(self) -> None:
         path = self.workflow(f"{REPOSITORY}@{VALID_SHA}")
         completed = subprocess.CompletedProcess([], 1, "", "missing")
-        with mock.patch.object(check_external_adoption, "run", return_value=completed):
+        with (
+            mock.patch.object(check_external_adoption, "repository_git_history_available", return_value=True),
+            mock.patch.object(check_external_adoption, "run", return_value=completed),
+        ):
             failures = check_external_adoption.validate_self_test_reference(path)
         self.assertEqual(
             failures,
-            [f"action self-test pins a commit that does not contain action.yml: {VALID_SHA}"],
+            [
+                "action self-test pins a commit whose action.yml cannot be resolved "
+                f"in local git history (missing): {VALID_SHA}"
+            ],
+        )
+
+    def test_skips_git_content_check_outside_work_tree(self) -> None:
+        path = self.workflow(f"{REPOSITORY}@{VALID_SHA}")
+        skips: list[str] = []
+        with (
+            mock.patch.object(check_external_adoption, "repository_git_history_available", return_value=False),
+            mock.patch.object(check_external_adoption, "run") as runner,
+        ):
+            failures = check_external_adoption.validate_self_test_reference(path, skips)
+
+        self.assertEqual(failures, [])
+        runner.assert_not_called()
+        self.assertEqual(
+            skips,
+            [
+                "action self-test git-pinned content check skipped: "
+                "repository git history is not available (source archive or "
+                "nested inside an unrelated work tree)"
+            ],
         )
 
 
