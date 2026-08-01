@@ -136,7 +136,27 @@ def parse_github_output(path: Path) -> dict[str, str]:
     return values
 
 
-def validate_self_test_reference(path: Path) -> list[str]:
+def repository_git_history_available() -> bool:
+    """Return True only when ROOT is the top-level work tree of its own repository."""
+    result = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        cwd=ROOT,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        capture_output=True,
+        check=False,
+    )
+    top_level = result.stdout.strip()
+    if result.returncode != 0 or not top_level:
+        return False
+    try:
+        return Path(top_level).resolve() == ROOT.resolve()
+    except OSError:
+        return False
+
+
+def validate_self_test_reference(path: Path, skips: list[str] | None = None) -> list[str]:
     """Validate the immutable self-reference without coupling to one old commit."""
     failures: list[str] = []
     refs = [(name, ref) for name, ref in action_references(path) if name == SELF_ACTION_REPOSITORY]
@@ -147,9 +167,23 @@ def validate_self_test_reference(path: Path) -> list[str]:
     if not SHA_RE.fullmatch(ref):
         return [f"action self-test reference is not pinned to a full commit SHA: {SELF_ACTION_REPOSITORY}@{ref}"]
 
+    if not repository_git_history_available():
+        if skips is not None:
+            skips.append(
+                "action self-test git-pinned content check skipped: "
+                "repository git history is not available (source archive or "
+                "nested inside an unrelated work tree)"
+            )
+        return failures
+
     result = run(["git", "cat-file", "-e", f"{ref}:action.yml"])
     if result.returncode != 0:
-        failures.append(f"action self-test pins a commit that does not contain action.yml: {ref}")
+        detail = (result.stderr or result.stdout or "").strip()
+        suffix = f" ({detail})" if detail else ""
+        failures.append(
+            f"action self-test pins a commit whose action.yml cannot be resolved "
+            f"in local git history{suffix}: {ref}"
+        )
     return failures
 
 
@@ -177,7 +211,7 @@ def run_external_gate(workspace: Path, output_name: str, github_output: Path | N
     return report, outputs
 
 
-def check_static_contracts(failures: list[str]) -> None:
+def check_static_contracts(failures: list[str], skips: list[str]) -> None:
     for rel in REQUIRED_FILES:
         if not (ROOT / rel).is_file():
             failures.append(f"missing external-adoption file: {rel}")
@@ -198,7 +232,7 @@ def check_static_contracts(failures: list[str]) -> None:
         for marker in SELF_TEST_MARKERS:
             if marker not in content:
                 failures.append(f"action self-test missing marker: {marker}")
-        failures.extend(validate_self_test_reference(self_test))
+        failures.extend(validate_self_test_reference(self_test, skips))
 
     quickstart = ROOT / "docs" / "quickstart.md"
     if quickstart.is_file():
@@ -243,9 +277,21 @@ def check_static_contracts(failures: list[str]) -> None:
                 failures.append(f"{fixture_name} dependency is not pinned to a full commit SHA: {name}@{ref}")
                 continue
             if name == "2702207741-dev/agent-skills-pipeline":
+                if not repository_git_history_available():
+                    skips.append(
+                        f"{fixture_name} git-pinned action.yml content check skipped: "
+                        "repository git history is not available (source archive or "
+                        "nested inside an unrelated work tree)"
+                    )
+                    continue
                 result = run(["git", "cat-file", "-e", f"{ref}:action.yml"])
                 if result.returncode != 0:
-                    failures.append(f"{fixture_name} pins a commit that does not contain action.yml")
+                    detail = (result.stderr or result.stdout or "").strip()
+                    suffix = f" ({detail})" if detail else ""
+                    failures.append(
+                        f"{fixture_name} pins a commit whose action.yml cannot be resolved "
+                        f"in local git history{suffix}: {ref}"
+                    )
 
 
 def check_runtime_contracts(failures: list[str]) -> None:
@@ -396,11 +442,14 @@ def check_runtime_contracts(failures: list[str]) -> None:
 
 def main() -> int:
     failures: list[str] = []
-    check_static_contracts(failures)
+    skips: list[str] = []
+    check_static_contracts(failures, skips)
     try:
         check_runtime_contracts(failures)
     except Exception as exc:
         failures.append(str(exc))
+    for skip in skips:
+        print(f"[SKIP] {skip}")
     if failures:
         for failure in failures:
             print(f"[FAIL] {failure}")
